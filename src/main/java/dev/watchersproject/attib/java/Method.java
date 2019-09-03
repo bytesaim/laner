@@ -1,7 +1,7 @@
-package com.azeezadewale.attib.java;
+package dev.watchersproject.attib.java;
 
-import com.azeezadewale.enums.AccessModifier;
-import com.azeezadewale.enums.AccessSpecifier;
+import dev.watchersproject.enums.AccessModifier;
+import dev.watchersproject.enums.AccessSpecifier;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class Method {
     /**
      *
      */
-    private ArrayList<Parameter> parameters = new ArrayList<>();
+    private ArrayList<Parameter> parameters = new ArrayList<Parameter>();
 
     /**
      * 

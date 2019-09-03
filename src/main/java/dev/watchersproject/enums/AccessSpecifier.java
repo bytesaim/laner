@@ -1,4 +1,4 @@
-package com.azeezadewale.enums;
+package dev.watchersproject.enums;
 
 public enum AccessSpecifier {
 

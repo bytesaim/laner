@@ -1,4 +1,4 @@
-package com.azeezadewale;
+package dev.watchersproject;
 
 public class JavaParser {
 }
