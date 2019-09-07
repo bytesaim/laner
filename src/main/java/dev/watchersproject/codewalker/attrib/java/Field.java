@@ -1,4 +1,4 @@
-package dev.watchersproject.attrib.java;
+package dev.watchersproject.codewalker.attrib.java;
 
 /**
  * :copyright: MIT LICENSE (c) 2019 watchersproject

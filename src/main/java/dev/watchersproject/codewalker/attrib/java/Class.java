@@ -1,4 +1,4 @@
-package dev.watchersproject.attrib.java;
+package dev.watchersproject.codewalker.attrib.java;
 
 import java.util.ArrayList;
 

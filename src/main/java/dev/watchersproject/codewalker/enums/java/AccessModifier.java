@@ -1,4 +1,4 @@
-package dev.watchersproject.enums;
+package dev.watchersproject.codewalker.enums.java;
 
 public enum AccessModifier {
 

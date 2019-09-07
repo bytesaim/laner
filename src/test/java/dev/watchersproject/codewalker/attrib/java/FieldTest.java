@@ -1,4 +1,4 @@
-package dev.watchersproject.attrib.java;
+package dev.watchersproject.codewalker.attrib.java;
 
 import org.junit.After;
 import org.junit.Before;

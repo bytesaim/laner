@@ -1,6 +1,6 @@
-package dev.watchersproject.attrib.java;
+package dev.watchersproject.codewalker.attrib.java;
 
-import dev.watchersproject.enums.StatementType;
+import dev.watchersproject.codewalker.enums.java.StatementType;
 
 /**
  * :copyright: MIT LICENSE (c) 2019 watchersproject

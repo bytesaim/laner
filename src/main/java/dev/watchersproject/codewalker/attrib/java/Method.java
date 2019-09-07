@@ -1,10 +1,9 @@
-package dev.watchersproject.attrib.java;
+package dev.watchersproject.codewalker.attrib.java;
 
-import dev.watchersproject.enums.AccessModifier;
-import dev.watchersproject.enums.AccessSpecifier;
-import dev.watchersproject.enums.StatementType;
+import dev.watchersproject.codewalker.enums.java.AccessModifier;
+import dev.watchersproject.codewalker.enums.java.AccessSpecifier;
+import dev.watchersproject.codewalker.enums.java.StatementType;
 
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 
 /**
