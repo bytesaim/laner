@@ -1,8 +1,8 @@
-package dev.watchersproject.codewalker.attrib.java;
+package dev.sourcerersproject.codewalker.attrib.java;
 
-import dev.watchersproject.codewalker.enums.java.AccessModifier;
-import dev.watchersproject.codewalker.enums.java.AccessSpecifier;
-import dev.watchersproject.codewalker.enums.java.StatementType;
+import dev.sourcerersproject.codewalker.enums.java.AccessModifier;
+import dev.sourcerersproject.codewalker.enums.java.AccessSpecifier;
+import dev.sourcerersproject.codewalker.enums.java.StatementType;
 
 import java.util.ArrayList;
 

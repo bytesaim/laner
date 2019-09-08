@@ -1,4 +1,4 @@
-package dev.watchersproject.codewalker.enums.java;
+package dev.sourcerersproject.codewalker.enums.java;
 
 public enum AccessSpecifier {
 
