@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * :copyright: MIT LICENSE (c) 2019 watchersproject
- * :author: Azeez Adewale <azeezadewale98@gmail.com>
+ * :author: Adewale Azeez <azeezadewale98@gmail.com>
  * :date: 03 September 2019
  * :time: 12:10 AM
  * :filename: Method.java

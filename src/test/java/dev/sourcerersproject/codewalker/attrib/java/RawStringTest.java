@@ -15,7 +15,7 @@ public class RawStringTest {
 
     @Test
     public void SetValue() {
-        rawString.setValue("=new String()");
+        rawString.setValue("=new String();int a = 80;");
     }
 
     @Test

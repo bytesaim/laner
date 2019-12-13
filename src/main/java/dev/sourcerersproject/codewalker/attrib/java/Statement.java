@@ -4,7 +4,7 @@ import dev.sourcerersproject.codewalker.enums.java.StatementType;
 
 /**
  * :copyright: MIT LICENSE (c) 2019 watchersproject
- * :author: Azeez Adewale <azeezadewale98@gmail.com>
+ * :author: Adewale Azeez <azeezadewale98@gmail.com>
  * :date: 04 September 2019
  * :time: 10:59 AM
  * :filename: Statement.java
