@@ -81,10 +81,13 @@ dependencies {
 The following example monitors devices that connects and disconnect to the network 
 
 ```java
+import io.github.thecarisma.laner.LanerListener;
+import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.laner.NetworkDevices;
+import java.net.UnknownHostException;
 
-public class NetworkDevicesTest {
-    public static void main(String[] args) {
+public class TestNetworkDevices {
+    public static void main(String[] args) throws UnknownHostException {
         new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
             @Override
             public void report(Object o) {
