@@ -1,7 +1,4 @@
 
- - [x] Create the Method object for Java 
- - [ ] Allow searching parsed object from name <case of return type>
- - [ ] Create the Class object for Java 
- - [ ] Create Parameter object for Java
- - [ ] Purchase domain for sourcerersproject.dev (global (beyond project scope))
- - [ ] Make heavy use of caching 
+ - [ ] check if conected to a network and it type, LAN, Broadband, Ethernet e.t.c
+ - [ ] find all ip address on the same lan
+ - [ ] transfer byte between devices over lan
