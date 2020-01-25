@@ -1,5 +1,6 @@
 package io.github.thecarisma;
 
+import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -40,6 +41,17 @@ public class UpNetworkInterface {
 
     public static String getIPV4Address() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostAddress();
+    }
+
+    public static boolean isReachable(String addr, int openPort, int timeOutMillis) {
+        try {
+            try (Socket soc = new Socket()) {
+                soc.connect(new InetSocketAddress(addr, openPort), timeOutMillis);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
 }

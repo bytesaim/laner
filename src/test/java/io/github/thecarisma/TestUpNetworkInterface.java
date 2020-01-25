@@ -75,4 +75,12 @@ public class TestUpNetworkInterface {
         System.out.println(UpNetworkInterface.getIPV4Address());
     }
 
+    public void TestFindOpenPorts() {
+        for (int port = 0; port < 100000; ++port) {
+            //System.out.println(port);
+            if (UpNetworkInterface.isReachable("192.168.8.101", port, 10))
+                System.out.println("Port: " + port + " is open");
+        }
+    }
+
 }

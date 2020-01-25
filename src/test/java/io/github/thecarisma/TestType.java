@@ -3,10 +3,7 @@ package io.github.thecarisma;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -25,10 +22,10 @@ public class TestType {
         System.out.println("My Device IP: " + myip+"\n");
 
         System.out.println("Search log:");
-        for(int i=1;i<=254;++i){
+        for(int i=100;i<=254;++i){
             try {
-                InetAddress addr=InetAddress.getByName(mynetworkips + new Integer(i).toString());
-                if (addr.isReachable(10)){
+                InetAddress addr=InetAddress.getByName("192.168.8.101");
+                if (addr.isReachable(100000)){
                     System.out.println("Available: " + addr.getHostAddress()+ ", Name: " + addr.getCanonicalHostName());
                     //Available_Devices.add(addr.getHostAddress());
                 }
@@ -39,6 +36,15 @@ public class TestType {
 
         System.out.println("\nAll Connected devices(" + Available_Devices.size() +"):");
         for(int i=0;i<Available_Devices.size();++i) System.out.println(Available_Devices.get(i));
+    }
+
+    public static void main(String[] args)  {
+        int[] ports = { 22, 25, 80, 135, 137, 138, 139, 443, 445, 500, 1900, 4500, 5555, 7680  };
+        for (int port = 0; port < 100000; ++port) {
+            //System.out.println(port);
+            if (isReachable("192.168.8.101", port, 10))
+                System.out.println("Port: " + port + " is open");
+        }
     }
 
 }
