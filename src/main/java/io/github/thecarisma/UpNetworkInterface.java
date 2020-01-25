@@ -38,12 +38,8 @@ public class UpNetworkInterface {
         return Collections.list(networkInterface.getInetAddresses());
     }
 
-    public static String getDefaultGateway(InetAddress inetAddress) throws UnknownHostException, SocketException {
-        try(DatagramSocket s=new DatagramSocket())
-        {
-            s.connect(inetAddress, 0);
-            return new String(NetworkInterface.getByInetAddress(s.getLocalAddress()).getHardwareAddress(), StandardCharsets.UTF_8);
-        }
+    public static String getIPV4Address() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostAddress();
     }
 
 }

@@ -2,6 +2,7 @@ package io.github.thecarisma;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class TestUpNetworkInterface {
             Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
             for (InetAddress inetAddress : Collections.list(inetAddresses)) {
                 if (inetAddress instanceof Inet4Address)
-                    System.out.printf("InetAddress: %s\n", inetAddress);
+                    System.out.printf("InetAddress: %s\n", inetAddress.getHostAddress());
             }
         }
     }
@@ -52,6 +53,16 @@ public class TestUpNetworkInterface {
     }
 
     @Test
+    public void TestGetInetAddresses() throws SocketException, UnknownHostException {
+        ArrayList<NetworkInterface> networkInterfaces = UpNetworkInterface.getNetworkInterfaces();
+        for (NetworkInterface networkInterface : networkInterfaces) {
+            for (InetAddress inetAddress : UpNetworkInterface.getInetAddresses(networkInterface)) {
+                System.out.println(inetAddress.getHostAddress());
+            }
+        }
+    }
+
+    @Test
     public void TestGetInetAddresses0() throws SocketException, UnknownHostException {
         ArrayList<NetworkInterface> networkInterfaces = UpNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
@@ -60,11 +71,8 @@ public class TestUpNetworkInterface {
     }
 
     @Test
-    public void TestGetDefaultGateway() throws SocketException, UnknownHostException {
-        ArrayList<NetworkInterface> networkInterfaces = UpNetworkInterface.getNetworkInterfacesNoLoopback();
-        for (NetworkInterface networkInterface : networkInterfaces) {
-            System.out.println(UpNetworkInterface.getDefaultGateway(UpNetworkInterface.getInetAddresses(networkInterface).get(0)));
-        }
+    public void TestGetIPV4Address() throws UnknownHostException {
+        System.out.println(UpNetworkInterface.getIPV4Address());
     }
 
 }
