@@ -91,7 +91,7 @@ public class NetworkDevices implements Runnable {
             for (Thread t : threads){
                 t.join();
             }
-            run();
+            if (lanerListeners.size() > 0) run();
         } catch (Throwable e) {}
     }
 
