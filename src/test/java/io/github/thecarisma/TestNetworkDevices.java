@@ -18,11 +18,11 @@ public class TestNetworkDevices {
 
     @Test
     public void TestConnectedNetworkDevices() throws UnknownHostException {
-        new NetworkDevices(UpNetworkInterface.getIPV4Address(), new Listener()).run();
+        new NetworkDevices(LannerNetworkInterface.getIPV4Address(), new Listener()).run();
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        new Thread(new NetworkDevices(UpNetworkInterface.getIPV4Address(), new Listener())).start();
+        new Thread(new NetworkDevices(LannerNetworkInterface.getIPV4Address(), new Listener())).start();
     }
 
 }

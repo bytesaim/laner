@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Enumeration;
 import java.util.Vector;
 
 public class TestType {
@@ -42,7 +41,7 @@ public class TestType {
         int[] ports = { 22, 25, 80, 135, 137, 138, 139, 443, 445, 500, 1900, 4500, 5555, 7680  };
         for (int port = 0; port < 100000; ++port) {
             //System.out.println(port);
-            if (isReachable("192.168.8.101", port, 10))
+            if (LannerNetworkInterface.isReachable("192.168.8.101", port, 10))
                 System.out.println("Port: " + port + " is open");
         }
     }
