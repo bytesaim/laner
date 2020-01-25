@@ -1,5 +1,5 @@
 package io.github.thecarisma;
 
-public interface LannerListener {
+public interface LanerListener {
     public void report(Object o);
 }

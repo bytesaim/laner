@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
-public class TestLannerNetworkInterface {
+public class TestLanerNetworkInterface {
 
     @Test
     public void TestGetNetworkInterfaces() throws SocketException {
-        ArrayList<NetworkInterface> networkInterfaces = LannerNetworkInterface.getNetworkInterfaces();
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
             System.out.println(networkInterface.getDisplayName());
             System.out.println(networkInterface.getName());
@@ -24,7 +24,7 @@ public class TestLannerNetworkInterface {
 
     @Test
     public void TestGetNetworkInterfacesInet4Address() throws SocketException {
-        ArrayList<NetworkInterface> networkInterfaces = LannerNetworkInterface.getNetworkInterfacesNoLoopback();
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
             System.out.println(networkInterface.getDisplayName());
             System.out.println(networkInterface.getName());
@@ -38,7 +38,7 @@ public class TestLannerNetworkInterface {
 
     @Test
     public void TestGetNetworkInterfacesInet6Address() throws SocketException {
-        ArrayList<NetworkInterface> networkInterfaces = LannerNetworkInterface.getNetworkInterfaces();
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
             System.out.println(networkInterface.getDisplayName());
             System.out.println(networkInterface.getName());
@@ -52,9 +52,9 @@ public class TestLannerNetworkInterface {
 
     @Test
     public void TestGetInetAddresses() throws SocketException, UnknownHostException {
-        ArrayList<NetworkInterface> networkInterfaces = LannerNetworkInterface.getNetworkInterfaces();
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            for (InetAddress inetAddress : LannerNetworkInterface.getInetAddresses(networkInterface)) {
+            for (InetAddress inetAddress : LanerNetworkInterface.getInetAddresses(networkInterface)) {
                 System.out.println(inetAddress.getHostAddress());
             }
         }
@@ -62,21 +62,21 @@ public class TestLannerNetworkInterface {
 
     @Test
     public void TestGetInetAddresses0() throws SocketException, UnknownHostException {
-        ArrayList<NetworkInterface> networkInterfaces = LannerNetworkInterface.getNetworkInterfaces();
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            System.out.println(LannerNetworkInterface.getInetAddresses(networkInterface).get(0));
+            System.out.println(LanerNetworkInterface.getInetAddresses(networkInterface).get(0));
         }
     }
 
     @Test
     public void TestGetIPV4Address() throws UnknownHostException {
-        System.out.println(LannerNetworkInterface.getIPV4Address());
+        System.out.println(LanerNetworkInterface.getIPV4Address());
     }
 
     @Test
     public void TestFindOpenPorts() throws UnknownHostException {
         for (int port = 0; port < 100000; ++port) {
-            if (LannerNetworkInterface.isReachable(LannerNetworkInterface.getIPV4Address(), port, 10))
+            if (LanerNetworkInterface.isReachable(LanerNetworkInterface.getIPV4Address(), port, 10))
                 System.out.println("Port: " + port + " is open");
         }
     }

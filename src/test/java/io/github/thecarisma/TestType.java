@@ -38,10 +38,9 @@ public class TestType {
     }
 
     public static void main(String[] args)  {
-        int[] ports = { 22, 25, 80, 135, 137, 138, 139, 443, 445, 500, 1900, 4500, 5555, 7680  };
-        for (int port = 0; port < 100000; ++port) {
-            //System.out.println(port);
-            if (LannerNetworkInterface.isReachable("192.168.8.101", port, 10))
+        int[] ports = { 22, 25, 80, 5555, 7680  };
+        for (int port : ports) {
+            if (LanerNetworkInterface.isReachable("192.168.8.1", port, 10))
                 System.out.println("Port: " + port + " is open");
         }
     }

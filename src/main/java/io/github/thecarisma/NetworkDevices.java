@@ -1,18 +1,17 @@
 package io.github.thecarisma;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 public class NetworkDevices implements Runnable {
 
-    private LannerListener lannerListener;
+    private LanerListener lanerListener;
     private String ipAddress;
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
+    final int[] ports = { 22, 25, 80, 5555, 7680  };
 
-    public NetworkDevices(String ipAddress, LannerListener lannerListener) {
-        this.lannerListener = lannerListener;
+    public NetworkDevices(String ipAddress, LanerListener lanerListener) {
+        this.lanerListener = lanerListener;
         this.ipAddress = ipAddress;
     }
 
@@ -45,6 +44,15 @@ public class NetworkDevices implements Runnable {
                                         networkDevice.statusChanged = true;
                                     }
                                 } else {
+                                    for (int port : ports) {
+                                        if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 10)) {
+                                            if (networkDevice.status != Status.CONNECTED) {
+                                                networkDevice.status = Status.CONNECTED;
+                                                networkDevice.statusChanged = true;
+                                            }
+                                            break;
+                                        }
+                                    }
                                     if (networkDevice.status == Status.CONNECTED) {
                                         networkDevice.status = Status.DISCONNECTED;
                                         networkDevice.statusChanged = true;
@@ -52,7 +60,7 @@ public class NetworkDevices implements Runnable {
                                 }
                                 if (networkDevice.status != Status.UNKNOWN && networkDevice.statusChanged) {
                                     networkDevice.statusChanged = false;
-                                    lannerListener.report(networkDevice);
+                                    lanerListener.report(networkDevice);
                                 }
 
                             } catch (Throwable e) {}

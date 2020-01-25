@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class TestNetworkDevices {
 
-    static class Listener implements LannerListener {
+    static class Listener implements LanerListener {
 
         @Override
         public void report(Object o) {
@@ -18,11 +18,11 @@ public class TestNetworkDevices {
 
     @Test
     public void TestConnectedNetworkDevices() throws UnknownHostException {
-        new NetworkDevices(LannerNetworkInterface.getIPV4Address(), new Listener()).run();
+        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener()).run();
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        new Thread(new NetworkDevices(LannerNetworkInterface.getIPV4Address(), new Listener())).start();
+        new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener())).start();
     }
 
 }
