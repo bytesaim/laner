@@ -72,6 +72,9 @@ public class NetworkDevices implements Runnable {
                 threads.add(t);
                 t.start();
             }
+            for (Thread t : threads){
+                t.join();
+            }
             //System.out.println("ok");
             run();
         } catch (Throwable e) {}
