@@ -11,7 +11,7 @@ public class TestNetworkDevices {
         @Override
         public void report(Object o) {
             if (o instanceof NetworkDevices.NetworkDevice) {
-                System.out.println(((NetworkDevices.NetworkDevice) o).inetAddress.getCanonicalHostName());
+                System.out.println(o);
             }
         }
     }

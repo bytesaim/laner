@@ -44,16 +44,18 @@ public class NetworkDevices implements Runnable {
                                         networkDevice.statusChanged = true;
                                     }
                                 } else {
+                                    boolean doBreak = false;
                                     for (int port : ports) {
-                                        if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 10)) {
+                                        if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
                                             if (networkDevice.status != Status.CONNECTED) {
                                                 networkDevice.status = Status.CONNECTED;
                                                 networkDevice.statusChanged = true;
                                             }
+                                            doBreak = true;
                                             break;
                                         }
                                     }
-                                    if (networkDevice.status == Status.CONNECTED) {
+                                    if (!doBreak && networkDevice.status == Status.CONNECTED) {
                                         networkDevice.status = Status.DISCONNECTED;
                                         networkDevice.statusChanged = true;
                                     }
