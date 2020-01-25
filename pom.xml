@@ -46,12 +46,12 @@
                     <repositoryOwner>thecarisma</repositoryOwner>
                 </configuration>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
+                    <!-- <execution>
+                       <goals>
+                           <goal>site</goal>
+                       </goals>
+                      <phase>deploy</phase>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
