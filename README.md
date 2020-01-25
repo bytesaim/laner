@@ -78,14 +78,21 @@ dependencies {
 
 ## Example
 
-The following example load, update, read and remove a simple key value object 
+The following example monitors devices that connects and disconnect to the network 
 
 ```java
-import io.github.thecarisma.KeyValueDB;
+import io.github.thecarisma.laner.NetworkDevices;
 
-public class KeyValueTest {
+public class NetworkDevicesTest {
     public static void main(String[] args) {
-        
+        new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
+            @Override
+            public void report(Object o) {
+                if (o instanceof NetworkDevices.NetworkDevice) {
+                    System.out.println(o);
+                }
+            }
+        })).start();
     }
 }
 ```

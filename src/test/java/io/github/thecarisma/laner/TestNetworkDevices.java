@@ -1,4 +1,4 @@
-package io.github.thecarisma;
+package io.github.thecarisma.laner;
 
 import org.junit.Test;
 
@@ -22,7 +22,14 @@ public class TestNetworkDevices {
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener())).start();
+        new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
+            @Override
+            public void report(Object o) {
+                if (o instanceof NetworkDevices.NetworkDevice) {
+                    System.out.println(o);
+                }
+            }
+        })).start();
     }
 
 }

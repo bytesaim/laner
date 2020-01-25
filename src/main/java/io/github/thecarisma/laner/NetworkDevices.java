@@ -1,4 +1,4 @@
-package io.github.thecarisma;
+package io.github.thecarisma.laner;
 
 import java.net.InetAddress;
 import java.util.*;
