@@ -2,6 +2,7 @@ package io.github.thecarisma;
 
 import org.junit.Test;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -20,6 +21,20 @@ public class TestUpNetworkInterface {
             Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
             for (InetAddress inetAddress : Collections.list(inetAddresses)) {
                 System.out.printf("InetAddress: %s\n", inetAddress);
+            }
+        }
+    }
+
+    @Test
+    public void TestGetNetworkInterfacesInet4Address() throws SocketException {
+        ArrayList<NetworkInterface> networkInterfaces = UpNetworkInterface.getNetworkInterfaces();
+        for (NetworkInterface networkInterface : networkInterfaces) {
+            System.out.println(networkInterface.getDisplayName());
+            System.out.println(networkInterface.getName());
+            Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+            for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+                if (inetAddress instanceof Inet4Address)
+                    System.out.printf("InetAddress: %s\n", inetAddress);
             }
         }
     }
