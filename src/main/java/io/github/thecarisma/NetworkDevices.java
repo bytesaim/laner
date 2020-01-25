@@ -5,13 +5,29 @@ import java.util.*;
 
 public class NetworkDevices implements Runnable {
 
-    private LanerListener lanerListener;
+    private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private String ipAddress;
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
 
+    public ArrayList<LanerListener> getLanerListeners() {
+        return lanerListeners;
+    }
+
+    public void addLanerListener(LanerListener lanerListener) {
+        this.lanerListeners.add(lanerListener);
+    }
+
+    public void removeLanerListener(LanerListener lanerListener) {
+        this.lanerListeners.remove(lanerListener);
+    }
+
     public NetworkDevices(String ipAddress, LanerListener lanerListener) {
-        this.lanerListener = lanerListener;
+        this.lanerListeners.add(lanerListener);
+        this.ipAddress = ipAddress;
+    }
+
+    public NetworkDevices(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
@@ -62,7 +78,7 @@ public class NetworkDevices implements Runnable {
                                 }
                                 if (networkDevice.status != Status.UNKNOWN && networkDevice.statusChanged) {
                                     networkDevice.statusChanged = false;
-                                    lanerListener.report(networkDevice);
+                                    broadcastToListeners(networkDevice);
                                 }
 
                             } catch (Throwable e) {}
@@ -75,9 +91,14 @@ public class NetworkDevices implements Runnable {
             for (Thread t : threads){
                 t.join();
             }
-            //System.out.println("ok");
             run();
         } catch (Throwable e) {}
+    }
+
+    private void broadcastToListeners(Object o) {
+        for (LanerListener lanerListener : lanerListeners) {
+            lanerListener.report(o);
+        }
     }
 
     public static enum Status {
