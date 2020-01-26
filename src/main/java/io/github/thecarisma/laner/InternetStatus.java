@@ -7,8 +7,8 @@ import java.util.TimerTask;
 public class InternetStatus implements Runnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
-    private String urlIp;
-    private int delayInSeconds = 5;
+    private String urlIp = "thecarisma.github.io";
+    private int delayInSeconds = 1;
     private Status status = Status.DISCONNECTED;
 
     public InternetStatus(String urlIp) {
@@ -28,6 +28,15 @@ public class InternetStatus implements Runnable {
 
     public InternetStatus(String urlIp, int delayInSeconds) {
         this.urlIp = urlIp;
+        this.delayInSeconds = delayInSeconds;
+    }
+
+    public InternetStatus(LanerListener lanerListener) {
+        this.lanerListeners.add(lanerListener);
+    }
+
+    public InternetStatus(LanerListener lanerListener, int delayInSeconds) {
+        this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
 
@@ -53,6 +62,7 @@ public class InternetStatus implements Runnable {
 
     @Override
     public void run() {
+        broadcastToListeners(status);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -76,6 +86,10 @@ public class InternetStatus implements Runnable {
         for (LanerListener lanerListener : lanerListeners) {
             lanerListener.report(o);
         }
+    }
+
+    private void checkInternetStatus() {
+
     }
 
     public enum Status {
