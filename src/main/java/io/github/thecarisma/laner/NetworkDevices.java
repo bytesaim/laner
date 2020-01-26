@@ -9,6 +9,24 @@ public class NetworkDevices implements Runnable {
     private String ipAddress;
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
+    final int[] extraPorts ;
+
+    public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] extraPorts) {
+        this.lanerListeners.add(lanerListener);
+        this.ipAddress = ipAddress;
+        this.extraPorts = extraPorts;
+    }
+
+    public NetworkDevices(String ipAddress, LanerListener lanerListener) {
+        this.lanerListeners.add(lanerListener);
+        this.ipAddress = ipAddress;
+        this.extraPorts = new int[]{};
+    }
+
+    public NetworkDevices(String ipAddress) {
+        this.ipAddress = ipAddress;
+        this.extraPorts = new int[]{};
+    }
 
     public ArrayList<LanerListener> getLanerListeners() {
         return lanerListeners;
@@ -20,15 +38,6 @@ public class NetworkDevices implements Runnable {
 
     public void removeLanerListener(LanerListener lanerListener) {
         this.lanerListeners.remove(lanerListener);
-    }
-
-    public NetworkDevices(String ipAddress, LanerListener lanerListener) {
-        this.lanerListeners.add(lanerListener);
-        this.ipAddress = ipAddress;
-    }
-
-    public NetworkDevices(String ipAddress) {
-        this.ipAddress = ipAddress;
     }
 
     @Override
@@ -70,6 +79,19 @@ public class NetworkDevices implements Runnable {
                                             }
                                             doBreak = true;
                                             break;
+                                        }
+                                    }
+                                    if (!doBreak && extraPorts.length > 0) {
+                                        for (int port : extraPorts) {
+                                            if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                                if (networkDevice.status != Status.CONNECTED) {
+                                                    networkDevice.status = Status.CONNECTED;
+                                                    networkDevice.openedPort = port;
+                                                    networkDevice.statusChanged = true;
+                                                }
+                                                doBreak = true;
+                                                break;
+                                            }
                                         }
                                     }
                                     if (!doBreak && networkDevice.status == Status.CONNECTED) {

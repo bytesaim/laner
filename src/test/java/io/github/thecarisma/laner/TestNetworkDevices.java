@@ -21,6 +21,11 @@ public class TestNetworkDevices {
         new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener()).run();
     }
 
+    @Test
+    public void TestConnectedNetworkDevicesExtraPorts() throws UnknownHostException {
+        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener(), new int[]{ 12345, 8021}).run();
+    }
+
     public static void main(String[] args) throws UnknownHostException {
         new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
             @Override
