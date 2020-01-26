@@ -10,6 +10,7 @@ public class InternetStatus implements Runnable {
     private String urlIp = "thecarisma.github.io";
     private int delayInSeconds = 1;
     private Status status = Status.DISCONNECTED;
+    private Timer timer;
 
     public InternetStatus(String urlIp) {
         this.urlIp = urlIp;
@@ -63,7 +64,7 @@ public class InternetStatus implements Runnable {
     @Override
     public void run() {
         broadcastToListeners(status);
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -88,8 +89,8 @@ public class InternetStatus implements Runnable {
         }
     }
 
-    private void checkInternetStatus() {
-
+    public void stop() {
+        timer.cancel();
     }
 
     public enum Status {
