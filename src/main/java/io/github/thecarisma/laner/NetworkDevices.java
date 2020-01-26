@@ -10,6 +10,7 @@ public class NetworkDevices implements Runnable {
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
     final int[] extraPorts ;
+    private boolean stopListening = false;
 
     public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] extraPorts) {
         this.lanerListeners.add(lanerListener);
@@ -114,7 +115,7 @@ public class NetworkDevices implements Runnable {
             for (Thread t : threads){
                 t.join();
             }
-            if (lanerListeners.size() > 0) run();
+            if (lanerListeners.size() > 0 && !stopListening) run();
         } catch (Throwable e) {}
     }
 
@@ -122,6 +123,10 @@ public class NetworkDevices implements Runnable {
         for (LanerListener lanerListener : lanerListeners) {
             lanerListener.report(o);
         }
+    }
+
+    public void stop() {
+        stopListening = true;
     }
 
     public static enum Status {
