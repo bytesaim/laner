@@ -60,14 +60,22 @@ public class InternetStatus implements Runnable {
                 if (isConnected()) {
                     if (status == Status.DISCONNECTED) {
                         status = Status.CONNECTED;
+                        broadcastToListeners(status);
                     }
                 } else {
                     if (status == Status.CONNECTED) {
                         status = Status.DISCONNECTED;
+                        broadcastToListeners(status);
                     }
                 }
             }
         }, 0, (delayInSeconds * 1000));
+    }
+
+    private void broadcastToListeners(Object o) {
+        for (LanerListener lanerListener : lanerListeners) {
+            lanerListener.report(o);
+        }
     }
 
     public enum Status {
