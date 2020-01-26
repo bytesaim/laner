@@ -18,8 +18,12 @@ public class InternetStatus implements Runnable {
         this.delayInSeconds = delayInSeconds;
     }
 
-    public static boolean isConnected() {
+    public static boolean IsConnected() {
         return LanerNetworkInterface.isReachable("thecarisma.github.io", 80, 1000);
+    }
+
+    public boolean isConnected() {
+        return LanerNetworkInterface.isReachable(urlIp, 80, 1000);
     }
 
     @Override
@@ -28,7 +32,11 @@ public class InternetStatus implements Runnable {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                
+                if (isConnected()) {
+
+                } else {
+
+                }
             }
         }, 0, (delayInSeconds * 1000));
     }

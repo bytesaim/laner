@@ -6,7 +6,7 @@ public class TestInternetStatus {
 
     @Test
     public void TestIsConnected() {
-        System.out.println(InternetStatus.isConnected());
+        System.out.println(InternetStatus.IsConnected());
     }
 
 }
