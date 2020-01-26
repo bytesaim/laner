@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class TestType {
 
-    @Test
+    //@Test
     public void TestInterfaceType() throws SocketException, UnknownHostException {
         Vector<String> Available_Devices=new Vector<>();
         String myip=InetAddress.getLocalHost().getHostAddress();
@@ -24,7 +24,7 @@ public class TestType {
         for(int i=100;i<=254;++i){
             try {
                 InetAddress addr=InetAddress.getByName("192.168.8.101");
-                if (addr.isReachable(100000)){
+                if (addr.isReachable(1000)){
                     System.out.println("Available: " + addr.getHostAddress()+ ", Name: " + addr.getCanonicalHostName());
                     //Available_Devices.add(addr.getHostAddress());
                 }
