@@ -54,7 +54,7 @@ public class NetworkDevices implements Runnable {
                                     networkDevice = new NetworkDevice(Status.UNKNOWN, addr);
                                     networkDevices.put(preDeviceAddr + j, networkDevice);
                                 }
-                                if (addr.isReachable(10000)) {
+                                if (addr.isReachable(1000)) {
                                     if (networkDevice.status != Status.CONNECTED) {
                                         networkDevice.status = Status.CONNECTED;
                                         networkDevice.statusChanged = true;
@@ -65,6 +65,7 @@ public class NetworkDevices implements Runnable {
                                         if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
                                             if (networkDevice.status != Status.CONNECTED) {
                                                 networkDevice.status = Status.CONNECTED;
+                                                networkDevice.openedPort = port;
                                                 networkDevice.statusChanged = true;
                                             }
                                             doBreak = true;
@@ -111,6 +112,7 @@ public class NetworkDevices implements Runnable {
         public boolean statusChanged = true;
         public Status status = Status.UNKNOWN ;
         public InetAddress inetAddress;
+        public int openedPort = 1;
 
         private NetworkDevice(Status status, InetAddress inetAddress) {
             this.status = status;

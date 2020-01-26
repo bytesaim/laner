@@ -22,14 +22,14 @@ public class TestNetworkDevices {
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        new Thread(new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
+        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {
-                    System.out.println(((NetworkDevices.NetworkDevice) o).inetAddress.getCanonicalHostName());
+                    System.out.println(o);
                 }
             }
-        })).start();
+        }).run();
     }
 
 }
