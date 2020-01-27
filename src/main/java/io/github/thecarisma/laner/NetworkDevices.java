@@ -6,27 +6,27 @@ import java.util.*;
 public class NetworkDevices implements Runnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
-    private String ipAddress;
+    private ArrayList<String> ipAddresses;
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
-    final int[] extraPorts ;
+    final int[] forePorts ;
     private boolean stopListening = false;
 
-    public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] extraPorts) {
+    public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] forePorts) {
         this.lanerListeners.add(lanerListener);
-        this.ipAddress = ipAddress;
-        this.extraPorts = extraPorts;
+        this.ipAddresses.add(ipAddress);
+        this.forePorts = forePorts;
     }
 
     public NetworkDevices(String ipAddress, LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
-        this.ipAddress = ipAddress;
-        this.extraPorts = new int[]{};
+        this.ipAddresses.add(ipAddress);
+        this.forePorts = new int[]{};
     }
 
     public NetworkDevices(String ipAddress) {
-        this.ipAddress = ipAddress;
-        this.extraPorts = new int[]{};
+        this.ipAddresses.add(ipAddress);
+        this.forePorts = new int[]{};
     }
 
     public ArrayList<LanerListener> getLanerListeners() {
@@ -64,40 +64,39 @@ public class NetworkDevices implements Runnable {
                                     networkDevice = new NetworkDevice(Status.UNKNOWN, addr);
                                     networkDevices.put(preDeviceAddr + j, networkDevice);
                                 }
-                                if (addr.isReachable(1000)) {
-                                    if (networkDevice.status != Status.CONNECTED) {
-                                        networkDevice.status = Status.CONNECTED;
-                                        networkDevice.statusChanged = true;
-                                    }
-                                } else {
-                                    boolean doBreak = false;
-                                    for (int port : ports) {
-                                        if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                            if (networkDevice.status != Status.CONNECTED) {
-                                                networkDevice.status = Status.CONNECTED;
-                                                networkDevice.openedPort = port;
-                                                networkDevice.statusChanged = true;
-                                            }
-                                            doBreak = true;
-                                            break;
+                                boolean continuePing = true;
+                                for (int port : forePorts) {
+                                    if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                        if (networkDevice.status != Status.CONNECTED) {
+                                            networkDevice.status = Status.CONNECTED;
+                                            networkDevice.openedPort = port;
+                                            networkDevice.statusChanged = true;
                                         }
+                                        continuePing = false;
+                                        break;
                                     }
-                                    if (!doBreak && extraPorts.length > 0) {
-                                        for (int port : extraPorts) {
+                                }
+                                if (continuePing) {
+                                    if (addr.isReachable(1000)) {
+                                        if (networkDevice.status != Status.CONNECTED) {
+                                            networkDevice.status = Status.CONNECTED;
+                                            networkDevice.statusChanged = true;
+                                        }
+                                    } else {
+                                        for (int port : ports) {
                                             if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
                                                 if (networkDevice.status != Status.CONNECTED) {
                                                     networkDevice.status = Status.CONNECTED;
                                                     networkDevice.openedPort = port;
                                                     networkDevice.statusChanged = true;
                                                 }
-                                                doBreak = true;
                                                 break;
                                             }
                                         }
-                                    }
-                                    if (!doBreak && networkDevice.status == Status.CONNECTED) {
-                                        networkDevice.status = Status.DISCONNECTED;
-                                        networkDevice.statusChanged = true;
+                                        if (networkDevice.status == Status.CONNECTED) {
+                                            networkDevice.status = Status.DISCONNECTED;
+                                            networkDevice.statusChanged = true;
+                                        }
                                     }
                                 }
                                 if (networkDevice.status != Status.UNKNOWN && networkDevice.statusChanged) {
