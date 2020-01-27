@@ -6,7 +6,7 @@ import java.util.*;
 public class NetworkDevices implements Runnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
-    private ArrayList<String> ipAddresses;
+    private ArrayList<String> ipAddresses = new ArrayList<>();
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
     final int[] forePorts ;
@@ -39,6 +39,18 @@ public class NetworkDevices implements Runnable {
 
     public void removeLanerListener(LanerListener lanerListener) {
         this.lanerListeners.remove(lanerListener);
+    }
+
+    public ArrayList<String> getIpAddresses() {
+        return ipAddresses;
+    }
+
+    public void addIpAddress(String ipAddress) {
+        this.ipAddresses.add(ipAddress);
+    }
+
+    public void removeIpAddress(String ipAddress) {
+        this.ipAddresses.remove(ipAddress);
     }
 
     @Override
