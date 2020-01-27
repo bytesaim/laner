@@ -29,6 +29,23 @@ public class NetworkDevices implements Runnable {
         this.forePorts = new int[]{};
     }
 
+    public NetworkDevices(String[] ipAddresses, LanerListener lanerListener, int[] forePorts) {
+        this.lanerListeners.add(lanerListener);
+        this.ipAddresses.addAll(Arrays.asList(ipAddresses));
+        this.forePorts = forePorts;
+    }
+
+    public NetworkDevices(String[] ipAddresses, LanerListener lanerListener) {
+        this.lanerListeners.add(lanerListener);
+        this.ipAddresses.addAll(Arrays.asList(ipAddresses));
+        this.forePorts = new int[]{};
+    }
+
+    public NetworkDevices(String[] ipAddresses) {
+        this.ipAddresses.addAll(Arrays.asList(ipAddresses));
+        this.forePorts = new int[]{};
+    }
+
     public ArrayList<LanerListener> getLanerListeners() {
         return lanerListeners;
     }
