@@ -1,5 +1,7 @@
 package io.github.thecarisma.laner;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ public class LanerServer implements Runnable {
     String ipAddress;
     int port;
     int backlog = 50;
+    private boolean serverStarted = false;
+    private boolean stopServer = false;
 
     public LanerServer(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -73,7 +77,27 @@ public class LanerServer implements Runnable {
 
     @Override
     public void run() {
+        if (!serverStarted) {
+            startServer();
+        }
+    }
 
+    private void startServer() {
+        try {
+            serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
+            serverStarted = true;
+        } catch (IOException e) {
+            //broadcastToListeners(Object o);
+            e.printStackTrace();
+        }
+
+    }
+
+    public void stop() {
+        stopServer = true;
+        //possible send a closing byte to the server to
+        //initiate immediate closing
+        LanerNetworkInterface.isReachable(ipAddress, port, 100);
     }
 
     private void broadcastToListeners(Object o) {
