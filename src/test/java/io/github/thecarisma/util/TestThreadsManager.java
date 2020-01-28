@@ -18,7 +18,7 @@ public class TestThreadsManager {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {
-                    if (index[0] > 0) {
+                    if (index[0] >= 0) {
                         try {
                             System.out.println("Killing all the thread");
                             threadsManager.killAll();
@@ -43,7 +43,7 @@ public class TestThreadsManager {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {
-                    if (index[0] > 0) {
+                    if (index[0] >= 0) {
                         try {
                             System.out.println("Killing all testnetworddevices1 runnables");
                             threadsManager.killAll("testnetworddevices1");
@@ -61,7 +61,7 @@ public class TestThreadsManager {
             @Override
             public void report(Object o) {
                 if (o instanceof InternetStatus.Status) {
-                    if (index2[0] > 0) {
+                    if (index2[0] >= 0) {
                         try {
                             System.out.println("Killing all testnetworddevices2 Runables");
                             threadsManager.killAll("testnetworddevices2");
@@ -81,14 +81,14 @@ public class TestThreadsManager {
     }
 
     @Test
-    public static void main(String[] args) throws UnknownHostException, InterruptedException {
+    public void Test3() throws UnknownHostException, InterruptedException {
         final ThreadsManager threadsManager = new ThreadsManager();
         final int[] index = {0};
         NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {
-                    if (index[0] > 0) {
+                    if (index[0] >= 0) {
                         try {
                             System.out.println("Killing all testnetworddevices runnables");
                             threadsManager.killAll("testnetworddevices");
@@ -106,7 +106,7 @@ public class TestThreadsManager {
             @Override
             public void report(Object o) {
                 if (o instanceof InternetStatus.Status) {
-                    if (index2[0] > 0) {
+                    if (index2[0] >= 0) {
                         try {
                             System.out.println("Don't care killing in NetworkDevice status");
                         } catch (Exception e) {
