@@ -30,10 +30,10 @@ public class ThreadsManager {
 
     public void killThread(String owner, Thread thread) {
         if (threads.containsKey(owner)) {
-            for (Thread t : threads.get(owner)) {
-                if (t.equals(thread)) {
-                    t.stop();
-                    unRegisterThread(owner, t);
+            for (int i = 0; i < threads.get(owner).size(); i++) {
+                if (threads.get(owner).get(i).equals(thread)) {
+                    threads.get(owner).get(i).stop();
+                    unRegisterThread(owner, threads.get(owner).get(i));
                 }
             }
         }
@@ -41,21 +41,20 @@ public class ThreadsManager {
 
     public void killAllThread(String owner) {
         if (threads.containsKey(owner)) {
-            for (Thread t : threads.get(owner)) {
-                t.stop();
+            for (int i = 0; i < threads.get(owner).size(); i++) {
+                threads.get(owner).get(i).stop();
+                unRegisterThread(owner, threads.get(owner).get(i));
             }
-            threads.get(owner).clear();
         }
     }
 
     public void killAllThreads() {
         for (String owner : threads.keySet()) {
-            for (Thread t : threads.get(owner)) {
-                t.stop();
-                unRegisterThread(owner, t);
+            for (int i = 0; i < threads.get(owner).size(); i++) {
+                threads.get(owner).get(i).stop();
+                unRegisterThread(owner, threads.get(owner).get(i));
             }
         }
-        threads.clear();
     }
 
     public void registerTRunnable(String owner, TRunnable tRunnable) {
@@ -79,10 +78,10 @@ public class ThreadsManager {
 
     public void killTRunnable(String owner, TRunnable tRunnable) throws Exception {
         if (tRunnables.containsKey(owner)) {
-            for (TRunnable t : tRunnables.get(owner)) {
-                if (t.equals(tRunnable)) {
-                    t.stop();
-                    unRegisterTRunnable(owner, t);
+            for (int i = 0; i < tRunnables.get(owner).size(); i++) {
+                if (tRunnables.get(owner).get(i).equals(tRunnable)) {
+                    tRunnables.get(owner).get(i).stop();
+                    unRegisterTRunnable(owner, tRunnables.get(owner).get(i));
                 }
             }
         }
@@ -90,21 +89,25 @@ public class ThreadsManager {
 
     public void killAllTRunnable(String owner) throws Exception {
         if (tRunnables.containsKey(owner)) {
-            for (TRunnable t : tRunnables.get(owner)) {
-                t.stop();
+            for (int i = 0; i < tRunnables.get(owner).size(); i++) {
+                tRunnables.get(owner).get(i).stop();
+                unRegisterTRunnable(owner, tRunnables.get(owner).get(i));
             }
-            tRunnables.get(owner).clear();
         }
     }
 
     public void killAllTRunnables() throws Exception {
         for (String owner : tRunnables.keySet()) {
-            for (TRunnable t : tRunnables.get(owner)) {
-                t.stop();
-                unRegisterTRunnable(owner, t);
+            for (int i = 0; i < tRunnables.get(owner).size(); i++) {
+                tRunnables.get(owner).get(i).stop();
+                unRegisterTRunnable(owner, tRunnables.get(owner).get(i));
             }
         }
-        tRunnables.clear();
+    }
+
+    public void killAll() throws Exception {
+        killAllTRunnables();
+        killAllThreads();
     }
 
 }
