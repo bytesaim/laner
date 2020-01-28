@@ -39,21 +39,27 @@ public class ClipBoardListener implements ClipboardOwner, Runnable {
     }
 
     @Override
-    public void lostOwnership(Clipboard c, Transferable t) {
+    public void lostOwnership(final Clipboard c, final Transferable t) {
 
         //maybe find better alt to sleep to wait for large
         //file that was copied
         //check if content changes
-        Transferable contents = null;
-        try {
-            Thread.sleep(1000);
-            contents = sysClip.getContents(this);
-            broadcastToListeners(new ClipBoardStatus(contents, c));
-        } catch (Exception ex) {
-            Logger.getLogger(ClipBoardListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //give back overship, possibly
-        TakeOwnership((contents != null) ? contents : t);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Transferable contents = null;
+                try {
+                    Thread.sleep(1000);
+                    contents = sysClip.getContents(this);
+                    broadcastToListeners(new ClipBoardStatus(contents, c));
+                } catch (Exception ex) {
+                    Logger.getLogger(ClipBoardListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //give back overship, possibly
+                TakeOwnership((contents != null) ? contents : t);
+            }
+        }).start();
+
     }
 
     void TakeOwnership(Transferable t) {
