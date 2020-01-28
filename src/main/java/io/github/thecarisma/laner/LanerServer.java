@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class LanerServer implements Runnable, TRunnable {
+public class LanerServer implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     ServerSocket serverSocket;

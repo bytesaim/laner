@@ -5,7 +5,7 @@ import io.github.thecarisma.util.TRunnable;
 import java.net.InetAddress;
 import java.util.*;
 
-public class NetworkDevices implements Runnable, TRunnable {
+public class NetworkDevices implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private ArrayList<String> ipAddresses = new ArrayList<>();

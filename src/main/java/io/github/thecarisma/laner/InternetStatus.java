@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InternetStatus implements Runnable, TRunnable {
+public class InternetStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private String urlIp = "thecarisma.github.io";
