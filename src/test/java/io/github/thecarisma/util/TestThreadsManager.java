@@ -35,8 +35,8 @@ public class TestThreadsManager {
         nd.run();
     }
 
-    @Test
-    public void Test2() throws UnknownHostException {
+    //@Test
+    public static void main(String[] arg) throws UnknownHostException {
         final ThreadsManager threadsManager = new ThreadsManager();
         final int[] index = {0};
         NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
@@ -46,7 +46,7 @@ public class TestThreadsManager {
                     if (index[0] > 0) {
                         try {
                             System.out.println("Killing all the thread");
-                            threadsManager.killAll();
+                            threadsManager.killAllTRunnable("testnetworddevices1");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -56,25 +56,30 @@ public class TestThreadsManager {
                 }
             }
         });
+        threadsManager.registerTRunnable("testnetworddevices1", nd);
+        nd.run();
+        System.out.println("We are here 1");
+        final int[] index2 = {0};
         InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof InternetStatus.Status) {
-                    if (index[0] > 0) {
+                    if (index2[0] > 0) {
                         try {
-                            System.out.println("Killing all the thread");
-                            threadsManager.killAll();
+                            System.out.println("Killing all testnetworddevices2 Runables");
+                            threadsManager.killAllTRunnable("testnetworddevices2");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                     System.out.println(o);
-                    index[0]++;
+                    index2[0]++;
                 }
             }
         });
-        threadsManager.registerTRunnable("testnetworddevices", nd);
-        nd.run();
+        threadsManager.registerTRunnable("testnetworddevices2", is);
+        System.out.println("We are here");
+        is.run();
     }
 
 }
