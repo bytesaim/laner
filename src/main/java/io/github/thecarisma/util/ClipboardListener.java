@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClipBoardListener implements ClipboardOwner, Runnable {
+public class ClipboardListener implements ClipboardOwner, Runnable {
 
     Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
 
-    public ClipBoardListener(LanerListener lanerListener) {
+    public ClipboardListener(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
     }
 
@@ -44,21 +44,16 @@ public class ClipBoardListener implements ClipboardOwner, Runnable {
         //maybe find better alt to sleep to wait for large
         //file that was copied
         //check if content changes
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Transferable contents = null;
-                try {
-                    Thread.sleep(1000);
-                    contents = sysClip.getContents(this);
-                    broadcastToListeners(new ClipBoardStatus(contents, c));
-                } catch (Exception ex) {
-                    Logger.getLogger(ClipBoardListener.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                //give back overship, possibly
-                TakeOwnership((contents != null) ? contents : t);
-            }
-        }).start();
+        Transferable contents = null;
+        try {
+            Thread.sleep(1000);
+            contents = sysClip.getContents(this);
+            broadcastToListeners(new ClipBoardStatus(contents, c));
+        } catch (Exception ex) {
+            Logger.getLogger(ClipboardListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //give back overship, possibly
+        TakeOwnership((contents != null) ? contents : t);
 
     }
 
