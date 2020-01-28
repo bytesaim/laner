@@ -57,8 +57,6 @@ public class TestThreadsManager {
             }
         });
         threadsManager.registerTRunnable("testnetworddevices1", nd);
-        nd.run();
-        System.out.println("We are here 1");
         final int[] index2 = {0};
         InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
@@ -78,8 +76,8 @@ public class TestThreadsManager {
             }
         });
         threadsManager.registerTRunnable("testnetworddevices2", is);
-        System.out.println("We are here");
         is.run();
+        nd.run();
     }
 
 }
