@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class TestLanerServer {
 
-    //@Test
+    @Test
     public void Test1() throws UnknownHostException {
         LanerServer lanerServer = new LanerServer(2020, new LanerListener() {
             @Override
