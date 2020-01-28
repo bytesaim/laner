@@ -3,12 +3,14 @@ package io.github.thecarisma.util;
 import io.github.thecarisma.laner.LanerListener;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.laner.NetworkDevices;
+import org.junit.Test;
 
 import java.net.UnknownHostException;
 
 public class TestThreadsManager {
 
-    public static void main(String[] args) throws UnknownHostException {
+    @Test
+    public void Test1() throws UnknownHostException {
         final ThreadsManager threadsManager = new ThreadsManager();
         final int[] index = {0};
         NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
