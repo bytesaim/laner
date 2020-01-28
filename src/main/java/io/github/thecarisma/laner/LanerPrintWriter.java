@@ -21,7 +21,6 @@ public class LanerPrintWriter extends PrintWriter {
         super(out, autoFlush);
     }
 
-
     public boolean isOpen() {
         return out != null;
     }
