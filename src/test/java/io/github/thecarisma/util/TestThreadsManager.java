@@ -80,4 +80,48 @@ public class TestThreadsManager {
         nd.run();
     }
 
+    @Test
+    public void TestKillAll() throws UnknownHostException {
+        final ThreadsManager threadsManager = new ThreadsManager();
+        final int[] index = {0};
+        NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
+            @Override
+            public void report(Object o) {
+                if (o instanceof NetworkDevices.NetworkDevice) {
+                    if (index[0] > 0) {
+                        try {
+                            System.out.println("Killing all testnetworddevices runnables");
+                            threadsManager.killAll("testnetworddevices");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(o);
+                    index[0]++;
+                }
+            }
+        });
+        final int[] index2 = {0};
+        InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
+            @Override
+            public void report(Object o) {
+                if (o instanceof InternetStatus.Status) {
+                    if (index2[0] > 0) {
+                        try {
+                            System.out.println("Don't care killing in NetworkDevice status");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    System.out.println(o);
+                    index2[0]++;
+                }
+            }
+        });
+        threadsManager.registerTRunnable("testnetworddevices", nd);
+        threadsManager.registerTRunnable("testnetworddevices", is);
+        is.run();
+        nd.run();
+    }
+
 }

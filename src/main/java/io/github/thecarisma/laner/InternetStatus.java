@@ -13,6 +13,7 @@ public class InternetStatus implements TRunnable {
     private int delayInSeconds = 1;
     private Status status = Status.DISCONNECTED;
     private Timer timer;
+    private boolean isListening = false;
 
     public InternetStatus(String urlIp) {
         this.urlIp = urlIp;
@@ -66,6 +67,7 @@ public class InternetStatus implements TRunnable {
     @Override
     public void run() {
         broadcastToListeners(status);
+        isListening = true;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -91,8 +93,14 @@ public class InternetStatus implements TRunnable {
         }
     }
 
+    @Override
+    public boolean isRunning() {
+        return isListening;
+    }
+
     public void stop() {
         timer.cancel();
+        isListening = false;
     }
 
     public enum Status {
