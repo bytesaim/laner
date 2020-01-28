@@ -1,5 +1,7 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.util.TRunnable;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,7 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class LanerServer implements Runnable {
+public class LanerServer implements Runnable, TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     ServerSocket serverSocket;
