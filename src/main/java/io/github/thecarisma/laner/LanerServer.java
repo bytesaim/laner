@@ -14,9 +14,9 @@ public class LanerServer implements Runnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     ServerSocket serverSocket;
-    String ipAddress;
-    int port;
-    int backlog = 50;
+    private String ipAddress;
+    private int port;
+    private int backlog = 50;
     private boolean isRunning = false;
 
     public LanerServer(String ipAddress, int port, int backlog) {
