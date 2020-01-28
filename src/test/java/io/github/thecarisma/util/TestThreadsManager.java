@@ -31,7 +31,7 @@ public class TestThreadsManager {
                 }
             }
         });
-        threadsManager.registerTRunnable("testnetworddevices", nd);
+        threadsManager.register("testnetworddevices", nd);
         nd.run();
     }
 
@@ -46,7 +46,7 @@ public class TestThreadsManager {
                     if (index[0] > 0) {
                         try {
                             System.out.println("Killing all testnetworddevices1 runnables");
-                            threadsManager.killAllTRunnable("testnetworddevices1");
+                            threadsManager.killAll("testnetworddevices1");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -64,7 +64,7 @@ public class TestThreadsManager {
                     if (index2[0] > 0) {
                         try {
                             System.out.println("Killing all testnetworddevices2 Runables");
-                            threadsManager.killAllTRunnable("testnetworddevices2");
+                            threadsManager.killAll("testnetworddevices2");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -74,14 +74,14 @@ public class TestThreadsManager {
                 }
             }
         });
-        threadsManager.registerTRunnable("testnetworddevices1", nd);
-        threadsManager.registerTRunnable("testnetworddevices2", is);
+        threadsManager.register("testnetworddevices1", nd);
+        threadsManager.register("testnetworddevices2", is);
         is.run();
         nd.run();
     }
 
     @Test
-    public void TestKillAll() throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, InterruptedException {
         final ThreadsManager threadsManager = new ThreadsManager();
         final int[] index = {0};
         NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
@@ -118,10 +118,9 @@ public class TestThreadsManager {
                 }
             }
         });
-        threadsManager.registerTRunnable("testnetworddevices", nd);
-        threadsManager.registerTRunnable("testnetworddevices", is);
-        is.run();
-        nd.run();
+        threadsManager.register("testnetworddevices", nd);
+        threadsManager.register("testnetworddevices", is);
+        threadsManager.startAll("testnetworddevices");
     }
 
 }

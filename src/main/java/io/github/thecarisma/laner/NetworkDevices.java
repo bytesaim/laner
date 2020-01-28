@@ -12,7 +12,7 @@ public class NetworkDevices implements TRunnable {
     private Map<String, NetworkDevice> networkDevices = new HashMap<>();
     final int[] ports = { 22, 25, 80, 5555, 7680  };
     final int[] forePorts ;
-    private boolean stopListening = false;
+    private boolean continueListening = false;
 
     public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] forePorts) {
         this.lanerListeners.add(lanerListener);
@@ -80,16 +80,16 @@ public class NetworkDevices implements TRunnable {
             final int devPerThread = addlimit / cores;
             ArrayList<Thread> threads = new ArrayList<>();
             for (int i = 0; i < cores; ++i) {
-                if (stopListening) break;
+                if (continueListening) break;
                 final int finalI = i;
                 final Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         for (int j = devPerThread * finalI; j < devPerThread * (finalI + 1); ++j) {
-                            if (stopListening) break;
+                            if (continueListening) break;
                             try {
                                 for (String ipAddress : ipAddresses) {
-                                    if (stopListening) break;
+                                    if (continueListening) break;
                                     String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
                                     InetAddress addr = InetAddress.getByName(preDeviceAddr + j);
                                     NetworkDevice networkDevice;
@@ -149,7 +149,7 @@ public class NetworkDevices implements TRunnable {
             for (Thread t : threads){
                 t.join();
             }
-            if (lanerListeners.size() > 0 && !stopListening) run();
+            if (lanerListeners.size() > 0 && !continueListening) run();
         } catch (Throwable e) {}
     }
 
@@ -159,8 +159,13 @@ public class NetworkDevices implements TRunnable {
         }
     }
 
+    @Override
+    public boolean isRunning() {
+        return continueListening;
+    }
+
     public void stop() {
-        stopListening = true;
+        continueListening = true;
     }
 
     public static enum Status {

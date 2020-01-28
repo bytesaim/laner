@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //TODO: listen for lan
-public class LanStatus implements TRunnable {
+public class WifiStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private String urlIp = "thecarisma.github.io";
@@ -15,31 +15,31 @@ public class LanStatus implements TRunnable {
     private Status status = Status.DISCONNECTED;
     private Timer timer;
 
-    public LanStatus(String urlIp) {
+    public WifiStatus(String urlIp) {
         this.urlIp = urlIp;
     }
 
-    public LanStatus(String urlIp, LanerListener lanerListener, int delayInSeconds) {
+    public WifiStatus(String urlIp, LanerListener lanerListener, int delayInSeconds) {
         this.urlIp = urlIp;
         this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
 
-    public LanStatus(String urlIp, LanerListener lanerListener) {
+    public WifiStatus(String urlIp, LanerListener lanerListener) {
         this.urlIp = urlIp;
         this.lanerListeners.add(lanerListener);
     }
 
-    public LanStatus(String urlIp, int delayInSeconds) {
+    public WifiStatus(String urlIp, int delayInSeconds) {
         this.urlIp = urlIp;
         this.delayInSeconds = delayInSeconds;
     }
 
-    public LanStatus(LanerListener lanerListener) {
+    public WifiStatus(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
     }
 
-    public LanStatus(LanerListener lanerListener, int delayInSeconds) {
+    public WifiStatus(LanerListener lanerListener, int delayInSeconds) {
         this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
@@ -90,6 +90,11 @@ public class LanStatus implements TRunnable {
         for (LanerListener lanerListener : lanerListeners) {
             lanerListener.report(o);
         }
+    }
+
+    @Override
+    public boolean isRunning() {
+        return false;
     }
 
     public void stop() {

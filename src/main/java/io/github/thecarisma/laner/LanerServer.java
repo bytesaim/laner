@@ -19,7 +19,7 @@ public class LanerServer implements TRunnable {
     private String ipAddress;
     private int port;
     private int backlog = 50;
-    private boolean isRunning = false;
+    private boolean mIsRunning = false;
 
     public LanerServer(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -84,7 +84,7 @@ public class LanerServer implements TRunnable {
     public void run() {
         startServer();
         try {
-            while (isRunning) {
+            while (mIsRunning) {
                 Socket clientSocket = null;
                 try {
                     clientSocket = serverSocket.accept();
@@ -120,7 +120,7 @@ public class LanerServer implements TRunnable {
     private void startServer() {
         try {
             serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
-            isRunning = true;
+            mIsRunning = true;
         } catch (IOException e) {
             //broadcastToListeners(Object o);
             e.printStackTrace();
@@ -128,14 +128,19 @@ public class LanerServer implements TRunnable {
 
     }
 
+    @Override
+    public boolean isRunning() {
+        return mIsRunning;
+    }
+
     public void stop() throws IOException {
         //possible send a closing byte to the server to
         //initiate immediate closing
-        if (isRunning) {
+        if (mIsRunning) {
             LanerNetworkInterface.isReachable(ipAddress, port, 100);
             if (serverSocket != null) {
                 serverSocket.close();
-                isRunning = false;
+                mIsRunning = false;
             }
         }
     }

@@ -92,6 +92,11 @@ public class EthernetStatus implements TRunnable {
         }
     }
 
+    @Override
+    public boolean isRunning() {
+        return false;
+    }
+
     public void stop() {
         timer.cancel();
     }
