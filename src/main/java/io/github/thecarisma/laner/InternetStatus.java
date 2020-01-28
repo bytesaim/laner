@@ -1,10 +1,12 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.util.TRunnable;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InternetStatus implements Runnable {
+public class InternetStatus implements Runnable, TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private String urlIp = "thecarisma.github.io";

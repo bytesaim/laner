@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClipboardListener implements ClipboardOwner, Runnable {
+public class ClipboardListener extends Thread implements ClipboardOwner {
 
     Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ClipboardListener implements ClipboardOwner, Runnable {
         try {
             Thread.sleep(1000);
             contents = sysClip.getContents(this);
-            broadcastToListeners(new ClipBoardStatus(contents, c));
+            broadcastToListeners(new ClipboardStatus(contents, c));
         } catch (Exception ex) {
             Logger.getLogger(ClipboardListener.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,11 +67,11 @@ public class ClipboardListener implements ClipboardOwner, Runnable {
         }
     }
 
-    public static class ClipBoardStatus {
+    public static class ClipboardStatus {
         public Transferable transferable;
         public Clipboard clipboard;
 
-        public ClipBoardStatus(Transferable transferable, Clipboard clipboard) {
+        public ClipboardStatus(Transferable transferable, Clipboard clipboard) {
             this.transferable = transferable;
             this.clipboard = clipboard;
         }
