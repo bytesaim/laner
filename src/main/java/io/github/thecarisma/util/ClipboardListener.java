@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClipboardListener extends Thread implements ClipboardOwner {
+public class ClipboardListener implements ClipboardOwner, TRunnable {
 
     Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
+    private boolean stopListening = false;
 
     public ClipboardListener(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
@@ -53,7 +54,9 @@ public class ClipboardListener extends Thread implements ClipboardOwner {
             Logger.getLogger(ClipboardListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         //give back overship, possibly
-        TakeOwnership((contents != null) ? contents : t);
+        if (!stopListening) {
+            TakeOwnership((contents != null) ? contents : t);
+        }
 
     }
 
@@ -65,6 +68,11 @@ public class ClipboardListener extends Thread implements ClipboardOwner {
         for (LanerListener lanerListener : lanerListeners) {
             lanerListener.report(o);
         }
+    }
+
+    @Override
+    public void stop() {
+        stopListening = false;
     }
 
     public static class ClipboardStatus {
