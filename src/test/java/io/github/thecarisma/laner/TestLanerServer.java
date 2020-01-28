@@ -2,10 +2,12 @@ package io.github.thecarisma.laner;
 
 import org.junit.Test;
 
+import java.net.UnknownHostException;
+
 public class TestLanerServer {
 
-    @Test
-    public void Test1() {
+    //@Test
+    public void Test1() throws UnknownHostException {
         LanerServer lanerServer = new LanerServer(2020, new LanerListener() {
             @Override
             public void report(Object o) {
@@ -19,7 +21,7 @@ public class TestLanerServer {
                     ((LanerServer.LanerServerStream) o).out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
                     ((LanerServer.LanerServerStream) o).out.write("\r\n");
                     ((LanerServer.LanerServerStream) o).out.write("<html><head><title>Exemple</title></head>");
-                    ((LanerServer.LanerServerStream) o).out.write("<body>Yahoo");
+                    ((LanerServer.LanerServerStream) o).out.write("<body>Yahoo</body></html>");
                 }
             }
         });
