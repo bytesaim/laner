@@ -80,13 +80,16 @@ public class NetworkDevices implements TRunnable {
             final int devPerThread = addlimit / cores;
             ArrayList<Thread> threads = new ArrayList<>();
             for (int i = 0; i < cores; ++i) {
+                if (stopListening) break;
                 final int finalI = i;
                 final Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         for (int j = devPerThread * finalI; j < devPerThread * (finalI + 1); ++j) {
+                            if (stopListening) break;
                             try {
                                 for (String ipAddress : ipAddresses) {
+                                    if (stopListening) break;
                                     String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
                                     InetAddress addr = InetAddress.getByName(preDeviceAddr + j);
                                     NetworkDevice networkDevice;
