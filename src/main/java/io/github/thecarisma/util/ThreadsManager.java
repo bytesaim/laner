@@ -43,8 +43,8 @@ public class ThreadsManager {
         if (threads.containsKey(owner)) {
             for (Thread t : threads.get(owner)) {
                 t.stop();
-                unRegisterThread(owner, t);
             }
+            threads.get(owner).clear();
         }
     }
 
@@ -55,6 +55,7 @@ public class ThreadsManager {
                 unRegisterThread(owner, t);
             }
         }
+        threads.clear();
     }
 
     public void registerTRunnable(String owner, TRunnable tRunnable) {
@@ -91,8 +92,8 @@ public class ThreadsManager {
         if (tRunnables.containsKey(owner)) {
             for (TRunnable t : tRunnables.get(owner)) {
                 t.stop();
-                unRegisterTRunnable(owner, t);
             }
+            tRunnables.get(owner).clear();
         }
     }
 
@@ -103,6 +104,7 @@ public class ThreadsManager {
                 unRegisterTRunnable(owner, t);
             }
         }
+        tRunnables.clear();
     }
 
 }
