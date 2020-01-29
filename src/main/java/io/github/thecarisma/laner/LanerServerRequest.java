@@ -91,9 +91,9 @@ public class LanerServerRequest {
                 readMultipart = true;
                 return multipartStream;
             }
-            String boundary = headers.get("Content-Type").split("boundary=")[1];
+            String boundary = headers.get("Content-Type").split(";")[1];
             if (readBody) {
-                multipartStream = new MultipartStream(getRawBody(), boundary);
+                multipartStream = new MultipartStream(getRawBody(), boundary.trim());
             } else {
                 multipartStream = new MultipartStream(in, boundary);
             }

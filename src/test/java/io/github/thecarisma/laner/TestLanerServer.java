@@ -61,7 +61,7 @@ public class TestLanerServer {
 
     //@Test
     public static void main(String[] args) {
-        LanerServer lanerServer = new LanerServer("192.168.8.102",7510, new LanerListener() {
+        LanerServer lanerServer = new LanerServer("127.0.0.1",7510, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof LanerServerRequest) {
@@ -77,7 +77,6 @@ public class TestLanerServer {
                         System.out.println("    " + s + "=" + ((LanerServerRequest) o).headers.get(s));
                     }
                     try {
-                        System.out.println("Body: " + ((LanerServerRequest) o).getRawBody());
                         System.out.println("Multipart Body:");
                         while (((LanerServerRequest) o).getBodyMultipartStream().hasnext()) {
                             MultipartData multipartData = ((LanerServerRequest) o).getBodyMultipartStream().next();
@@ -86,6 +85,7 @@ public class TestLanerServer {
                             for (String s : multipartData.getHeaders().keySet()) {
                                 System.out.println("        " + s + "=" + multipartData.getHeaders().get(s));
                             }
+                            System.out.println("    Body Length: " + multipartData.getBody().length());
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

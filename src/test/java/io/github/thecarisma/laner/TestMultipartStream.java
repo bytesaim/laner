@@ -11,9 +11,7 @@ public class TestMultipartStream {
 
     @Test
     public void Test1() throws IOException {
-        String content = "Content-Type: multipart/form-data; boundary=--AaB03x\r\n"
-                + "\r\n"
-                + "----AaB03x\r\n"
+        String content = "----AaB03x\r\n"
                 + "Content-Disposition: form-data; name=\"submit-name\"\r\n"
                 + "\r\n"
                 + "Larry\r\n"
@@ -26,6 +24,7 @@ public class TestMultipartStream {
         MultipartStream multipartStream = new MultipartStream(content, "boundary=--AaB03x");
         while (multipartStream.hasnext()) {
             MultipartData multipartData = multipartStream.next();
+            System.out.println(multipartData.getName());
         }
     }
 
