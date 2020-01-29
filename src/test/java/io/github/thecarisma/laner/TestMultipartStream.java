@@ -2,6 +2,9 @@ package io.github.thecarisma.laner;
 
 import org.junit.Test;
 
+/**
+ * @author Adewale Azeez "azeezadewale98@gmail.com"
+ */
 public class TestMultipartStream {
 
     @Test
@@ -19,6 +22,9 @@ public class TestMultipartStream {
                 + "HELLO WORLD!\r\n"
                 + "----AaB03x--\r\n";
         MultipartStream multipartStream = new MultipartStream(content);
+        while (multipartStream.hasnext()) {
+            MultipartData multipartData = multipartStream.next();
+        }
     }
 
 }
