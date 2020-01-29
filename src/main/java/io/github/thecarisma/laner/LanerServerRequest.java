@@ -63,7 +63,6 @@ public class LanerServerRequest {
             } else {
                 String[] s1 = inputLine.split(":");
                 headers.put(s1[0].trim(), s1[1].trim());
-                System.out.println("    >>>"+inputLine);
             }
 
         }
@@ -86,9 +85,18 @@ public class LanerServerRequest {
     /**
      * Get the request body from the BufferedReader.
      */
-    public MultipartStream getBodyAsMultipart() throws IOException {
+    public MultipartStream getBodyMultipartStream() throws IOException {
         if (!readMultipart) {
-            multipartStream = new MultipartStream(getRawBody());
+            if (!headers.get("Content-Type").contains("boundary")) {
+                readMultipart = true;
+                return multipartStream;
+            }
+            String boundary = headers.get("Content-Type").split("boundary=")[1];
+            if (readBody) {
+                multipartStream = new MultipartStream(getRawBody(), boundary);
+            } else {
+                multipartStream = new MultipartStream(in, boundary);
+            }
             readMultipart = true;
         }
         return multipartStream;
@@ -123,5 +131,5 @@ public class LanerServerRequest {
         PATCH,
         PUT
     }
-    
+
 }

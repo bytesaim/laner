@@ -77,8 +77,16 @@ public class TestLanerServer {
                         System.out.println("    " + s + "=" + ((LanerServerRequest) o).headers.get(s));
                     }
                     try {
+                        System.out.println("Body: " + ((LanerServerRequest) o).getRawBody());
                         System.out.println("Multipart Body:");
-                            System.out.println("Body: " + ((LanerServerRequest) o).getBodyAsMultipart());
+                        while (((LanerServerRequest) o).getBodyMultipartStream().hasnext()) {
+                            MultipartData multipartData = ((LanerServerRequest) o).getBodyMultipartStream().next();
+                            System.out.println("    Name: " + multipartData.getName());
+                            System.out.println("    Headers: ");
+                            for (String s : multipartData.getHeaders().keySet()) {
+                                System.out.println("        " + s + "=" + multipartData.getHeaders().get(s));
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

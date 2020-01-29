@@ -5,9 +5,14 @@ import java.util.Map;
 
 public class MultipartData {
 
-    public String name;
-    public Map<String, String> headers = new HashMap<>();
-    public String body;
+    private String name;
+    private Map<String, String> headers = new HashMap<>();
+    private String body;
+
+    public MultipartData() {
+        this.name = "";
+        this.body = "";
+    }
 
     public MultipartData(Map<String, String> headers, String body) {
         this.name = headers.get("name");
