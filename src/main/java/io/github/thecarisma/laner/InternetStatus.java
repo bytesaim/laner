@@ -99,8 +99,12 @@ public class InternetStatus implements TRunnable {
     }
 
     public void stop() {
-        timer.cancel();
-        isListening = false;
+        if (isListening) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            isListening = false;
+        }
     }
 
     public enum Status {

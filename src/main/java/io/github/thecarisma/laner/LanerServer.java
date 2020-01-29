@@ -139,8 +139,7 @@ public class LanerServer implements TRunnable {
         //possible send a closing byte to the server to
         //initiate immediate closing
         if (mIsRunning) {
-            LanerNetworkInterface.isReachable(ipAddress, port, 100);
-            if (serverSocket != null) {
+            if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
                 mIsRunning = false;
             }
