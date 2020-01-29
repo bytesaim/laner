@@ -16,7 +16,9 @@ public class LanerServerRequest {
     public Map<String, String> parameters = new HashMap<>();
     public LanerServerRequestMethod method = LanerServerRequestMethod.UNKNOWN;
     private StringBuilder body = new StringBuilder();
+    private MultipartStream multipartStream;
     private boolean readBody = false;
+    private boolean readMultipart = false;
 
     public LanerServerRequest(PrintWriter out, BufferedReader in) throws IOException {
         this.out = out;
@@ -84,15 +86,12 @@ public class LanerServerRequest {
     /**
      * Get the request body from the BufferedReader.
      */
-    public String getBodyAsMultipart() throws IOException {
-        if (!readBody) {
-            int contentLength = Integer.parseInt(headers.get("Content-Length"));
-            for (int i = 0; i < contentLength; i++) {
-                body.append((char) in.read());
-            }
-            readBody = true;
+    public MultipartStream getBodyAsMultipart() throws IOException {
+        if (!readMultipart) {
+            multipartStream = new MultipartStream(getRawBody());
+            readMultipart = true;
         }
-        return body.toString();
+        return multipartStream;
     }
 
     private void setMethod(String methodString) {
