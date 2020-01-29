@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LanerServer implements TRunnable {
 
@@ -95,7 +97,7 @@ public class LanerServer implements TRunnable {
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
-                broadcastToListeners(new LanerServerStream(out, in));
+                broadcastToListeners(new LanerServerRequest(out, in));
                 if (out.isOpen()) {
                     out.close();
                 }
@@ -148,16 +150,6 @@ public class LanerServer implements TRunnable {
     private void broadcastToListeners(Object o) {
         for (LanerListener lanerListener : lanerListeners) {
             lanerListener.report(o);
-        }
-    }
-
-    public static class LanerServerStream {
-        public PrintWriter out;
-        public BufferedReader in;
-
-        public LanerServerStream(PrintWriter out, BufferedReader in) {
-            this.out = out;
-            this.in = in;
         }
     }
 
