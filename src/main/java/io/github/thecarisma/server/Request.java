@@ -6,21 +6,44 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServerRequest {
+/**
+ * @author Adewale Azeez "azeezadewale98@gmail.com"
+ *
+ * Request format according to w3.org
+ * @<code>
+ *     Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
+ *     Headers = Accept
+ *              | ...
+ *              | ...
+ * </code>
+ *
+ * Raw request format:
+ * <code>
+ *     -> A Request-line
+ *     -> Zero or more header (General|Request|Entity) fields followed by CRLF
+ *     -> An empty line (i.e., a line with nothing preceding the CRLF)
+ *        indicating the end of the header fields
+ *     -> Optionally a message-body
+ * </code>
+ *
+ * https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html
+ * https://www.tutorialspoint.com/http/http_requests.htm
+ */
+public class Request {
 
     public PrintWriter out;
     private BufferedReader in;
-    public String endpoint = "";
-    public String HTTPversion = "";
+    private String endpoint = "";
+    private String HTTPversion = "";
     private Map<String, String> headers = new HashMap<>();
     private Map<String, String> parameters = new HashMap<>();
-    public RequestMethod method = RequestMethod.UNKNOWN;
+    private Method method = Method.UNKNOWN;
     private StringBuilder body = new StringBuilder();
     private MultipartStream multipartStream;
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public ServerRequest(PrintWriter out, BufferedReader in) throws IOException {
+    public Request(PrintWriter out, BufferedReader in) throws IOException {
         this.out = out;
         this.in = in;
         String inputLine;
@@ -109,20 +132,20 @@ public class ServerRequest {
     private void setMethod(String methodString) {
         switch (methodString) {
             case "POST":
-                method = RequestMethod.POST;
+                method = Method.POST;
                 break;
             case "PUT":
-                method = RequestMethod.PUT;
+                method = Method.PUT;
                 break;
             case "PATCH":
-                method = RequestMethod.PATCH;
+                method = Method.PATCH;
                 break;
             case "DELETE":
-                method = RequestMethod.DELETE;
+                method = Method.DELETE;
                 break;
             case "GET":
             default:
-                method = RequestMethod.GET;
+                method = Method.GET;
                 break;
         }
     }
@@ -149,6 +172,30 @@ public class ServerRequest {
 
     public String removeParameter(String key, String value) {
         return parameters.remove(key);
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public String getHTTPversion() {
+        return HTTPversion;
+    }
+
+    public void setHTTPversion(String HTTPversion) {
+        this.HTTPversion = HTTPversion;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
     }
 
 }

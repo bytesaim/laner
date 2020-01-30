@@ -14,6 +14,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+/**
+ * @author Adewale Azeez "azeezadewale98@gmail.com"
+ */
 public class Server implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
@@ -97,7 +100,7 @@ public class Server implements TRunnable {
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
-                broadcastToListeners(new ServerRequest(out, in));
+                broadcastToListeners(new Request(out, in));
                 if (out.isOpen()) {
                     out.close();
                 }
