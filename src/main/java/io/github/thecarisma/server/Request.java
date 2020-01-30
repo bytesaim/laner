@@ -55,6 +55,9 @@ public class Request {
                 HttpVersion = s1[2];
                 String key = "", value = "";
                 boolean parseKey = true;
+                if (s2.length <= 1) {
+                    continue;
+                }
                 for (char c : s2[1].toCharArray()) {
                     if (c == '&') {
                         if (!key.isEmpty()) {

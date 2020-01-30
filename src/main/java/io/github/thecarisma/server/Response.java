@@ -16,7 +16,7 @@ public class Response {
     private String rawResponseHead = "" ;
     private String reasonPhrase = "" ;
     private int statusCode = StatusCode.OK;
-    private boolean headersNeedsParsing = false;
+    private boolean headersNeedsParsing = true;
     public boolean headersSent = false;
 
     public Response(LanerPrintWriter out) {
@@ -84,6 +84,7 @@ public class Response {
     private void parseHeaders() {
         if (headersNeedsParsing) {
             rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
+            rawResponseHead += "\r\n";
         }
     }
 
