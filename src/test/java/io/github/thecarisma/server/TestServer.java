@@ -5,7 +5,7 @@ import io.github.thecarisma.laner.LanerListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-public class TestLanerServer {
+public class TestServer {
 
     //@Test
     public void Test1() throws UnknownHostException {
