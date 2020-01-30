@@ -98,6 +98,10 @@ public class Request {
      */
     public String getBody() throws IOException {
         if (!readBody) {
+            if (headers.get("Content-Length") == null) {
+                readBody = true;
+                return body.toString();
+            }
             int contentLength = Integer.parseInt(headers.get("Content-Length"));
             for (int i = 0; i < contentLength; i++) {
                 body.append((char) in.read());

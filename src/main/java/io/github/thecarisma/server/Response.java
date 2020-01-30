@@ -13,6 +13,8 @@ public class Response {
 
     private LanerPrintWriter out;
     private Map<String, String[]> headers = new HashMap<>();
+    private String rawResponseHead = "" ;
+    private boolean headersNeedsParsing = false;
     public boolean headersSent = false;
 
     public Response(LanerPrintWriter out) {
@@ -32,6 +34,7 @@ public class Response {
             throw new ResponseHeaderException();
         }
         headers.put(key, values);
+        headersNeedsParsing = true;
     }
 
     public String[] removeHeader(String key) {
@@ -42,8 +45,22 @@ public class Response {
         return "HTTP/1.1";
     }
 
-    private void writeHeaders() {
-        //write the headers
+    public void close() {
+        if (out.isOpen()) {
+            out.close();
+        }
+    }
+
+    public void sendResponseHeaders() {
+        parseHeaders();
+        write(rawResponseHead);
+        headersSent = true;
+    }
+
+    private void parseHeaders() {
+        if (headersNeedsParsing) {
+            rawResponseHead = "";
+        }
     }
 
 }

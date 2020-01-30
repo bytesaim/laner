@@ -1,5 +1,6 @@
 package io.github.thecarisma.server;
 
+import io.github.thecarisma.laner.LanerNetworkInterface;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -11,7 +12,7 @@ public class TestServer {
 
     //@Test
     public void Test1() throws UnknownHostException {
-        Server server = new Server("192.168.8.102",7510, new ServerListener() {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 response.write("HTTP/1.1 200 OK\r\n");
@@ -36,8 +37,8 @@ public class TestServer {
     }
 
     //@Test
-    public void TestGetRequest() {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+    public void TestGetRequest() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 System.out.println("Method: " + request.getMethod());
@@ -68,8 +69,8 @@ public class TestServer {
     }
 
     //@Test
-    public static void main(String[] args) {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+    public void TestPost() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 System.out.println("Method: " + request.getMethod());
@@ -99,6 +100,28 @@ public class TestServer {
                         }
                         System.out.println("    Body Length: " + multipartData.getBody().length());
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
+            }
+        });
+        System.out.println(server.getIpAddress());
+        server.run();
+    }
+
+    //@Test
+    public static void main(String[] args) {
+        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    System.out.println("Body: " + request.getBody());
+                    response.write("Hello World");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
