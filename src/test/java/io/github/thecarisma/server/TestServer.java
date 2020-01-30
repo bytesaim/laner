@@ -1,5 +1,6 @@
 package io.github.thecarisma.server;
 
+import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import org.junit.Test;
 
@@ -114,14 +115,36 @@ public class TestServer {
     }
 
     //@Test
-    public static void main(String[] args) {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+    public void TestResponse() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
                     System.out.println("Body: " + request.getBody());
                     response.write("Hello World");
                 } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
+            }
+        });
+        System.out.println(server.getIpAddress());
+        server.run();
+    }
+
+    //@Test
+    public static void main(String[] args) {
+        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.appendHeader("", "");
+                    response.write("Hello World");
+                } catch (ResponseHeaderException e) {
                     e.printStackTrace();
                 }
             }

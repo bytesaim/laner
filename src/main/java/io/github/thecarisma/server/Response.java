@@ -8,6 +8,9 @@ import java.util.Map;
 
 /**
  * @author Adewale Azeez <azeezadewale98@gmail.com>
+ *
+ *
+ * https://expressjs.com/en/5x/api.html#res
  */
 public class Response {
 
