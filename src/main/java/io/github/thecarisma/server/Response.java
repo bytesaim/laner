@@ -54,7 +54,4 @@ public class Response {
         return headers.remove(key);
     }
 
-    public void setHTTPversion(String HTTPversion) {
-        this.HTTPversion = HTTPversion;
-    }
 }
