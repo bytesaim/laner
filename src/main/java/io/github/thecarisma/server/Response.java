@@ -5,6 +5,8 @@ import io.github.thecarisma.laner.Attributes;
 import io.github.thecarisma.laner.LanerPrintWriter;
 import io.github.thecarisma.util.UserSystem;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,13 +32,6 @@ public class Response {
     public Response(Server server, LanerPrintWriter out) {
         this.server = server;
         this.out = out;
-    }
-
-    public void write(String data) {
-        if (!headersSent) {
-            sendResponseHead();
-        }
-        out.write(data);
     }
 
     public int getStatusCode() {
@@ -78,13 +73,31 @@ public class Response {
         return "HTTP/1.1";
     }
 
+    public void write(String data) {
+        if (!headersSent) {
+            sendResponseHead();
+        }
+        out.write(data);
+    }
+
+    public void sendFile(File file) throws IOException, ResponseHeaderException {
+        if (!headersSent) {
+            InputStream input = new FileInputStream(file);
+            long fileSize = file.length();
+            appendHeader("Content-Length", "" + fileSize);
+            appendHeader("Content-Type", getFileType(file));
+            System.out.println(fileSize);
+            sendResponseHead();
+        }
+    }
+
     public void close() {
         if (out.isOpen()) {
             out.close();
         }
     }
 
-    public void sendResponseHead() {
+    private void sendResponseHead() {
         parseHeaders();
         headersSent = true;
         write(rawResponseHead);
@@ -117,6 +130,11 @@ public class Response {
             }
             rawResponseHead += "\r\n";
         }
+    }
+
+    private String getFileType(File file) throws IOException {
+        String type = Files.probeContentType(file.toPath());
+        return (type != null ?  type : "application/octet-stream") ;
     }
 
 }

@@ -4,9 +4,7 @@ import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.UnknownHostException;
 
 public class TestServer {
@@ -137,7 +135,7 @@ public class TestServer {
     }
 
     //@Test
-    public static void main(String[] args) {
+    public void TestResponseHeader() {
         Server server = new Server("192.168.8.100",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
@@ -151,6 +149,27 @@ public class TestServer {
                             "</body>\n" +
                             "</html>");
                 } catch (ResponseHeaderException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
+            }
+        });
+        System.out.println(server.getIpAddress());
+        server.run();
+    }
+
+    //@Test
+    public static void main(String[] args) {
+        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.sendFile(new File("C:\\Users\\azeez\\Documents\\OPEN_SOURCE\\THECARISMA\\laner\\target\\laner-1.1.jar"));
+                } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }
             }
