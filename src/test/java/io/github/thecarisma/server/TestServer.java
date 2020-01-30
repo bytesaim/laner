@@ -1,6 +1,7 @@
 package io.github.thecarisma.server;
 
 import io.github.thecarisma.laner.LanerListener;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -32,7 +33,7 @@ public class TestServer {
 
     //@Test
     public void TestGetRequest() {
-        Server server = new Server("192.168.8.102",7510, new LanerListener() {
+        Server server = new Server("192.168.8.100",7510, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof Request) {
@@ -48,7 +49,7 @@ public class TestServer {
                         System.out.println("    " + s + "=" + ((Request) o).getHeaders().get(s));
                     }
                     try {
-                        System.out.println("Body: " + ((Request) o).getRawBody());
+                        System.out.println("Body: " + ((Request) o).getBody());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -61,7 +62,7 @@ public class TestServer {
 
     //@Test
     public static void main(String[] args) {
-        Server server = new Server("192.168.8.101",7510, new LanerListener() {
+        Server server = new Server("192.168.8.100",7510, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof Request) {
@@ -75,6 +76,11 @@ public class TestServer {
                     System.out.println("Headers:");
                     for (String s : ((Request) o).getHeaders().keySet()) {
                         System.out.println("    " + s + "=" + ((Request) o).getHeaders().get(s));
+                    }
+                    try {
+                        System.out.println("Body: " + ((Request) o).getBody());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                     try {
                         System.out.println("Multipart Body:");

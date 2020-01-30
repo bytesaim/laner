@@ -31,20 +31,18 @@ import java.util.Map;
  */
 public class Request {
 
-    public PrintWriter out;
     private BufferedReader in;
-    private String endpoint = "";
     private String HTTPversion = "";
     private Map<String, String> headers = new HashMap<>();
-    private Map<String, String> parameters = new HashMap<>();
     private Method method = Method.UNKNOWN;
+    private Map<String, String> parameters = new HashMap<>();
+    private String endpoint = "";
     private StringBuilder body = new StringBuilder();
     private MultipartStream multipartStream;
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public Request(PrintWriter out, BufferedReader in) throws IOException {
-        this.out = out;
+    public Request(BufferedReader in) throws IOException {
         this.in = in;
         String inputLine;
         while ((inputLine = in.readLine()).length() != 0) {
@@ -98,7 +96,7 @@ public class Request {
     /**
      * Get the request body from the BufferedReader.
      */
-    public String getRawBody() throws IOException {
+    public String getBody() throws IOException {
         if (!readBody) {
             int contentLength = Integer.parseInt(headers.get("Content-Length"));
             for (int i = 0; i < contentLength; i++) {
@@ -109,27 +107,7 @@ public class Request {
         return body.toString();
     }
 
-    /**
-     * Get the request body from the BufferedReader.
-     */
-    public MultipartStream getBodyMultipartStream() throws IOException {
-        if (!readMultipart) {
-            if (!headers.get("Content-Type").contains("boundary")) {
-                readMultipart = true;
-                return multipartStream;
-            }
-            String boundary = headers.get("Content-Type").split(";")[1];
-            if (readBody) {
-                multipartStream = new MultipartStream(getRawBody(), boundary.trim());
-            } else {
-                multipartStream = new MultipartStream(in, boundary);
-            }
-            readMultipart = true;
-        }
-        return multipartStream;
-    }
-
-    private void setMethod(String methodString) {
+    protected void setMethod(String methodString) {
         switch (methodString) {
             case "POST":
                 method = Method.POST;
@@ -150,52 +128,44 @@ public class Request {
         }
     }
 
-    public Map<String, String> getHeaders() {
-        return headers;
+    /**
+     * Get the request body from the BufferedReader.
+     */
+    public MultipartStream getBodyMultipartStream() throws IOException {
+        if (!readMultipart) {
+            if (!headers.get("Content-Type").contains("boundary")) {
+                readMultipart = true;
+                return multipartStream;
+            }
+            String boundary = headers.get("Content-Type").split(";")[1];
+            if (readBody) {
+                multipartStream = new MultipartStream(getBody(), boundary.trim());
+            } else {
+                multipartStream = new MultipartStream(in, boundary);
+            }
+            readMultipart = true;
+        }
+        return multipartStream;
     }
 
     public Map<String, String> getParameters() {
         return parameters;
     }
 
-    public void addHeader(String key, String value) {
-        headers.put(key, value);
-    }
-
-    public String removeHeader(String key, String value) {
-        return headers.remove(key);
-    }
-
-    public void addParameter(String key, String value) {
-        parameters.put(key, value);
-    }
-
-    public String removeParameter(String key, String value) {
-        return parameters.remove(key);
-    }
-
     public String getEndpoint() {
         return endpoint;
     }
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    public String getHTTPversion() {
-        return HTTPversion;
-    }
-
-    public void setHTTPversion(String HTTPversion) {
-        this.HTTPversion = HTTPversion;
+    public Map<String, String> getHeaders() {
+        return headers;
     }
 
     public Method getMethod() {
         return method;
     }
 
-    public void setMethod(Method method) {
-        this.method = method;
+    public String getHTTPversion() {
+        return HTTPversion;
     }
 
 }
