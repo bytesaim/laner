@@ -1,4 +1,4 @@
-package io.github.thecarisma.laner;
+package io.github.thecarisma.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class LanerServerRequest {
         this.out = out;
         this.in = in;
         String inputLine;
-        while ((inputLine = in.readLine()).length() != 0) {
+        while (in.readLine() != null && (inputLine = in.readLine()).length() != 0) {
             if (endpoint.equals("")) {
                 endpoint = inputLine;
                 String[] s1 = endpoint.split(" ");
@@ -65,6 +65,11 @@ public class LanerServerRequest {
                 headers.put(s1[0].trim(), s1[1].trim());
             }
 
+        }
+        if (method == LanerServerRequestMethod.UNKNOWN) {
+            readBody = true;
+            readMultipart = true;
+            multipartStream = new MultipartStream("", "");
         }
     }
 

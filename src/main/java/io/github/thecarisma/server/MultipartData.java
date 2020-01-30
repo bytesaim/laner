@@ -1,4 +1,4 @@
-package io.github.thecarisma.laner;
+package io.github.thecarisma.server;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,5 +1,7 @@
-package io.github.thecarisma.laner;
+package io.github.thecarisma.server;
 
+import io.github.thecarisma.server.MultipartData;
+import io.github.thecarisma.server.MultipartStream;
 import org.junit.Test;
 
 import java.io.IOException;

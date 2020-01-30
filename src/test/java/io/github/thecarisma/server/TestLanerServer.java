@@ -1,6 +1,9 @@
-package io.github.thecarisma.laner;
+package io.github.thecarisma.server;
 
-import org.junit.Test;
+import io.github.thecarisma.laner.LanerListener;
+import io.github.thecarisma.server.LanerServer;
+import io.github.thecarisma.server.LanerServerRequest;
+import io.github.thecarisma.server.MultipartData;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -61,7 +64,7 @@ public class TestLanerServer {
 
     //@Test
     public static void main(String[] args) {
-        LanerServer lanerServer = new LanerServer("127.0.0.1",7510, new LanerListener() {
+        LanerServer lanerServer = new LanerServer("192.168.8.101",7510, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof LanerServerRequest) {

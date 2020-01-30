@@ -1,11 +1,8 @@
-package io.github.thecarisma.laner;
+package io.github.thecarisma.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MultipartStream {
 
@@ -16,16 +13,28 @@ public class MultipartStream {
     private boolean streamDone = false;
 
     public MultipartStream(String rawBody, String boundary) {
+        if (boundary.isEmpty()) {
+            hasNext = false;
+            streamDone = true;
+        }
         bufferedReader = new BufferedReader(new StringReader(rawBody));
         this.boundary = boundary.trim().replaceAll("boundary=", paddingLeft);
     }
 
     public MultipartStream(BufferedReader bufferedReader, String boundary) {
+        if (boundary.isEmpty()) {
+            hasNext = false;
+            streamDone = true;
+        }
         this.bufferedReader = bufferedReader;
         this.boundary = boundary.trim().replaceAll("boundary=", paddingLeft);
     }
 
     public MultipartStream(BufferedReader bufferedReader, String boundary, String paddingLeft) {
+        if (boundary.isEmpty()) {
+            hasNext = false;
+            streamDone = true;
+        }
         this.bufferedReader = bufferedReader;
         this.boundary = boundary.trim().replaceAll("boundary=", paddingLeft);
     }
