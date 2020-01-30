@@ -6,25 +6,25 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LanerServerRequest {
+public class ServerRequest {
 
     public PrintWriter out;
     private BufferedReader in;
     public String endpoint = "";
     public String HTTPversion = "";
-    public Map<String, String> headers = new HashMap<>();
-    public Map<String, String> parameters = new HashMap<>();
-    public LanerServerRequestMethod method = LanerServerRequestMethod.UNKNOWN;
+    private Map<String, String> headers = new HashMap<>();
+    private Map<String, String> parameters = new HashMap<>();
+    public RequestMethod method = RequestMethod.UNKNOWN;
     private StringBuilder body = new StringBuilder();
     private MultipartStream multipartStream;
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public LanerServerRequest(PrintWriter out, BufferedReader in) throws IOException {
+    public ServerRequest(PrintWriter out, BufferedReader in) throws IOException {
         this.out = out;
         this.in = in;
         String inputLine;
-        while (in.readLine() != null && (inputLine = in.readLine()).length() != 0) {
+        while ((inputLine = in.readLine()).length() != 0) {
             if (endpoint.equals("")) {
                 endpoint = inputLine;
                 String[] s1 = endpoint.split(" ");
@@ -66,8 +66,7 @@ public class LanerServerRequest {
             }
 
         }
-        if (method == LanerServerRequestMethod.UNKNOWN) {
-            readBody = true;
+        if (headers.get("Content-Type") == null) {
             readMultipart = true;
             multipartStream = new MultipartStream("", "");
         }
@@ -110,31 +109,46 @@ public class LanerServerRequest {
     private void setMethod(String methodString) {
         switch (methodString) {
             case "POST":
-                method = LanerServerRequestMethod.POST;
+                method = RequestMethod.POST;
                 break;
             case "PUT":
-                method = LanerServerRequestMethod.PUT;
+                method = RequestMethod.PUT;
                 break;
             case "PATCH":
-                method = LanerServerRequestMethod.PATCH;
+                method = RequestMethod.PATCH;
                 break;
             case "DELETE":
-                method = LanerServerRequestMethod.DELETE;
+                method = RequestMethod.DELETE;
                 break;
             case "GET":
             default:
-                method = LanerServerRequestMethod.GET;
+                method = RequestMethod.GET;
                 break;
         }
     }
 
-    public enum LanerServerRequestMethod {
-        UNKNOWN,
-        GET,
-        POST,
-        DELETE,
-        PATCH,
-        PUT
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void addHeader(String key, String value) {
+        headers.put(key, value);
+    }
+
+    public String removeHeader(String key, String value) {
+        return headers.remove(key);
+    }
+
+    public void addParameter(String key, String value) {
+        parameters.put(key, value);
+    }
+
+    public String removeParameter(String key, String value) {
+        return parameters.remove(key);
     }
 
 }

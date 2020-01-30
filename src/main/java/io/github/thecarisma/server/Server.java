@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class LanerServer implements TRunnable {
+public class Server implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     ServerSocket serverSocket;
@@ -23,36 +23,36 @@ public class LanerServer implements TRunnable {
     private int backlog = 50;
     private boolean mIsRunning = false;
 
-    public LanerServer(String ipAddress, int port, int backlog) {
+    public Server(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.backlog = backlog;
     }
 
-    public LanerServer(String ipAddress, int port, int backlog, LanerListener lanerListener) {
+    public Server(String ipAddress, int port, int backlog, LanerListener lanerListener) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.backlog = backlog;
         this.lanerListeners.add(lanerListener);
     }
 
-    public LanerServer(String ipAddress, int port) {
+    public Server(String ipAddress, int port) {
         this.ipAddress = ipAddress;
         this.port = port;
     }
 
-    public LanerServer(String ipAddress, int port, LanerListener lanerListener) {
+    public Server(String ipAddress, int port, LanerListener lanerListener) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.lanerListeners.add(lanerListener);
     }
 
-    public LanerServer(int port) throws UnknownHostException {
+    public Server(int port) throws UnknownHostException {
         this.ipAddress = LanerNetworkInterface.getIPV4Address();
         this.port = port;
     }
 
-    public LanerServer(int port, LanerListener lanerListener) throws UnknownHostException {
+    public Server(int port, LanerListener lanerListener) throws UnknownHostException {
         this.ipAddress = LanerNetworkInterface.getIPV4Address();
         this.port = port;
         this.lanerListeners.add(lanerListener);
@@ -97,7 +97,7 @@ public class LanerServer implements TRunnable {
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
-                broadcastToListeners(new LanerServerRequest(out, in));
+                broadcastToListeners(new ServerRequest(out, in));
                 if (out.isOpen()) {
                     out.close();
                 }
