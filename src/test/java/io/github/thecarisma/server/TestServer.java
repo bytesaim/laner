@@ -2,7 +2,9 @@ package io.github.thecarisma.server;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.UnknownHostException;
 
 public class TestServer {
@@ -12,7 +14,7 @@ public class TestServer {
         Server server = new Server("192.168.8.102",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
-                response.write("HTTP/1.0 200 OK\r\n");
+                response.write("HTTP/1.1 200 OK\r\n");
                 response.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
                 response.write("Server: Apache/0.8.4\r\n");
                 response.write("Content-Type: text/html\r\n");
@@ -22,6 +24,11 @@ public class TestServer {
                 response.write("\r\n");
                 response.write("<html><head><title>Exemple</title></head>");
                 response.write("<body>Yahoo</body></html>");
+            }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
             }
         });
         System.out.println(server.getIpAddress());
@@ -35,7 +42,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 System.out.println("Method: " + request.getMethod());
                 System.out.println("Endpoint: " + request.getEndpoint());
-                System.out.println("HTTPversion: " + request.getHTTPversion());
+                System.out.println("HTTPversion: " + request.getHttpVersion());
                 System.out.println("Parameters:");
                 for (String s : request.getParameters().keySet()) {
                     System.out.println("    " + s + "=" + request.getParameters().get(s));
@@ -50,6 +57,11 @@ public class TestServer {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
+            }
         });
         System.out.println(server.getIpAddress());
         server.run();
@@ -62,7 +74,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 System.out.println("Method: " + request.getMethod());
                 System.out.println("Endpoint: " + request.getEndpoint());
-                System.out.println("HTTPversion: " + request.getHTTPversion());
+                System.out.println("HTTPversion: " + request.getHttpVersion());
                 System.out.println("Parameters:");
                 for (String s : request.getParameters().keySet()) {
                     System.out.println("    " + s + "=" + request.getParameters().get(s));
@@ -90,6 +102,11 @@ public class TestServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void report(BufferedReader in, PrintWriter out) {
+
             }
         });
         System.out.println(server.getIpAddress());

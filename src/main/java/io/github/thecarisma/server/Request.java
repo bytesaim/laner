@@ -32,7 +32,7 @@ import java.util.Map;
 public class Request {
 
     private BufferedReader in;
-    private String HTTPversion = "";
+    private String HttpVersion = "";
     private Map<String, String> headers = new HashMap<>();
     private Method method = Method.UNKNOWN;
     private Map<String, String> parameters = new HashMap<>();
@@ -52,7 +52,7 @@ public class Request {
                 setMethod(s1[0].trim());
                 String[] s2 = s1[1].split("\\?");
                 endpoint = s2[0];
-                HTTPversion = s1[2];
+                HttpVersion = s1[2];
                 String key = "", value = "";
                 boolean parseKey = true;
                 for (char c : s2[1].toCharArray()) {
@@ -164,8 +164,8 @@ public class Request {
         return method;
     }
 
-    public String getHTTPversion() {
-        return HTTPversion;
+    public String getHttpVersion() {
+        return HttpVersion;
     }
 
 }
