@@ -1,6 +1,7 @@
 package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
+import io.github.thecarisma.laner.Attributes;
 import io.github.thecarisma.laner.LanerPrintWriter;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class Response {
     private int statusCode = StatusCode.OK;
     private boolean headersNeedsParsing = true;
     public boolean headersSent = false;
+    public boolean addDefaultHeaders = true;
     public final Server server ;
 
     public Response(Server server, LanerPrintWriter out) {
@@ -89,10 +91,11 @@ public class Response {
     private void parseHeaders() {
         if (headersNeedsParsing) {
             rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
-            if (headers.size() == 0) {
+            if (addDefaultHeaders) {
                 try {
                     appendHeader("Host: ", server.getHost());
-                    appendHeader("User-Agent: ", "laner/5.0 (<system-information>) <platform> (<platform-details>) <extensions>");
+                    appendHeader("User-Agent: ", String.format("%s/%f (<system-information>)",
+                            Attributes.NAME, Attributes.VERSION));
                 } catch (ResponseHeaderException e) {
                     //impossible
                     e.printStackTrace();
