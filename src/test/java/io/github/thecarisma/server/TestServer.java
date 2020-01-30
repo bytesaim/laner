@@ -15,21 +15,20 @@ public class TestServer {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
-                response.write("HTTP/1.1 200 OK\r\n");
-                response.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                response.write("Server: Apache/0.8.4\r\n");
-                response.write("Content-Type: text/html\r\n");
-                response.write("Content-Length: 59\r\n");
-                response.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
-                response.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
-                response.write("\r\n");
-                response.write("<html><head><title>Exemple</title></head>");
-                response.write("<body>Yahoo</body></html>");
             }
 
             @Override
             public void report(BufferedReader in, PrintWriter out) {
-
+                out.write("HTTP/1.1 200 OK\r\n");
+                out.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
+                out.write("Server: Apache/0.8.4\r\n");
+                out.write("Content-Type: text/html\r\n");
+                out.write("Content-Length: 59\r\n");
+                out.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
+                out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
+                out.write("\r\n");
+                out.write("<html><head><title>Exemple</title></head>");
+                out.write("<body>Yahoo</body></html>");
             }
         });
         System.out.println(server.getIpAddress());

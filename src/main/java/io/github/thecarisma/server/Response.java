@@ -14,6 +14,8 @@ public class Response {
     private LanerPrintWriter out;
     private Map<String, String[]> headers = new HashMap<>();
     private String rawResponseHead = "" ;
+    private String reasonPhrase = "" ;
+    private int statusCode = StatusCode.OK;
     private boolean headersNeedsParsing = false;
     public boolean headersSent = false;
 
@@ -22,7 +24,29 @@ public class Response {
     }
 
     public void write(String data) {
+        if (!headersSent) {
+            sendResponseHead();
+        }
         out.write(data);
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getReasonPhrase() {
+        if (reasonPhrase.isEmpty()) {
+            
+        }
+        return reasonPhrase;
+    }
+
+    public void setReasonPhrase(String reasonPhrase) {
+        this.reasonPhrase = reasonPhrase;
     }
 
     public Map<String, String[]> getHeaders() {
@@ -51,15 +75,15 @@ public class Response {
         }
     }
 
-    public void sendResponseHeaders() {
+    public void sendResponseHead() {
         parseHeaders();
-        write(rawResponseHead);
         headersSent = true;
+        write(rawResponseHead);
     }
 
     private void parseHeaders() {
         if (headersNeedsParsing) {
-            rawResponseHead = "";
+            rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
         }
     }
 
