@@ -40,7 +40,7 @@ public class Response {
 
     public String getReasonPhrase() {
         if (reasonPhrase.isEmpty()) {
-            
+            reasonPhrase = StatusCode.statusCodeValue(statusCode);
         }
         return reasonPhrase;
     }

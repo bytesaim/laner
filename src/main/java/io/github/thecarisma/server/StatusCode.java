@@ -12,95 +12,144 @@ public class StatusCode {
     /**
      *
      */
-    public static int OK          = 200;
+    public final static int OK          = 200;
 
     /**
      *
      */
-    public static int CREATED        = 201;
+    public final static int CREATED        = 201;
 
     /**
      *
      */
-    public static int ACCEPTED       = 202;
+    public final static int ACCEPTED       = 202;
 
     /**
      *
      */
-    public static int NO_CONTENT     = 204;
+    public final static int NO_CONTENT     = 204;
 
     /**
      *
      */
-    public static int MOVED_PERMANENTLY        = 301;
+    public final static int MOVED_PERMANENTLY        = 301;
 
     /**
      *
      */
-    public static int FOUND        = 302;
+    public final static int FOUND        = 302;
 
     /**
      *
      */
-    public static int SEE_OTHER        = 303;
+    public final static int SEE_OTHER        = 303;
 
     /**
      *
      */
-    public static int NOT_MODIFIED        = 304;
+    public final static int NOT_MODIFIED        = 304;
 
     /**
      *
      */
-    public static int TEMPORARY_REDIRECT        = 307;
+    public final static int TEMPORARY_REDIRECT        = 307;
 
     /**
      *
      */
-    public static int BAD_REQUEST        = 400;
+    public final static int BAD_REQUEST        = 400;
 
     /**
      *
      */
-    public static int UNAUTHORISED        = 401;
+    public final static int UNAUTHORISED        = 401;
 
     /**
      *
      */
-    public static int FORBIDDEN        = 403;
+    public final static int FORBIDDEN        = 403;
 
     /**
      *
      */
-    public static int NOT_FOUND        = 404;
+    public final static int NOT_FOUND        = 404;
 
     /**
      *
      */
-    public static int METHOD_NOT_ALLOWED        = 405;
+    public final static int METHOD_NOT_ALLOWED        = 405;
 
     /**
      *
      */
-    public static int NOT_ACCEPTABLE        = 406;
+    public final static int NOT_ACCEPTABLE        = 406;
 
     /**
      *
      */
-    public static int PRECONDITION_FAILED        = 412;
+    public final static int PRECONDITION_FAILED        = 412;
 
     /**
      *
      */
-    public static int UNSUPPORTED_MEDIA_TYPE        = 415;
+    public final static int UNSUPPORTED_MEDIA_TYPE        = 415;
 
     /**
      *
      */
-    public static int INTERNAL_SERVER_ERROR        = 500;
+    public final static int INTERNAL_SERVER_ERROR        = 500;
 
     /**
      *
      */
-    public static int NOT_IMPLEMENTED        = 501;
+    public final static int NOT_IMPLEMENTED        = 501;
+
+    /**
+     *
+     * @param statusCode
+     * @return
+     */
+    public static String statusCodeValue(int statusCode) {
+        switch (statusCode) {
+            case OK:
+                return "OK";
+            case CREATED:
+                return "CREATED";
+            case ACCEPTED:
+                return "ACCEPTED";
+            case NO_CONTENT:
+                return "NO_CONTENT";
+            case MOVED_PERMANENTLY:
+                return "MOVED_PERMANENTLY";
+            case FOUND:
+                return "FOUND";
+            case SEE_OTHER:
+                return "SEE_OTHER";
+            case NOT_MODIFIED:
+                return "NOT_MODIFIED";
+            case TEMPORARY_REDIRECT:
+                return "TEMPORARY_REDIRECT";
+            case BAD_REQUEST:
+                return "BAD_REQUEST";
+            case UNAUTHORISED:
+                return "UNAUTHORISED";
+            case METHOD_NOT_ALLOWED:
+                return "METHOD_NOT_ALLOWED";
+            case FORBIDDEN:
+                return "FORBIDDEN";
+            case NOT_FOUND:
+                return "NOT_FOUND";
+            case NOT_ACCEPTABLE:
+                return "NOT_ACCEPTABLE";
+            case PRECONDITION_FAILED:
+                return "PRECONDITION_FAILED";
+            case UNSUPPORTED_MEDIA_TYPE:
+                return "UNSUPPORTED_MEDIA_TYPE";
+            case INTERNAL_SERVER_ERROR:
+                return "INTERNAL_SERVER_ERROR";
+            case NOT_IMPLEMENTED:
+                return "NOT_IMPLEMENTED";
+        }
+        return "UNKNOWN";
+    }
 }
