@@ -1,6 +1,5 @@
 package io.github.thecarisma.server;
 
-import io.github.thecarisma.laner.LanerListener;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.laner.LanerPrintWriter;
 import io.github.thecarisma.util.TRunnable;
@@ -8,6 +7,7 @@ import io.github.thecarisma.util.TRunnable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class Server implements TRunnable {
 
-    private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
+    private ArrayList<ServerListener> serverListener = new ArrayList<>();
     ServerSocket serverSocket;
     private String ipAddress;
     private int port;
@@ -32,11 +32,11 @@ public class Server implements TRunnable {
         this.backlog = backlog;
     }
 
-    public Server(String ipAddress, int port, int backlog, LanerListener lanerListener) {
+    public Server(String ipAddress, int port, int backlog, ServerListener ServerListener) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.backlog = backlog;
-        this.lanerListeners.add(lanerListener);
+        this.serverListener.add(ServerListener);
     }
 
     public Server(String ipAddress, int port) {
@@ -44,10 +44,10 @@ public class Server implements TRunnable {
         this.port = port;
     }
 
-    public Server(String ipAddress, int port, LanerListener lanerListener) {
+    public Server(String ipAddress, int port, ServerListener ServerListener) {
         this.ipAddress = ipAddress;
         this.port = port;
-        this.lanerListeners.add(lanerListener);
+        this.serverListener.add(ServerListener);
     }
 
     public Server(int port) throws UnknownHostException {
@@ -55,10 +55,10 @@ public class Server implements TRunnable {
         this.port = port;
     }
 
-    public Server(int port, LanerListener lanerListener) throws UnknownHostException {
+    public Server(int port, ServerListener ServerListener) throws UnknownHostException {
         this.ipAddress = LanerNetworkInterface.getIPV4Address();
         this.port = port;
-        this.lanerListeners.add(lanerListener);
+        this.serverListener.add(ServerListener);
     }
 
     public String getIpAddress() {
@@ -73,16 +73,16 @@ public class Server implements TRunnable {
         return backlog;
     }
 
-    public ArrayList<LanerListener> getLanerListeners() {
-        return lanerListeners;
+    public ArrayList<ServerListener> getserverListener() {
+        return serverListener;
     }
 
-    public void addLanerListener(LanerListener lanerListener) {
-        this.lanerListeners.add(lanerListener);
+    public void addServerListener(ServerListener ServerListener) {
+        this.serverListener.add(ServerListener);
     }
 
-    public void removeLanerListener(LanerListener lanerListener) {
-        this.lanerListeners.remove(lanerListener);
+    public void removeServerListener(ServerListener ServerListener) {
+        this.serverListener.remove(ServerListener);
     }
 
     @Override
@@ -100,7 +100,8 @@ public class Server implements TRunnable {
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
-                broadcastToListeners(new Request(out, in));
+                broadcastToListeners(new Request(in), new Response(out));
+                broadcastToListeners(in, out);
                 if (out.isOpen()) {
                     out.close();
                 }
@@ -149,9 +150,15 @@ public class Server implements TRunnable {
         }
     }
 
-    private void broadcastToListeners(Object o) {
-        for (LanerListener lanerListener : lanerListeners) {
-            lanerListener.report(o);
+    private void broadcastToListeners(Request request, Response response) {
+        for (ServerListener serverListener : serverListener) {
+            serverListener.report(request, response);
+        }
+    }
+
+    private void broadcastToListeners(BufferedReader in, PrintWriter out) {
+        for (ServerListener serverListener : serverListener) {
+            serverListener.report(in, out);
         }
     }
 

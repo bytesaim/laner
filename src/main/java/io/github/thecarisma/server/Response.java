@@ -1,6 +1,9 @@
 package io.github.thecarisma.server;
 
+import io.github.thecarisma.laner.LanerPrintWriter;
+
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,16 +13,21 @@ import java.util.Map;
  */
 public class Response {
 
-    protected String HTTPversion = "";
-    protected Map<String, String> headers = new HashMap<>();
-    protected Method method = Method.UNKNOWN;
+    private LanerPrintWriter out;
+    private String HTTPversion = "";
+    private Map<String, String> headers = new HashMap<>();
+    private Method method = Method.UNKNOWN;
 
-    public Response(PrintWriter out) {
+    public Response(LanerPrintWriter out) {
 
     }
 
-    public String write(Object o) {
-        return null;
+    public void writeHeaders() {
+        //write the headers
+    }
+
+    public void write(String data) {
+        out.write(data);
     }
 
     public Map<String, String> getHeaders() {
