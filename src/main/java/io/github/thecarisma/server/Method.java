@@ -5,8 +5,6 @@ package io.github.thecarisma.server;
  *
  * https://restfulapi.net/http-methods/
  * https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
- * //todo: move to status code
- * Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
  */
 public enum Method {
     /**
