@@ -142,9 +142,14 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
+                    response.setStatusCode(StatusCode.OK);
                     response.appendHeader("Accept", "application/json", "application/pdf");
                     response.appendHeader("Content-Type", "text/html");
-                    response.write("Hello World");
+                    response.write("<html>\n" +
+                            "<body>\n" +
+                            "<h1>Hello, World!</h1>\n" +
+                            "</body>\n" +
+                            "</html>");
                 } catch (ResponseHeaderException e) {
                     e.printStackTrace();
                 }

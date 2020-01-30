@@ -3,7 +3,9 @@ package io.github.thecarisma.server;
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.Attributes;
 import io.github.thecarisma.laner.LanerPrintWriter;
+import io.github.thecarisma.util.UserSystem;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,9 +95,10 @@ public class Response {
             rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
             if (addDefaultHeaders) {
                 try {
-                    appendHeader("Host: ", server.getHost());
-                    appendHeader("User-Agent: ", String.format("%s/%f (<system-information>)",
-                            Attributes.NAME, Attributes.VERSION));
+                    appendHeader("Host", server.getHost());
+                    appendHeader("Date", new Date().toString());
+                    appendHeader("User-Agent", String.format("%s/%s (%s; x%s)",
+                            Attributes.NAME, Attributes.VERSION, UserSystem.OS, UserSystem.CPU_ARCH));
                 } catch (ResponseHeaderException e) {
                     //impossible
                     e.printStackTrace();
