@@ -21,8 +21,10 @@ public class Response {
     private int statusCode = StatusCode.OK;
     private boolean headersNeedsParsing = true;
     public boolean headersSent = false;
+    public final Server server ;
 
-    public Response(LanerPrintWriter out) {
+    public Response(Server server, LanerPrintWriter out) {
+        this.server = server;
         this.out = out;
     }
 
@@ -87,6 +89,26 @@ public class Response {
     private void parseHeaders() {
         if (headersNeedsParsing) {
             rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
+            if (headers.size() == 0) {
+                try {
+                    appendHeader("Host: ", server.getHost());
+                    appendHeader("User-Agent: ", "laner/5.0 (<system-information>) <platform> (<platform-details>) <extensions>");
+                } catch (ResponseHeaderException e) {
+                    //impossible
+                    e.printStackTrace();
+                }
+            }
+            for (String key : headers.keySet()) {
+                String[] values = headers.get(key);
+                String header = key + ": ";
+                for (int i = 0; i < values.length; ++i) {
+                    header += values[i];
+                    if (i != values.length - 1) {
+                        header += ", ";
+                    }
+                }
+                rawResponseHead += header + "\r\n";
+            }
             rawResponseHead += "\r\n";
         }
     }

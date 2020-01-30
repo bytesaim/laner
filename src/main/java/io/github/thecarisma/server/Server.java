@@ -100,7 +100,7 @@ public class Server implements TRunnable {
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
-                broadcastToListeners(new Request(in), new Response(out));
+                broadcastToListeners(new Request(in), new Response(this, out));
                 broadcastToListeners(in, out);
                 if (out.isOpen()) {
                     out.close();
@@ -160,6 +160,10 @@ public class Server implements TRunnable {
         for (ServerListener serverListener : serverListener) {
             serverListener.report(in, out);
         }
+    }
+
+    public String getHost() {
+        return ipAddress + ":" + port;
     }
 
 }
