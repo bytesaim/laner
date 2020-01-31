@@ -120,7 +120,7 @@ public class NetworkDevices implements TRunnable {
                                         } else {
                                             for (int port : ports) {
                                                 if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                                    if (networkDevice.status != Status.CONNECTED) {
+                                                    if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
                                                         networkDevice.status = Status.CONNECTED;
                                                         networkDevice.openedPort = port;
                                                         networkDevice.statusChanged = true;
@@ -131,6 +131,7 @@ public class NetworkDevices implements TRunnable {
                                             if (networkDevice.status == Status.CONNECTED) {
                                                 networkDevice.status = Status.DISCONNECTED;
                                                 networkDevice.statusChanged = true;
+                                                networkDevice.openedPort = 1;
                                             }
                                         }
                                     }

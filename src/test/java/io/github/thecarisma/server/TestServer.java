@@ -155,13 +155,29 @@ public class TestServer {
     }
 
     //@Test
-    public static void main(String[] args) {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+    public void TestDownload() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
                     response.downloadFile(new File(".\\src\\main\\resources\\logo.png"), "logo.png");
                 } catch (ResponseHeaderException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println(server.getIpAddress());
+        server.run();
+    }
+
+    //@Test
+    public static void main(String[] args) throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    System.out.print(request.getBody());
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

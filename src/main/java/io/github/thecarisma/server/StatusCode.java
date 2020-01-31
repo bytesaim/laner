@@ -114,13 +114,13 @@ public class StatusCode {
             case OK:
                 return "OK";
             case CREATED:
-                return "CREATED";
+                return "Created";
             case ACCEPTED:
-                return "ACCEPTED";
+                return "Accepted";
             case NO_CONTENT:
-                return "NO_CONTENT";
+                return "No Content";
             case MOVED_PERMANENTLY:
-                return "MOVED_PERMANENTLY";
+                return "Moved Permanently";
             case FOUND:
                 return "FOUND";
             case SEE_OTHER:
