@@ -99,16 +99,15 @@ public class NetworkDevices implements TRunnable {
                                         networkDevice = new NetworkDevice(Status.UNKNOWN, addr);
                                         networkDevices.put(preDeviceAddr + j, networkDevice);
                                     }
-                                    networkDevice.openedPort = 1;
                                     boolean continuePing = true;
                                     for (int port : forePorts) {
                                         if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                            if (networkDevice.status != Status.CONNECTED) {
+                                            if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
                                                 networkDevice.status = Status.CONNECTED;
                                                 networkDevice.openedPort = port;
                                                 networkDevice.statusChanged = true;
+                                                continuePing = false;
                                             }
-                                            continuePing = false;
                                             break;
                                         }
                                     }
@@ -121,7 +120,7 @@ public class NetworkDevices implements TRunnable {
                                         } else {
                                             for (int port : ports) {
                                                 if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                                    if (networkDevice.status != Status.CONNECTED) {
+                                                    if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
                                                         networkDevice.status = Status.CONNECTED;
                                                         networkDevice.openedPort = port;
                                                         networkDevice.statusChanged = true;
