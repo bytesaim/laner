@@ -1,8 +1,6 @@
 package io.github.thecarisma.server;
 
-import io.github.thecarisma.laner.LanerBufferedReader;
 import io.github.thecarisma.laner.LanerNetworkInterface;
-import io.github.thecarisma.laner.LanerPrintWriter;
 import io.github.thecarisma.util.TRunnable;
 
 import java.io.*;
@@ -95,16 +93,10 @@ public class Server implements TRunnable {
                     System.err.println("Accept failed.");
                     System.exit(1);
                 }
-                LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
-                LanerBufferedReader in = new LanerBufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String inputLine, outputLine;
-                broadcastToListeners(new Request(in), new Response(this, out));
-                if (out.isOpen()) {
-                    out.close();
-                }
-                try {
-                    in.close();
-                } catch (IOException ex){}
+                broadcastToListeners(new Request(clientSocket.getInputStream()), new Response(this, clientSocket.getOutputStream()));
+                //try {
+                //    in.close();
+                //} catch (IOException ex){}
                 if (!clientSocket.isClosed()) {
                     clientSocket.close();
                 }
@@ -154,9 +146,6 @@ public class Server implements TRunnable {
             }
             if (serverListener instanceof ServerReadyListener) {
                 ((ServerReadyListener) serverListener).report(request.in, response.out);
-            }
-            if (serverListener instanceof ServerRawListener) {
-                ((ServerRawListener) serverListener).report(request.in.getReader(), response.out.getWriter());
             }
         }
     }

@@ -2,27 +2,28 @@ package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.LanerNetworkInterface;
+import org.junit.Test;
 
 import java.io.*;
 import java.net.UnknownHostException;
 
 public class TestServer {
 
-    //@Test
+    @Test
     public void Test1() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerReadyListener() {
             @Override
-            public void report(BufferedReader in, PrintWriter out) {
-                out.write("HTTP/1.1 200 OK\r\n");
-                out.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n");
-                out.write("Server: Apache/0.8.4\r\n");
-                out.write("Content-Type: text/html\r\n");
-                out.write("Content-Length: 59\r\n");
-                out.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n");
-                out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n");
-                out.write("\r\n");
-                out.write("<html><head><title>Exemple</title></head>");
-                out.write("<body>Yahoo</body></html>");
+            public void report(InputStream in, OutputStream out) throws IOException {
+                out.write("HTTP/1.1 200 OK\r\n".getBytes());
+                out.write("Date: Fri, 31 Dec 1999 23:59:59 GMT\r\n".getBytes());
+                out.write("Server: Apache/0.8.4\r\n".getBytes());
+                out.write("Content-Type: text/html\r\n".getBytes());
+                out.write("Content-Length: 59\r\n".getBytes());
+                out.write("Expires: Sat, 01 Jan 2000 00:59:59 GMT\r\n".getBytes());
+                out.write("Last-modified: Fri, 09 Aug 1996 14:21:40 GMT\r\n".getBytes());
+                out.write("\r\n".getBytes());
+                out.write("<html><head><title>Exemple</title></head>".getBytes());
+                out.write("<body>Yahoo</body></html>".getBytes());
             }
         });
         System.out.println(server.getIpAddress());
@@ -104,7 +105,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 try {
                     System.out.println("Body: " + request.getBody());
-                    response.write("Hello World");
+                    response.write("Hello World".getBytes());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -123,12 +124,12 @@ public class TestServer {
                     response.setStatusCode(StatusCode.OK);
                     response.appendHeader("Accept", "application/json", "application/pdf");
                     response.appendHeader("Content-Type", "text/html");
-                    response.write("<html>\n" +
+                    response.write(("<html>\n" +
                             "<body>\n" +
                             "<h1>Hello, World!</h1>\n" +
                             "</body>\n" +
-                            "</html>");
-                } catch (ResponseHeaderException e) {
+                            "</html>").getBytes());
+                } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }
             }

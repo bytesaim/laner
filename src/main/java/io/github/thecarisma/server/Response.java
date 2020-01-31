@@ -2,7 +2,6 @@ package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.Attributes;
-import io.github.thecarisma.laner.LanerPrintWriter;
 import io.github.thecarisma.util.UserSystem;
 
 import java.io.*;
@@ -19,7 +18,7 @@ import java.util.Map;
  */
 public class Response {
 
-    protected LanerPrintWriter out;
+    protected OutputStream out;
     private Map<String, String[]> headers = new HashMap<>();
     private String rawResponseHead = "" ;
     private String reasonPhrase = "" ;
@@ -29,7 +28,7 @@ public class Response {
     public boolean addDefaultHeaders = true;
     public final Server server ;
 
-    public Response(Server server, LanerPrintWriter out) {
+    public Response(Server server, OutputStream out) {
         this.server = server;
         this.out = out;
     }
@@ -73,7 +72,7 @@ public class Response {
         return "HTTP/1.1";
     }
 
-    public void write(String data) {
+    public void write(byte[] data) throws IOException {
         if (!headersSent) {
             sendResponseHead();
         }
@@ -82,30 +81,26 @@ public class Response {
 
     public void sendFile(File file) throws IOException, ResponseHeaderException {
         if (!headersSent) {
-            BufferedWriter stream = new BufferedWriter(out.getWriter());
-            BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
+            FileInputStream input = new FileInputStream(file);
             long fileSize = file.length();
             appendHeader("Content-Length", "" + fileSize);
             appendHeader("Content-Type", getFileType(file));
             sendResponseHead();
-            int i = -1;
-            while((i = input.read()) != -1){
-                stream.write(i);
-            }
-            stream.flush();
+            final byte[] buffer = new byte[4096];
+            for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
+                out.write(buffer, 0, read);
+            out.flush();
         }
     }
 
-    public void close() {
-        if (out.isOpen()) {
-            out.close();
-        }
+    public void close() throws IOException {
+        out.close();
     }
 
-    private void sendResponseHead() {
+    private void sendResponseHead() throws IOException {
         parseHeaders();
         headersSent = true;
-        write(rawResponseHead);
+        write(rawResponseHead.getBytes());
     }
 
     private void parseHeaders() {

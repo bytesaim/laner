@@ -1,10 +1,6 @@
 package io.github.thecarisma.server;
 
-import io.github.thecarisma.laner.LanerBufferedReader;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +29,7 @@ import java.util.Map;
  */
 public class Request {
 
-    protected LanerBufferedReader in;
+    protected BufferedReader in;
     private String HttpVersion = "";
     private Map<String, String> headers = new HashMap<>();
     private Method method = Method.UNKNOWN;
@@ -44,8 +40,8 @@ public class Request {
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public Request(LanerBufferedReader in) throws IOException {
-        this.in = in;
+    public Request(InputStream _in) throws IOException {
+        this.in = new BufferedReader(new InputStreamReader(_in));
         String inputLine;
         while ((inputLine = in.readLine()).length() != 0) {
             if (endpoint.equals("")) {
