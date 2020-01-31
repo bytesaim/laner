@@ -34,7 +34,7 @@ public class TestNetworkDevices {
                     System.out.println(o);
                 }
             }
-        }).run();
+        }, new int[]{7510}).run();
     }
 
 }
