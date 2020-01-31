@@ -10,11 +10,7 @@ public class TestServer {
 
     //@Test
     public void Test1() throws UnknownHostException {
-        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
-            @Override
-            public void report(Request request, Response response) {
-            }
-
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerReadyListener() {
             @Override
             public void report(BufferedReader in, PrintWriter out) {
                 out.write("HTTP/1.1 200 OK\r\n");
@@ -54,11 +50,6 @@ public class TestServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void report(BufferedReader in, PrintWriter out) {
-
             }
         });
         System.out.println(server.getIpAddress());
@@ -101,11 +92,6 @@ public class TestServer {
                     e.printStackTrace();
                 }
             }
-
-            @Override
-            public void report(BufferedReader in, PrintWriter out) {
-
-            }
         });
         System.out.println(server.getIpAddress());
         server.run();
@@ -122,11 +108,6 @@ public class TestServer {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void report(BufferedReader in, PrintWriter out) {
-
             }
         });
         System.out.println(server.getIpAddress());
@@ -151,11 +132,6 @@ public class TestServer {
                     e.printStackTrace();
                 }
             }
-
-            @Override
-            public void report(BufferedReader in, PrintWriter out) {
-
-            }
         });
         System.out.println(server.getIpAddress());
         server.run();
@@ -171,11 +147,6 @@ public class TestServer {
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void report(BufferedReader in, PrintWriter out) {
-
             }
         });
         System.out.println(server.getIpAddress());
