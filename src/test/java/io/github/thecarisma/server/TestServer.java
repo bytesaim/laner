@@ -9,9 +9,9 @@ import java.net.UnknownHostException;
 
 public class TestServer {
 
-    @Test
+    //@Test
     public void Test1() throws UnknownHostException {
-        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerReadyListener() {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerRawListener() {
             @Override
             public void report(InputStream in, OutputStream out) throws IOException {
                 out.write("HTTP/1.1 200 OK\r\n".getBytes());
@@ -116,8 +116,8 @@ public class TestServer {
     }
 
     //@Test
-    public void TestResponseHeader() {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+    public void TestResponseHeader() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
@@ -139,12 +139,28 @@ public class TestServer {
     }
 
     //@Test
+    public void TestSendFile() throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.sendFile(new File(".\\src\\main\\resources\\logo.png"));
+                } catch (ResponseHeaderException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println(server.getIpAddress());
+        server.run();
+    }
+
+    //@Test
     public static void main(String[] args) {
         Server server = new Server("192.168.8.100",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.sendFile(new File(".\\src\\main\\resources\\logo.png"));
+                    response.downloadFile(new File(".\\src\\main\\resources\\logo.png"), "logo.png");
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }

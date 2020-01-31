@@ -80,11 +80,30 @@ public class Response {
     }
 
     public void sendFile(File file) throws IOException, ResponseHeaderException {
+        sendFile(file, getFileType(file));
+    }
+
+    public void sendFile(File file, String contentType) throws IOException, ResponseHeaderException {
+        if (!headersSent) {
+            FileInputStream input = new FileInputStream(file);
+            long fileSize = file.length();
+            appendHeader("Content-Length", "" + fileSize);
+            appendHeader("Content-Type", contentType);
+            sendResponseHead();
+            final byte[] buffer = new byte[4096];
+            for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
+                out.write(buffer, 0, read);
+            out.flush();
+        }
+    }
+
+    public void downloadFile(File file, String fileName) throws IOException, ResponseHeaderException {
         if (!headersSent) {
             FileInputStream input = new FileInputStream(file);
             long fileSize = file.length();
             appendHeader("Content-Length", "" + fileSize);
             appendHeader("Content-Type", getFileType(file));
+            appendHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
             sendResponseHead();
             final byte[] buffer = new byte[4096];
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))

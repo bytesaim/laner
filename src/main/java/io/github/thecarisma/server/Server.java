@@ -139,13 +139,13 @@ public class Server implements TRunnable {
         }
     }
 
-    private void broadcastToListeners(Request request, Response response) {
+    private void broadcastToListeners(Request request, Response response) throws IOException {
         for (ServerListenerFactory serverListener : serverListener) {
             if (serverListener instanceof ServerListener) {
                 ((ServerListener) serverListener).report(request, response);
             }
-            if (serverListener instanceof ServerReadyListener) {
-                ((ServerReadyListener) serverListener).report(request.in, response.out);
+            if (serverListener instanceof ServerRawListener) {
+                ((ServerRawListener) serverListener).report(request.in, response.out);
             }
         }
     }

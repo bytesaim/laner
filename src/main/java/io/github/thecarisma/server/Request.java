@@ -29,7 +29,8 @@ import java.util.Map;
  */
 public class Request {
 
-    protected BufferedReader in;
+    protected InputStream in ;
+    protected BufferedReader bin;
     private String HttpVersion = "";
     private Map<String, String> headers = new HashMap<>();
     private Method method = Method.UNKNOWN;
@@ -40,10 +41,11 @@ public class Request {
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public Request(InputStream _in) throws IOException {
-        this.in = new BufferedReader(new InputStreamReader(_in));
+    public Request(InputStream in) throws IOException {
+        this.in = in;
+        this.bin = new BufferedReader(new InputStreamReader(in));
         String inputLine;
-        while ((inputLine = in.readLine()).length() != 0) {
+        while ((inputLine = bin.readLine()).length() != 0) {
             if (endpoint.equals("")) {
                 endpoint = inputLine;
                 String[] s1 = endpoint.split(" ");
@@ -105,7 +107,7 @@ public class Request {
             }
             int contentLength = Integer.parseInt(headers.get("Content-Length"));
             for (int i = 0; i < contentLength; i++) {
-                body.append((char) in.read());
+                body.append((char) bin.read());
             }
             readBody = true;
         }
@@ -146,7 +148,7 @@ public class Request {
             if (readBody) {
                 multipartStream = new MultipartStream(getBody(), boundary.trim());
             } else {
-                multipartStream = new MultipartStream(in, boundary);
+                multipartStream = new MultipartStream(bin, boundary);
             }
             readMultipart = true;
         }
