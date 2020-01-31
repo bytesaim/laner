@@ -172,7 +172,7 @@ public class TestServer {
 
     //@Test
     public static void main(String[] args) throws UnknownHostException {
-        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
+        Server server = new Server("172.16.40.27",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
