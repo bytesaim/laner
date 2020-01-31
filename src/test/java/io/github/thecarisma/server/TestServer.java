@@ -2,7 +2,6 @@ package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.LanerNetworkInterface;
-import org.junit.Test;
 
 import java.io.*;
 import java.net.UnknownHostException;
@@ -168,7 +167,7 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.sendFile(new File("C:\\Users\\azeez\\Documents\\OPEN_SOURCE\\THECARISMA\\laner\\target\\laner-1.1.jar"));
+                    response.sendFile(new File(".\\src\\main\\resources\\logo.png"));
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }

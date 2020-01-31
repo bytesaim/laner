@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class Response {
 
-    private LanerPrintWriter out;
+    protected LanerPrintWriter out;
     private Map<String, String[]> headers = new HashMap<>();
     private String rawResponseHead = "" ;
     private String reasonPhrase = "" ;
@@ -82,12 +82,17 @@ public class Response {
 
     public void sendFile(File file) throws IOException, ResponseHeaderException {
         if (!headersSent) {
-            InputStream input = new FileInputStream(file);
+            BufferedWriter stream = new BufferedWriter(out.getWriter());
+            BufferedInputStream input = new BufferedInputStream(new FileInputStream(file));
             long fileSize = file.length();
             appendHeader("Content-Length", "" + fileSize);
             appendHeader("Content-Type", getFileType(file));
-            System.out.println(fileSize);
             sendResponseHead();
+            int i = -1;
+            while((i = input.read()) != -1){
+                stream.write(i);
+            }
+            stream.flush();
         }
     }
 

@@ -1,13 +1,11 @@
 package io.github.thecarisma.server;
 
+import io.github.thecarisma.laner.LanerBufferedReader;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.laner.LanerPrintWriter;
 import io.github.thecarisma.util.TRunnable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,8 +17,8 @@ import java.util.ArrayList;
  */
 public class Server implements TRunnable {
 
-    private ArrayList<ServerListener> serverListener = new ArrayList<>();
-    ServerSocket serverSocket;
+    private ArrayList<ServerListenerFactory> serverListener = new ArrayList<>();
+    private ServerSocket serverSocket;
     private String ipAddress;
     private int port;
     private int backlog = 50;
@@ -32,11 +30,11 @@ public class Server implements TRunnable {
         this.backlog = backlog;
     }
 
-    public Server(String ipAddress, int port, int backlog, ServerListener ServerListener) {
+    public Server(String ipAddress, int port, int backlog, ServerListenerFactory ServerListenerFactory) {
         this.ipAddress = ipAddress;
         this.port = port;
         this.backlog = backlog;
-        this.serverListener.add(ServerListener);
+        this.serverListener.add(ServerListenerFactory);
     }
 
     public Server(String ipAddress, int port) {
@@ -44,10 +42,10 @@ public class Server implements TRunnable {
         this.port = port;
     }
 
-    public Server(String ipAddress, int port, ServerListener ServerListener) {
+    public Server(String ipAddress, int port, ServerListenerFactory ServerListenerFactory) {
         this.ipAddress = ipAddress;
         this.port = port;
-        this.serverListener.add(ServerListener);
+        this.serverListener.add(ServerListenerFactory);
     }
 
     public Server(int port) throws UnknownHostException {
@@ -55,10 +53,10 @@ public class Server implements TRunnable {
         this.port = port;
     }
 
-    public Server(int port, ServerListener ServerListener) throws UnknownHostException {
+    public Server(int port, ServerListenerFactory ServerListenerFactory) throws UnknownHostException {
         this.ipAddress = LanerNetworkInterface.getIPV4Address();
         this.port = port;
-        this.serverListener.add(ServerListener);
+        this.serverListener.add(ServerListenerFactory);
     }
 
     public String getIpAddress() {
@@ -73,16 +71,16 @@ public class Server implements TRunnable {
         return backlog;
     }
 
-    public ArrayList<ServerListener> getserverListener() {
+    public ArrayList<ServerListenerFactory> getserverListener() {
         return serverListener;
     }
 
-    public void addServerListener(ServerListener ServerListener) {
-        this.serverListener.add(ServerListener);
+    public void addServerListenerFactory(ServerListenerFactory ServerListenerFactory) {
+        this.serverListener.add(ServerListenerFactory);
     }
 
-    public void removeServerListener(ServerListener ServerListener) {
-        this.serverListener.remove(ServerListener);
+    public void removeServerListenerFactory(ServerListenerFactory ServerListenerFactory) {
+        this.serverListener.remove(ServerListenerFactory);
     }
 
     @Override
@@ -98,10 +96,9 @@ public class Server implements TRunnable {
                     System.exit(1);
                 }
                 LanerPrintWriter out = new LanerPrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                LanerBufferedReader in = new LanerBufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine, outputLine;
                 broadcastToListeners(new Request(in), new Response(this, out));
-                broadcastToListeners(in, out);
                 if (out.isOpen()) {
                     out.close();
                 }
@@ -151,19 +148,22 @@ public class Server implements TRunnable {
     }
 
     private void broadcastToListeners(Request request, Response response) {
-        for (ServerListener serverListener : serverListener) {
-            serverListener.report(request, response);
-        }
-    }
-
-    private void broadcastToListeners(BufferedReader in, PrintWriter out) {
-        for (ServerListener serverListener : serverListener) {
-            serverListener.report(in, out);
+        for (ServerListenerFactory serverListener : serverListener) {
+            if (serverListener instanceof ServerListener) {
+                ((ServerListener) serverListener).report(request, response);
+            }
+            if (serverListener instanceof ServerReadyListener) {
+                ((ServerReadyListener) serverListener).report(request.in, response.out);
+            }
+            if (serverListener instanceof ServerRawListener) {
+                ((ServerRawListener) serverListener).report(request.in.getReader(), response.out.getWriter());
+            }
         }
     }
 
     public String getHost() {
         return ipAddress + ":" + port;
     }
+
 
 }

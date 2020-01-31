@@ -2,6 +2,7 @@ package io.github.thecarisma.laner;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
 
 public class LanerPrintWriter extends PrintWriter {
 
@@ -23,6 +24,10 @@ public class LanerPrintWriter extends PrintWriter {
 
     public boolean isOpen() {
         return out != null;
+    }
+
+    public Writer getWriter() {
+        return out;
     }
 
 }
