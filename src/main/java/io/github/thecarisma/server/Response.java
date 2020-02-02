@@ -82,15 +82,6 @@ public class Response {
         out.write(data);
     }
 
-    public void end(String data) throws IOException {
-        end(data.getBytes());
-    }
-
-    public void end(byte[] data) throws IOException {
-        write(data);
-        close();
-    }
-
     public void sendFile(File file) throws IOException, ResponseHeaderException {
         sendFile(file, getFileType(file));
     }
@@ -122,6 +113,15 @@ public class Response {
                 out.write(buffer, 0, read);
             out.flush();
         }
+    }
+
+    public void close(String data) throws IOException {
+        close(data.getBytes());
+    }
+
+    public void close(byte[] data) throws IOException {
+        write(data);
+        close();
     }
 
     public void close() throws IOException {

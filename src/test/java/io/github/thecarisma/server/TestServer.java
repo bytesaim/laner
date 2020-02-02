@@ -179,6 +179,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 try {
                     System.out.println(request.getBody());
+                    response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
