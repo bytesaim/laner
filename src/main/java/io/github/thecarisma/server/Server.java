@@ -89,6 +89,9 @@ public class Server implements TRunnable {
         while (mIsRunning) {
             Socket clientSocket = null;
             try {
+                if (serverSocket.isClosed()) {
+                    continue;
+                }
                 clientSocket = serverSocket.accept();
                 final Socket finalClientSocket = clientSocket;
                 new Thread(new Runnable() {
