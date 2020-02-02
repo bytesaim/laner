@@ -178,7 +178,7 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.write("ok");
+                    System.out.println(request.getBody());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

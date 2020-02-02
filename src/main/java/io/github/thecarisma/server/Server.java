@@ -87,6 +87,7 @@ public class Server implements TRunnable {
     public void run() {
         startServer();
         while (mIsRunning) {
+            mServer = this;
             Socket clientSocket = null;
             try {
                 if (serverSocket.isClosed()) {
@@ -102,9 +103,6 @@ public class Server implements TRunnable {
                             Response response = new Response(mServer, finalClientSocket.getOutputStream());
                             broadcastToListeners(request, response);
                             broadcastToRouter(request, response);
-                            if (!finalClientSocket.isClosed()) {
-                                finalClientSocket.close();
-                            }
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             try {
@@ -126,7 +124,6 @@ public class Server implements TRunnable {
         try {
             serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
             mIsRunning = true;
-            mServer = this;
         } catch (IOException e) {
             //broadcastToListeners(Object o);
             e.printStackTrace();
