@@ -10,7 +10,7 @@ public class TestEndpointRouter {
     public static void main(String[] args) {
         Server server = new Server("192.168.8.100",7510);
         EndpointRouter endpointRouter = new EndpointRouter(server);
-        endpointRouter.get("/", new ServerListener() {
+        /*endpointRouter.get("/", new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
@@ -19,7 +19,7 @@ public class TestEndpointRouter {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
         server.run();
     }
 

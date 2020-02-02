@@ -36,6 +36,8 @@ public class EndpointRouter {
                 }
             }
 
+        } else {
+            response.close();
         }
     }
 
