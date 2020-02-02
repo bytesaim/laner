@@ -82,6 +82,15 @@ public class Response {
         out.write(data);
     }
 
+    public void end(String data) throws IOException {
+        end(data.getBytes());
+    }
+
+    public void end(byte[] data) throws IOException {
+        write(data);
+        close();
+    }
+
     public void sendFile(File file) throws IOException, ResponseHeaderException {
         sendFile(file, getFileType(file));
     }

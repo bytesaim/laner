@@ -103,6 +103,10 @@ public class Server implements TRunnable {
                             Response response = new Response(mServer, finalClientSocket.getOutputStream());
                             broadcastToListeners(request, response);
                             broadcastToRouter(request, response);
+                            /*//causes java.net.SocketException: Unexpected end of file from server
+                            if (!finalClientSocket.isClosed()) {
+                                finalClientSocket.close();
+                            }*/
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             try {
