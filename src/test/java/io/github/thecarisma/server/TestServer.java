@@ -185,8 +185,8 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    System.out.println(request.getBody());
-                    response.close();
+                    //System.out.println(request.getBody());
+                    response.close("hELLO ");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
