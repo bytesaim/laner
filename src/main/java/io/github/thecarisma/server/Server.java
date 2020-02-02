@@ -89,8 +89,10 @@ public class Server implements TRunnable {
             Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
-                broadcastToListeners(new Request(clientSocket.getInputStream()), new Response(this, clientSocket.getOutputStream()));
-                broadcastToRouter(clientSocket);
+                Request request = new Request(clientSocket.getInputStream());
+                Response response = new Response(this, clientSocket.getOutputStream());
+                broadcastToListeners(request, response);
+                broadcastToRouter(request, response);
                 if (!clientSocket.isClosed()) {
                     clientSocket.close();
                 }
@@ -132,6 +134,10 @@ public class Server implements TRunnable {
         }
     }
 
+    protected void setRouter(Router router) {
+        this.mRouter = router;
+    }
+
     private void broadcastToListeners(Request request, Response response) throws IOException {
         for (ServerListenerFactory serverListener : serverListener) {
             if (serverListener instanceof ServerListener) {
@@ -143,9 +149,9 @@ public class Server implements TRunnable {
         }
     }
 
-    private void broadcastToRouter(Socket socket) {
+    private void broadcastToRouter(Request request, Response response) throws IOException {
         if (mRouter != null) {
-
+            mRouter.treatRequest(request, response);
         }
     }
 
