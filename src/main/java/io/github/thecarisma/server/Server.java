@@ -126,8 +126,10 @@ public class Server implements TRunnable {
 
     private void startServer() {
         try {
-            serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
-            mIsRunning = true;
+            if (!mIsRunning) {
+                serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
+                mIsRunning = true;
+            }
         } catch (IOException e) {
             //broadcastToListeners(Object o);
             e.printStackTrace();
