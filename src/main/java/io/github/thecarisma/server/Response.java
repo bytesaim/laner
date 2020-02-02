@@ -2,7 +2,6 @@ package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.Attributes;
-import io.github.thecarisma.util.UserSystem;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -130,7 +129,7 @@ public class Response {
                     appendHeader("Host", server.getHost());
                     appendHeader("Date", new Date().toString());
                     appendHeader("User-Agent", String.format("%s/%s (%s; x%s)",
-                            Attributes.NAME, Attributes.VERSION, UserSystem.OS, UserSystem.CPU_ARCH));
+                            Attributes.NAME, Attributes.VERSION, System.getProperties().getProperty("os.name"), System.getProperties().getProperty("sun.arch.data.model")));
                 } catch (ResponseHeaderException e) {
                     //impossible
                     e.printStackTrace();
