@@ -26,6 +26,7 @@ public class TestServer {
                 out.write("\r\n".getBytes());
                 out.write("<html><head><title>Exemple</title></head>".getBytes());
                 out.write("<body>Yahoo</body></html>".getBytes());
+                out.close();
             }
         });
         System.out.println(server.getIpAddress());
@@ -50,6 +51,7 @@ public class TestServer {
                 }
                 try {
                     System.out.println("Body: " + request.getBody());
+                    response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -91,6 +93,7 @@ public class TestServer {
                         }
                         System.out.println("    Body Length: " + multipartData.getBody().length());
                     }
+                    response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -108,6 +111,7 @@ public class TestServer {
                 try {
                     System.out.println("Body: " + request.getBody());
                     response.write("Hello World".getBytes());
+                    response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -131,6 +135,7 @@ public class TestServer {
                             "<h1>Hello, World!</h1>\n" +
                             "</body>\n" +
                             "</html>").getBytes());
+                    response.close();
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }
@@ -147,6 +152,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 try {
                     response.sendFile(new File(".\\src\\main\\resources\\logo.png"));
+                    response.close();
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }
@@ -163,6 +169,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 try {
                     response.downloadFile(new File(".\\src\\main\\resources\\logo.png"), "logo.png");
+                    response.close();
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
                 }

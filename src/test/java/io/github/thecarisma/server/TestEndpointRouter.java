@@ -14,7 +14,7 @@ public class TestEndpointRouter {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.write("hello how are your".getBytes());
+                    response.close("hello how are your".getBytes());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
