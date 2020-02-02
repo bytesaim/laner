@@ -125,6 +125,9 @@ public class Response {
     }
 
     public void close() throws IOException {
+        if (!headersSent) {
+            sendResponseHead();
+        }
         out.close();
     }
 
