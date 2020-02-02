@@ -22,6 +22,7 @@ public class Server implements TRunnable {
     private int backlog = 50;
     private boolean mIsRunning = false;
     private EndpointRouter mEndpointRouter;
+    private Server mServer ;
 
     public Server(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -89,21 +90,32 @@ public class Server implements TRunnable {
             Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
-                Request request = new Request(clientSocket.getInputStream());
-                Response response = new Response(this, clientSocket.getOutputStream());
-                broadcastToListeners(request, response);
-                broadcastToRouter(request, response);
-                if (!clientSocket.isClosed()) {
-                    clientSocket.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                try {
-                    stop();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                final Socket finalClientSocket = clientSocket;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Request request = new Request(finalClientSocket.getInputStream());
+                            Response response = new Response(mServer, finalClientSocket.getOutputStream());
+                            broadcastToListeners(request, response);
+                            broadcastToRouter(request, response);
+                            if (!finalClientSocket.isClosed()) {
+                                finalClientSocket.close();
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                            try {
+                                stop();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         }
     }
 
@@ -111,6 +123,7 @@ public class Server implements TRunnable {
         try {
             serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
             mIsRunning = true;
+            mServer = this;
         } catch (IOException e) {
             //broadcastToListeners(Object o);
             e.printStackTrace();

@@ -5,6 +5,8 @@ import io.github.thecarisma.laner.LanerNetworkInterface;
 import org.junit.Test;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 public class TestServer {
@@ -171,19 +173,33 @@ public class TestServer {
     }
 
     //@Test
-    public static void main(String[] args) throws UnknownHostException {
-        Server server = new Server("172.16.40.27",7510, new ServerListener() {
+    public static void main(String[] args) throws Exception {
+        Server server = new Server("192.168.8.100",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    System.out.print(request.getBody());
+                    response.write("ok");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-        System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
+    }
+
+    public static String getRawBody(String urlToRead) throws Exception {
+        StringBuilder result = new StringBuilder();
+        URL url = new URL(urlToRead);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+            result.append("\n");
+        }
+        rd.close();
+        return result.toString();
     }
 
 }

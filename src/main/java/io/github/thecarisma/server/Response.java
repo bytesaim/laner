@@ -71,6 +71,10 @@ public class Response {
         return "HTTP/1.1";
     }
 
+    public void write(String data) throws IOException {
+        write(data.getBytes());
+    }
+
     public void write(byte[] data) throws IOException {
         if (!headersSent) {
             sendResponseHead();
