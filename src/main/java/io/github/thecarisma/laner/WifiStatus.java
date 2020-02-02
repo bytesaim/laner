@@ -94,7 +94,7 @@ public class WifiStatus implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return false;
+        return true;
     }
 
     public void stop() {

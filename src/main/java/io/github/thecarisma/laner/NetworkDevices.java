@@ -166,7 +166,7 @@ public class NetworkDevices implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return continueListening;
+        return !continueListening;
     }
 
     public void stop() {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+//TODO: move to a different project TODAY
 public class ThreadsManager {
 
     private Map<String, ArrayList<TRunnable>> tRunnables = new HashMap<>();
@@ -32,7 +33,7 @@ public class ThreadsManager {
     public void startAll(String owner) {
         if (tRunnables.containsKey(owner)) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                if (!tRunnables.get(owner).get(i).isRunning()) {
+                if (tRunnables.get(owner).get(i).isRunning()) {
                     new Thread(tRunnables.get(owner).get(i)).start();
                 }
             }
@@ -42,7 +43,7 @@ public class ThreadsManager {
     public void startAll() {
         for (String owner : tRunnables.keySet()) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                if (!tRunnables.get(owner).get(i).isRunning()) {
+                if (tRunnables.get(owner).get(i).isRunning()) {
                     new Thread(tRunnables.get(owner).get(i)).start();
                 }
             }

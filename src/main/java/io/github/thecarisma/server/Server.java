@@ -21,6 +21,7 @@ public class Server implements TRunnable {
     private int port;
     private int backlog = 50;
     private boolean mIsRunning = false;
+    private Router mRouter;
 
     public Server(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -84,30 +85,22 @@ public class Server implements TRunnable {
     @Override
     public void run() {
         startServer();
-        try {
-            while (mIsRunning) {
-                Socket clientSocket = null;
-                try {
-                    clientSocket = serverSocket.accept();
-                } catch (IOException e) {
-                    System.err.println("Accept failed.");
-                    System.exit(1);
-                }
+        while (mIsRunning) {
+            Socket clientSocket = null;
+            try {
+                clientSocket = serverSocket.accept();
                 broadcastToListeners(new Request(clientSocket.getInputStream()), new Response(this, clientSocket.getOutputStream()));
-                //try {
-                //    in.close();
-                //} catch (IOException ex){}
+                broadcastToRouter(clientSocket);
                 if (!clientSocket.isClosed()) {
                     clientSocket.close();
                 }
-            }
-        } catch (IOException ex) {
-            //broadcastToListeners(Object o);
-            ex.printStackTrace();
-            try {
-                stop();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                try {
+                    stop();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -125,7 +118,7 @@ public class Server implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return mIsRunning;
+        return !mIsRunning;
     }
 
     public void stop() throws IOException {
@@ -147,6 +140,12 @@ public class Server implements TRunnable {
             if (serverListener instanceof ServerRawListener) {
                 ((ServerRawListener) serverListener).report(request.in, response.out);
             }
+        }
+    }
+
+    private void broadcastToRouter(Socket socket) {
+        if (mRouter != null) {
+
         }
     }
 
