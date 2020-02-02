@@ -3,29 +3,39 @@ package io.github.thecarisma.server;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Adewale Azeez <azeezadewale98@gmail.com>
  */
-public class Router {
+public class EndpointRouter {
 
     private Server mServer ;
     private Map<Method, Map<String, ServerListenerFactory>> mMethodRoutes = new HashMap<>();
 
-    public Router(Server server) {
+    public EndpointRouter(Server server) {
         this.mServer = server;
         this.mServer.setRouter(this);
     }
 
     protected void treatRequest(Request request, Response response) throws IOException {
         if (mMethodRoutes.containsKey(request.getMethod())) {
-            ServerListenerFactory serverListener = mMethodRoutes.get(request.getMethod()).get(request.getEndpoint());
-            if (serverListener instanceof ServerListener) {
-                ((ServerListener) serverListener).report(request, response);
+            Map<String, ServerListenerFactory> mServerListenerFactories = mMethodRoutes.get(request.getMethod());
+            for (String key : mServerListenerFactories.keySet()) {
+                Pattern p = Pattern.compile(key);
+                Matcher m = p.matcher(request.getEndpoint());
+                if (m.find())  {
+                    ServerListenerFactory serverListener = mServerListenerFactories.get(key);
+                    if (serverListener instanceof ServerListener) {
+                        ((ServerListener) serverListener).report(request, response);
+                    }
+                    if (serverListener instanceof ServerRawListener) {
+                        ((ServerRawListener) serverListener).report(request.in, response.out);
+                    }
+                }
             }
-            if (serverListener instanceof ServerRawListener) {
-                ((ServerRawListener) serverListener).report(request.in, response.out);
-            }
+
         }
     }
 

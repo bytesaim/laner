@@ -35,7 +35,7 @@ public class Request {
     private Map<String, String> headers = new HashMap<>();
     private Method method = Method.UNKNOWN;
     private Map<String, String> parameters = new HashMap<>();
-    private String endpoint = "";
+    private String endpoint = "/";
     private StringBuilder body = new StringBuilder();
     private MultipartStream multipartStream;
     private boolean readBody = false;
@@ -44,10 +44,12 @@ public class Request {
     public Request(InputStream in) throws IOException {
         this.in = in;
         this.bin = new BufferedReader(new InputStreamReader(in));
+        boolean parsedHead = false;
         String inputLine;
         if (bin.ready()) {
             while ((inputLine = bin.readLine()).length() != 0) {
-                if (endpoint.equals("")) {
+                if (!parsedHead) {
+                    parsedHead = true;
                     endpoint = inputLine;
                     String[] s1 = endpoint.split(" ");
                     setMethod(s1[0].trim());

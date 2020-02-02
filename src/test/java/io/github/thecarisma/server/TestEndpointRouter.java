@@ -5,12 +5,12 @@ import java.io.IOException;
 /**
  * @author Adewale Azeez <azeezadewale98@gmail.com>
  */
-public class TestRouter {
+public class TestEndpointRouter {
 
     public static void main(String[] args) {
-        Server server = new Server("192.168.8.100",7510);
-        Router router = new Router(server);
-        router.post("/greet_me", new ServerListener() {
+        Server server = new Server("127.0.0.1",7510);
+        EndpointRouter endpointRouter = new EndpointRouter(server);
+        endpointRouter.get("/", new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {

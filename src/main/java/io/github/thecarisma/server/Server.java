@@ -21,7 +21,7 @@ public class Server implements TRunnable {
     private int port;
     private int backlog = 50;
     private boolean mIsRunning = false;
-    private Router mRouter;
+    private EndpointRouter mEndpointRouter;
 
     public Server(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -134,8 +134,8 @@ public class Server implements TRunnable {
         }
     }
 
-    protected void setRouter(Router router) {
-        this.mRouter = router;
+    protected void setRouter(EndpointRouter endpointRouter) {
+        this.mEndpointRouter = endpointRouter;
     }
 
     private void broadcastToListeners(Request request, Response response) throws IOException {
@@ -150,8 +150,8 @@ public class Server implements TRunnable {
     }
 
     private void broadcastToRouter(Request request, Response response) throws IOException {
-        if (mRouter != null) {
-            mRouter.treatRequest(request, response);
+        if (mEndpointRouter != null) {
+            mEndpointRouter.treatRequest(request, response);
         }
     }
 

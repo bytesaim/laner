@@ -8,7 +8,9 @@ ___
 - [Installation](#installation)
     - [Maven](#maven)
     - [Gradle](#gradle)
-- [Example](#example)
+- [Examples](#examples)
+    - [Start a server](#start-a-server)
+    - [Monitor connected LAN devices](#monitor-connected-lan-devices)
     
 ## Installation
 
@@ -76,7 +78,35 @@ dependencies {
 }
 ```
 
-## Example
+## Examples
+
+### Start a server
+
+A basic route on the main endpoint and greet_endpoit over GET method
+
+```java
+import io.github.thecarisma.server.*;
+
+public class TestNetworkDevices {
+    public static void main(String[] args) throws UnknownHostException {
+        Server server = new Server("127.0.0.1",4000);
+        EndpointRouter endpointRouter = new EndpointRouter(server);
+        endpointRouter.get("/", new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.write("hello how are your".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        server.run();
+    }
+}
+```
+
+### Monitor connected LAN devices
 
 The following example monitors devices that connects and disconnect to the network 
 
