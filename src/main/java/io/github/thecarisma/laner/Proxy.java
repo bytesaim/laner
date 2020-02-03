@@ -1,5 +1,7 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.exceptions.InvalidArgumentException;
+
 public class Proxy {
 
     private static boolean USE_PROXY = false;
@@ -28,7 +30,10 @@ public class Proxy {
         return PROXY_ADDRESS;
     }
 
-    public static void setProxyAddress(String proxyAddress) {
+    public static void setProxyAddress(String proxyAddress) throws InvalidArgumentException {
+        if (proxyAddress.startsWith("https://") || proxyAddress.startsWith("http://")) {
+            throw new InvalidArgumentException(new String[]{proxyAddress}, "The address should not prefix 'http://' and 'https://'");
+        }
         PROXY_ADDRESS = proxyAddress;
     }
 

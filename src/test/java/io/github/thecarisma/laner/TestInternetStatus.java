@@ -17,6 +17,8 @@ public class TestInternetStatus {
     }
 
     public static void main(String[] args) throws UnknownHostException {
+        Proxy.setUseProxy(true);
+        Proxy.setProxyUsername("trendgate.interswitchng.com");
         new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
