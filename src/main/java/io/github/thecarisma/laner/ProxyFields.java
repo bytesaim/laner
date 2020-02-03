@@ -24,8 +24,6 @@ public class ProxyFields {
                 proxyEnabled = true ;
                 hostName = addr.getHostName();
                 hostPort = addr.getPort();
-                System.out.println(addr.getHostString());
-                System.out.println(addr.getAddress());
                 return;
             }
         }
@@ -50,7 +48,7 @@ public class ProxyFields {
     }
 
     public String toString() {
-        return ProxyFields.class.getName() + "@" + ":Host=" + hostName + ",Port=" + hostPort;
+        return ProxyFields.class.getName() + "@" + "Host=" + hostName + ",Port=" + hostPort;
     }
 
 }

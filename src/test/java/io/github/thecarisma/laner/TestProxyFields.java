@@ -4,8 +4,8 @@ import org.junit.Test;
 
 public class TestProxyFields {
 
-    //@Test
-    public static void main(String[] args) {
+    @Test
+    public void Test1() {
         ProxyFields proxyFields = new ProxyFields();
         System.out.println(proxyFields.hostName);
         System.out.println(proxyFields.hostPort);
