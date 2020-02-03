@@ -13,35 +13,44 @@ public class ProxyFields {
 
     public int hostPort;
 
+    public boolean proxyEnabled;
+
     public ProxyFields() {
         System.setProperty("java.net.useSystemProxies", "true");
         Proxy proxy = getProxyConfig();
         if (proxy != null) {
             InetSocketAddress addr = (InetSocketAddress) proxy.address();
-            hostName = addr.getHostName();
-            hostPort = addr.getPort();
-        } else {
-            hostName = "";
-            hostPort = 8080 ;
+            if (addr != null) {
+                proxyEnabled = true ;
+                hostName = addr.getHostName();
+                hostPort = addr.getPort();
+                System.out.println(addr.getHostString());
+                System.out.println(addr.getAddress());
+                return;
+            }
         }
+        hostName = "";
+        hostPort = 8080 ;
+        proxyEnabled = false;
     }
 
     private Proxy getProxyConfig() {
         List<Proxy> l = null;
         try {
-            ProxySelector def = ProxySelector.getDefault();
-
-            l = def.select(new URI("http://example.com"));
-            ProxySelector.setDefault(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (l != null) {
-            for (Proxy proxy : l) {
-                return proxy;
+            l = ProxySelector.getDefault().select(new URI("http://www.google.com"));
+            if (l != null) {
+                for (Proxy proxy : l) {
+                    return proxy;
+                }
             }
+        } catch (Exception e) {
+            return null;
         }
         return null;
+    }
+
+    public String toString() {
+        return ProxyFields.class.getName() + "@" + ":Host=" + hostName + ",Port=" + hostPort;
     }
 
 }
