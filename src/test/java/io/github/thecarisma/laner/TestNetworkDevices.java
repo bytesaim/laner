@@ -37,7 +37,7 @@ public class TestNetworkDevices {
                     System.out.println(o + "->" + ((NetworkDevices.NetworkDevice) o).openedPort);
                 }
             }
-        }, new int[]{7510}).run();
+        }, new int[]{7511}).run();
     }
 
 }

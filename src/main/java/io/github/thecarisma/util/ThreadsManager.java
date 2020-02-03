@@ -54,8 +54,10 @@ public class ThreadsManager {
         if (tRunnables.containsKey(owner)) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
                 if (tRunnables.get(owner).get(i).equals(tRunnable)) {
-                    tRunnables.get(owner).get(i).stop();
-                    //unRegister(owner, tRunnables.get(owner).get(i));
+                    if (tRunnables.get(owner).get(i).isRunning()) {
+                        tRunnables.get(owner).get(i).stop();
+                        //unRegister(owner, tRunnables.get(owner).get(i));
+                    }
                 }
             }
         }
@@ -63,8 +65,11 @@ public class ThreadsManager {
 
     public void killAll(String owner) throws Exception {
         if (tRunnables.containsKey(owner)) {
-            for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                tRunnables.get(owner).get(i).stop();
+            ArrayList<TRunnable> runnables = tRunnables.get(owner);
+            for (int i = 0; i < runnables.size(); i++) {
+                if (runnables.get(i).isRunning()) {
+                    runnables.get(i).stop();
+                }
             }
         }
     }
@@ -72,8 +77,10 @@ public class ThreadsManager {
     public void killAll() throws Exception {
         for (String owner : tRunnables.keySet()) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                tRunnables.get(owner).get(i).stop();
-                //unRegister(owner, tRunnables.get(owner).get(i));
+                if (tRunnables.get(owner).get(i).isRunning()) {
+                    tRunnables.get(owner).get(i).stop();
+                    //unRegister(owner, tRunnables.get(owner).get(i));
+                }
             }
         }
     }

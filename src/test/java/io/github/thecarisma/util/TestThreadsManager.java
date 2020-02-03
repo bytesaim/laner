@@ -119,7 +119,7 @@ public class TestThreadsManager {
             }
         });
         threadsManager.register("testnetworddevices", nd);
-        threadsManager.register("testnetworddevices", is);
+        //threadsManager.register("testnetworddevices", is);
         threadsManager.startAll("testnetworddevices");
     }
 

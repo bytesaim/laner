@@ -13,6 +13,8 @@ public class NetworkDevices implements TRunnable {
     final int[] ports = { 22, 25, 80, 5555, 7680  };
     final int[] forePorts ;
     private boolean continueListening = false;
+    private boolean reallyListening = false;
+    private int runningSubThreadsCount = 0;
 
     public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] forePorts) {
         this.lanerListeners.add(lanerListener);
@@ -76,22 +78,32 @@ public class NetworkDevices implements TRunnable {
     public void run() {
         try {
             continueListening = true;
+            reallyListening = true;
             int addlimit = 254;
             int cores = (Runtime.getRuntime().availableProcessors() / 2) + 50;
             final int devPerThread = addlimit / cores;
-            while (lanerListeners.size() > 0 && continueListening) {
+            while (continueListening) {
                 ArrayList<Thread> threads = new ArrayList<>();
                 for (int i = 0; i < cores; ++i) {
-                    if (!continueListening) break;
+                    if (!continueListening) {
+                        trulyDead();
+                        break;
+                    }
                     final int finalI = i;
                     final Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            runningSubThreadsCount++;
                             for (int j = devPerThread * finalI; j < devPerThread * (finalI + 1); ++j) {
-                                if (!continueListening) break;
+                                if (!continueListening) {
+                                    trulyDead();
+                                    break;
+                                }
                                 try {
                                     for (String ipAddress : ipAddresses) {
-                                        if (!continueListening) break;
+                                        if (!continueListening)  {
+                                            break;
+                                        }
                                         String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
                                         InetAddress addr = InetAddress.getByName(preDeviceAddr + j);
                                         NetworkDevice networkDevice;
@@ -149,6 +161,8 @@ public class NetworkDevices implements TRunnable {
                                 } catch (Throwable e) {
                                 }
                             }
+                            System.out.println(""+runningSubThreadsCount+":");
+                            runningSubThreadsCount--;
                         }
                     });
                     threads.add(t);
@@ -158,6 +172,7 @@ public class NetworkDevices implements TRunnable {
                     t.join();
                 }
             }
+            trulyDead();
         } catch (Throwable e) {}
     }
 
@@ -169,11 +184,17 @@ public class NetworkDevices implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return continueListening;
+        return reallyListening;
     }
 
     public void stop() {
         continueListening = false;
+    }
+
+    private void trulyDead() {
+        if (runningSubThreadsCount == 0) {
+            reallyListening = false;
+        }
     }
 
     public static enum Status {
