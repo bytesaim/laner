@@ -11,4 +11,20 @@ public class TestProxy {
         System.out.println(Proxy.ToString());
     }
 
+    @Test
+    public void Test2() {
+        Proxy.setProxyAddress("google.com");
+        Proxy.setProxyPort(8080);
+        Proxy.setProxyUsername("adewale");
+        Proxy.setProxyPassword("password");
+        System.out.println(Proxy.ToString());
+    }
+
+    @Test
+    public void Test3() {
+        //Proxy proxy = new Proxy();
+        Proxy proxy = null;
+        System.err.println(proxy);
+    }
+
 }
