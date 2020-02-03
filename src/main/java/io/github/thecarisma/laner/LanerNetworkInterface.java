@@ -43,6 +43,37 @@ public class LanerNetworkInterface {
     }
 
     public static boolean isReachable(String addr, int openPort, int timeOutMillis) {
+        if (!LanerProxyConfig.isProxyEnabled()) {
+            return isReachableWithoutProxy(addr, openPort, timeOutMillis);
+        }
+        try {
+            java.net.Proxy proxy = new java.net.Proxy(
+                    java.net.Proxy.Type.HTTP,
+                    new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
+            if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
+                Authenticator authenticator = new Authenticator() {
+                    public PasswordAuthentication getPasswordAuthentication() {
+                        return (new PasswordAuthentication(
+                                LanerProxyConfig.getProxyUsername(),
+                                LanerProxyConfig.getProxyPassword().toCharArray()));
+                    }
+                };
+                Authenticator.setDefault(authenticator);
+            }
+            if (!addr.startsWith("https://") && !addr.startsWith("http://")) {
+                addr = "http://" + addr;
+            }
+            HttpURLConnection conn = (HttpURLConnection) new URL(addr).openConnection(proxy);
+            conn.setConnectTimeout(timeOutMillis);
+            conn.disconnect();
+            return true;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean isReachableWithoutProxy(String addr, int openPort, int timeOutMillis) {
         try {
             try (Socket soc = new Socket()) {
                 soc.connect(new InetSocketAddress(addr, openPort), timeOutMillis);

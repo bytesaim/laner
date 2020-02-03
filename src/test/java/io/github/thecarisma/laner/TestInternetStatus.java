@@ -1,5 +1,6 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.exceptions.InvalidArgumentException;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -16,9 +17,7 @@ public class TestInternetStatus {
         System.out.println(LanerNetworkInterface.isReachable("google.com", 80, 1000));
     }
 
-    public static void main(String[] args) throws UnknownHostException {
-        Proxy.setUseProxy(true);
-        Proxy.setProxyUsername("trendgate.interswitchng.com");
+    public static void main(String[] args) throws UnknownHostException, InvalidArgumentException {
         new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {

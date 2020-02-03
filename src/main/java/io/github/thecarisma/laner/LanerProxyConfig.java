@@ -2,11 +2,11 @@ package io.github.thecarisma.laner;
 
 import io.github.thecarisma.exceptions.InvalidArgumentException;
 
-public class Proxy {
+public class LanerProxyConfig {
 
-    private static boolean USE_PROXY = false;
+    private static boolean PROXY_ENABLED = false;
 
-    private static String PROXY_ADDRESS = "";
+    private static String PROXY_HOST = "";
 
     private static int PROXY_PORT = 8080;
 
@@ -14,27 +14,27 @@ public class Proxy {
 
     private static String PROXY_PASSWORD = "";
 
-    private Proxy() {
+    private LanerProxyConfig() {
 
     }
 
-    public static boolean isUseProxy() {
-        return USE_PROXY;
+    public static boolean isProxyEnabled() {
+        return PROXY_ENABLED;
     }
 
-    public static void setUseProxy(boolean useProxy) {
-        USE_PROXY = useProxy;
+    public static void enableProxy(boolean useProxy) {
+        PROXY_ENABLED = useProxy;
     }
 
-    public static String getProxyAddress() {
-        return PROXY_ADDRESS;
+    public static String getProxyHost() {
+        return PROXY_HOST;
     }
 
-    public static void setProxyAddress(String proxyAddress) throws InvalidArgumentException {
+    public static void setProxyHost(String proxyAddress) throws InvalidArgumentException {
         if (proxyAddress.startsWith("https://") || proxyAddress.startsWith("http://")) {
             throw new InvalidArgumentException(new String[]{proxyAddress}, "The address should not prefix 'http://' and 'https://'");
         }
-        PROXY_ADDRESS = proxyAddress;
+        PROXY_HOST = proxyAddress;
     }
 
     public static int getProxyPort() {
@@ -62,7 +62,7 @@ public class Proxy {
     }
 
     public static String ToString() {
-        return Proxy.class.getName() + "@" + "UseProxy=" + USE_PROXY + ",Address=" + PROXY_ADDRESS + ",Port=" + PROXY_PORT;
+        return LanerProxyConfig.class.getName() + "@" + "UseProxy=" + PROXY_ENABLED + ",Address=" + PROXY_HOST + ",Port=" + PROXY_PORT;
     }
 
 }

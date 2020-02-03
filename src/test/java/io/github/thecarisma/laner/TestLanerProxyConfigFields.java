@@ -2,7 +2,7 @@ package io.github.thecarisma.laner;
 
 import org.junit.Test;
 
-public class TestProxyFields {
+public class TestLanerProxyConfigFields {
 
     @Test
     public void Test1() {
