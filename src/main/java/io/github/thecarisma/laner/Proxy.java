@@ -2,13 +2,19 @@ package io.github.thecarisma.laner;
 
 public class Proxy {
 
-    public static boolean USE_PROXY = false;
+    private static boolean USE_PROXY = false;
 
-    public static String PROXY_ADDRESS = "";
+    private static String PROXY_ADDRESS = "";
 
-    public static int PROXY_PORT = 8080;
+    private static int PROXY_PORT = 8080;
 
-    public static String PROXY_USERNAME;
+    private static String PROXY_USERNAME;
+
+    private static String PROXY_PASSWORD;
+
+    private Proxy() {
+
+    }
 
     public static boolean isUseProxy() {
         return USE_PROXY;
@@ -50,6 +56,8 @@ public class Proxy {
         PROXY_PASSWORD = proxyPassword;
     }
 
-    public static String PROXY_PASSWORD;
+    public static String ToString() {
+        return Proxy.class.getName() + "@" + "Address=" + PROXY_USERNAME + ",Port=" + PROXY_PORT;
+    }
 
 }
