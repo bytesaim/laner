@@ -30,9 +30,7 @@ public class TestNetworkDevices {
     }
 
     public static void main(String[] args) throws IOException, InvalidArgumentException {
-        LanerProxyConfig.enableProxy(true);
-        LanerProxyConfig.setProxyHost("trendgate.interswitchng.com");
-        new NetworkDevices("172.16.40.27", new LanerListener() {
+        new NetworkDevices("192.168.8.100", new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {

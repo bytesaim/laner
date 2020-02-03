@@ -95,7 +95,7 @@ public class InternetStatus implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return !isListening;
+        return isListening;
     }
 
     public void stop() {

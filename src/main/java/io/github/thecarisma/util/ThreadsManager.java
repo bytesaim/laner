@@ -33,9 +33,7 @@ public class ThreadsManager {
     public void startAll(String owner) {
         if (tRunnables.containsKey(owner)) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                System.out.println("Starting: " + owner + ":" + tRunnables.get(owner).get(i).isRunning());
                 if (!tRunnables.get(owner).get(i).isRunning()) {
-                    System.out.println("Starting: " + owner);
                     new Thread(tRunnables.get(owner).get(i)).start();
                 }
             }
@@ -45,7 +43,7 @@ public class ThreadsManager {
     public void startAll() {
         for (String owner : tRunnables.keySet()) {
             for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                if (tRunnables.get(owner).get(i).isRunning()) {
+                if (!tRunnables.get(owner).get(i).isRunning()) {
                     new Thread(tRunnables.get(owner).get(i)).start();
                 }
             }
