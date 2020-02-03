@@ -1,7 +1,10 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.exceptions.InvalidArgumentException;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class TestNetworkDevices {
@@ -26,7 +29,9 @@ public class TestNetworkDevices {
         new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener(), new int[]{ 12345, 8021}).run();
     }
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException, InvalidArgumentException {
+        LanerProxyConfig.enableProxy(true);
+        LanerProxyConfig.setProxyHost("trendgate.interswitchng.com");
         new NetworkDevices("172.16.40.27", new LanerListener() {
             @Override
             public void report(Object o) {

@@ -1,6 +1,7 @@
 package io.github.thecarisma.laner;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,31 +47,23 @@ public class LanerNetworkInterface {
         if (!LanerProxyConfig.isProxyEnabled()) {
             return isReachableWithoutProxy(addr, openPort, timeOutMillis);
         }
-        try {
-            java.net.Proxy proxy = new java.net.Proxy(
-                    java.net.Proxy.Type.HTTP,
-                    new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
-            if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
-                Authenticator authenticator = new Authenticator() {
-                    public PasswordAuthentication getPasswordAuthentication() {
-                        return (new PasswordAuthentication(
-                                LanerProxyConfig.getProxyUsername(),
-                                LanerProxyConfig.getProxyPassword().toCharArray()));
-                    }
-                };
-                Authenticator.setDefault(authenticator);
-            }
-            if (!addr.startsWith("https://") && !addr.startsWith("http://")) {
-                addr = "http://" + addr;
-            }
-            HttpURLConnection conn = (HttpURLConnection) new URL(addr).openConnection(proxy);
-            conn.setConnectTimeout(timeOutMillis);
-            conn.disconnect();
-            return true;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
+        Proxy proxy = new Proxy(
+                Proxy.Type.HTTP,
+                new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
+        if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
+            Authenticator authenticator = new Authenticator() {
+                public PasswordAuthentication getPasswordAuthentication() {
+                    return (new PasswordAuthentication(
+                            LanerProxyConfig.getProxyUsername(),
+                            LanerProxyConfig.getProxyPassword().toCharArray()));
+                }
+            };
+            Authenticator.setDefault(authenticator);
         }
+        if (!addr.startsWith("https://") && !addr.startsWith("http://")) {
+            addr = "http://" + addr;
+        }
+        return pingURL(addr + ":" + openPort, timeOutMillis, proxy);
     }
 
     public static boolean isReachableWithoutProxy(String addr, int openPort, int timeOutMillis) {
@@ -80,6 +73,54 @@ public class LanerNetworkInterface {
             }
             return true;
         } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Pings a HTTP URL. This effectively sends a HEAD request and returns <code>true</code> if the response code is in
+     * the 200-399 range.
+     * @param url The HTTP URL to be pinged.
+     * @param timeout The timeout in millis for both the connection timeout and the response read timeout. Note that
+     * the total timeout is effectively two times the given timeout.
+     * @return <code>true</code> if the given HTTP URL has returned response code 200-399 on a HEAD request within the
+     * given timeout, otherwise <code>false</code>.
+     */
+    public static boolean pingURL(String url, int timeout) {
+        url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            connection.disconnect();
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * Pings a HTTP URL. This effectively sends a HEAD request and returns <code>true</code> if the response code is in
+     * the 200-399 range.
+     * @param url The HTTP URL to be pinged.
+     * @param timeout The timeout in millis for both the connection timeout and the response read timeout. Note that
+     * the total timeout is effectively two times the given timeout.
+     * @param proxy The proxy object if the device is using proxy connection.
+     * @return <code>true</code> if the given HTTP URL has returned response code 200-399 on a HEAD request within the
+     * given timeout, otherwise <code>false</code>.
+     */
+    public static boolean pingURL(String url, int timeout, Proxy proxy) {
+        url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection(proxy);
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (IOException exception) {
             return false;
         }
     }
