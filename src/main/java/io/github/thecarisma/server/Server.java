@@ -139,7 +139,7 @@ public class Server implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return !mIsRunning;
+        return mIsRunning;
     }
 
     public void stop() throws IOException {

@@ -75,86 +75,89 @@ public class NetworkDevices implements TRunnable {
     @Override
     public void run() {
         try {
+            continueListening = true;
             int addlimit = 254;
             int cores = (Runtime.getRuntime().availableProcessors() / 2) + 50;
             final int devPerThread = addlimit / cores;
-            ArrayList<Thread> threads = new ArrayList<>();
-            for (int i = 0; i < cores; ++i) {
-                if (continueListening) break;
-                final int finalI = i;
-                final Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int j = devPerThread * finalI; j < devPerThread * (finalI + 1); ++j) {
-                            if (continueListening) break;
-                            try {
-                                for (String ipAddress : ipAddresses) {
-                                    if (continueListening) break;
-                                    String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
-                                    InetAddress addr = InetAddress.getByName(preDeviceAddr + j);
-                                    NetworkDevice networkDevice;
-                                    if (networkDevices.containsKey(preDeviceAddr + j)) {
-                                        networkDevice = networkDevices.get(preDeviceAddr + j);
-                                    } else {
-                                        networkDevice = new NetworkDevice(Status.UNKNOWN, addr);
-                                        networkDevices.put(preDeviceAddr + j, networkDevice);
-                                    }
-                                    boolean continuePing = true;
-                                    for (int port : forePorts) {
-                                        if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                            if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
-                                                networkDevice.status = Status.CONNECTED;
-                                                networkDevice.openedPort = port;
-                                                networkDevice.statusChanged = true;
-                                                continuePing = false;
-                                            }
-                                            break;
-                                        }
-                                    }
-                                    if (continuePing) {
-                                        if (addr.isReachable(1000)) {
-                                            if (networkDevice.status != Status.CONNECTED) {
-                                                networkDevice.status = Status.CONNECTED;
-                                                networkDevice.statusChanged = true;
-                                            }
+            while (lanerListeners.size() > 0 && continueListening) {
+                ArrayList<Thread> threads = new ArrayList<>();
+                for (int i = 0; i < cores; ++i) {
+                    if (!continueListening) break;
+                    final int finalI = i;
+                    final Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int j = devPerThread * finalI; j < devPerThread * (finalI + 1); ++j) {
+                                if (!continueListening) break;
+                                try {
+                                    for (String ipAddress : ipAddresses) {
+                                        if (!continueListening) break;
+                                        String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
+                                        InetAddress addr = InetAddress.getByName(preDeviceAddr + j);
+                                        NetworkDevice networkDevice;
+                                        if (networkDevices.containsKey(preDeviceAddr + j)) {
+                                            networkDevice = networkDevices.get(preDeviceAddr + j);
                                         } else {
-                                            for (int port : ports) {
-                                                if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
-                                                    if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
-                                                        networkDevice.status = Status.CONNECTED;
-                                                        networkDevice.openedPort = port;
-                                                        networkDevice.statusChanged = true;
-                                                        continuePing = false;
-                                                    }
-                                                    break;
-                                                }
-                                            }
-
-                                            if (continuePing) {
-                                                if (networkDevice.status == Status.CONNECTED) {
-                                                    networkDevice.status = Status.DISCONNECTED;
+                                            networkDevice = new NetworkDevice(Status.UNKNOWN, addr);
+                                            networkDevices.put(preDeviceAddr + j, networkDevice);
+                                        }
+                                        boolean continuePing = true;
+                                        for (int port : forePorts) {
+                                            if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                                if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
+                                                    networkDevice.status = Status.CONNECTED;
+                                                    networkDevice.openedPort = port;
                                                     networkDevice.statusChanged = true;
-                                                    networkDevice.openedPort = 1;
+                                                    continuePing = false;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (continuePing) {
+                                            if (addr.isReachable(1000)) {
+                                                if (networkDevice.status != Status.CONNECTED) {
+                                                    networkDevice.status = Status.CONNECTED;
+                                                    networkDevice.statusChanged = true;
+                                                }
+                                            } else {
+                                                for (int port : ports) {
+                                                    if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                                        if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
+                                                            networkDevice.status = Status.CONNECTED;
+                                                            networkDevice.openedPort = port;
+                                                            networkDevice.statusChanged = true;
+                                                            continuePing = false;
+                                                        }
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (continuePing) {
+                                                    if (networkDevice.status == Status.CONNECTED) {
+                                                        networkDevice.status = Status.DISCONNECTED;
+                                                        networkDevice.statusChanged = true;
+                                                        networkDevice.openedPort = 1;
+                                                    }
                                                 }
                                             }
                                         }
+                                        if (networkDevice.status != Status.UNKNOWN && networkDevice.statusChanged) {
+                                            networkDevice.statusChanged = false;
+                                            broadcastToListeners(networkDevice);
+                                        }
                                     }
-                                    if (networkDevice.status != Status.UNKNOWN && networkDevice.statusChanged) {
-                                        networkDevice.statusChanged = false;
-                                        broadcastToListeners(networkDevice);
-                                    }
+                                } catch (Throwable e) {
                                 }
-                            } catch (Throwable e) {}
+                            }
                         }
-                    }
-                });
-                threads.add(t);
-                t.start();
+                    });
+                    threads.add(t);
+                    t.start();
+                }
+                for (Thread t : threads) {
+                    t.join();
+                }
             }
-            for (Thread t : threads){
-                t.join();
-            }
-            if (lanerListeners.size() > 0 && !continueListening) run();
         } catch (Throwable e) {}
     }
 
@@ -166,11 +169,11 @@ public class NetworkDevices implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return !continueListening;
+        return continueListening;
     }
 
     public void stop() {
-        continueListening = true;
+        continueListening = false;
     }
 
     public static enum Status {
