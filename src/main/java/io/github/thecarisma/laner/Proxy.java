@@ -57,7 +57,7 @@ public class Proxy {
     }
 
     public static String ToString() {
-        return Proxy.class.getName() + "@" + "Address=" + PROXY_ADDRESS + ",Port=" + PROXY_PORT;
+        return Proxy.class.getName() + "@" + "UseProxy=" + USE_PROXY + ",Address=" + PROXY_ADDRESS + ",Port=" + PROXY_PORT;
     }
 
 }
