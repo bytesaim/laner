@@ -94,6 +94,9 @@ public class Server implements TRunnable {
                     continue;
                 }
                 clientSocket = serverSocket.accept();
+                if (!mIsRunning) {
+                    break;
+                }
                 final Socket finalClientSocket = clientSocket;
                 new Thread(new Runnable() {
                     @Override
@@ -143,12 +146,10 @@ public class Server implements TRunnable {
     }
 
     public void stop() throws IOException {
-        //possible send a closing byte to the server to
-        //initiate immediate closing
         if (mIsRunning) {
             if (serverSocket != null && !serverSocket.isClosed()) {
-                serverSocket.close();
                 mIsRunning = false;
+                new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort()).close();
             }
         }
     }
@@ -177,6 +178,5 @@ public class Server implements TRunnable {
     public String getHost() {
         return ipAddress + ":" + port;
     }
-
 
 }

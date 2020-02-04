@@ -181,7 +181,7 @@ public class TestServer {
 
     //@Test
     public static void main(String[] args) throws Exception {
-        Server server = new Server("192.168.8.100",7510, new ServerListener() {
+        Server server = new Server("192.168.43.186",7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
@@ -193,6 +193,10 @@ public class TestServer {
             }
         });
         new Thread(server).start();
+        Thread.sleep(2000);
+        if (server.isRunning()) {
+            server.stop();
+        }
     }
 
     public static String getRawBody(String urlToRead) throws Exception {
