@@ -132,6 +132,18 @@ public class Request {
             case "DELETE":
                 method = Method.DELETE;
                 break;
+            case "TRACE":
+                method = Method.TRACE;
+                break;
+            case "CONNECT":
+                method = Method.CONNECT;
+                break;
+            case "HEAD":
+                method = Method.HEAD;
+                break;
+            case "OPTIONS":
+                method = Method.HEAD;
+                break;
             case "GET":
             default:
                 method = Method.GET;
