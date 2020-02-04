@@ -161,7 +161,6 @@ public class NetworkDevices implements TRunnable {
                                 } catch (Throwable e) {
                                 }
                             }
-                            System.out.println(""+runningSubThreadsCount+":");
                             runningSubThreadsCount--;
                         }
                     });
