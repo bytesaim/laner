@@ -15,6 +15,7 @@ public class NetworkDevices implements TRunnable {
     private boolean continueListening = false;
     private boolean reallyListening = false;
     private int runningSubThreadsCount = 0;
+    private boolean useProxy_ = false;
 
     public NetworkDevices(String ipAddress, LanerListener lanerListener, int[] forePorts) {
         this.lanerListeners.add(lanerListener);
@@ -48,6 +49,10 @@ public class NetworkDevices implements TRunnable {
     public NetworkDevices(String[] ipAddresses) {
         this.ipAddresses.addAll(Arrays.asList(ipAddresses));
         this.forePorts = new int[]{};
+    }
+
+    public void useProxy(boolean useProxy_) {
+        this.useProxy_ = useProxy_;
     }
 
     public ArrayList<LanerListener> getLanerListeners() {
@@ -115,7 +120,7 @@ public class NetworkDevices implements TRunnable {
                                         }
                                         boolean continuePing = true;
                                         for (int port : forePorts) {
-                                            if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                            if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000, useProxy_)) {
                                                 if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
                                                     networkDevice.status = Status.CONNECTED;
                                                     networkDevice.openedPort = port;
@@ -133,7 +138,7 @@ public class NetworkDevices implements TRunnable {
                                                 }
                                             } else {
                                                 for (int port : ports) {
-                                                    if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000)) {
+                                                    if (LanerNetworkInterface.isReachable(preDeviceAddr + j, port, 1000, useProxy_)) {
                                                         if (networkDevice.status != Status.CONNECTED || networkDevice.openedPort != port) {
                                                             networkDevice.status = Status.CONNECTED;
                                                             networkDevice.openedPort = port;

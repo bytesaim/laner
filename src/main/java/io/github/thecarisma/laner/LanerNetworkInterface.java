@@ -43,6 +43,14 @@ public class LanerNetworkInterface {
         return InetAddress.getLocalHost().getHostAddress();
     }
 
+    public static boolean isReachable(String addr, int openPort, int timeOutMillis, boolean useProxy) {
+        if (useProxy) {
+            return isReachable(addr, openPort, timeOutMillis);
+        } else {
+            return isReachableWithoutProxy(addr, openPort, timeOutMillis);
+        }
+    }
+
     public static boolean isReachable(String addr, int openPort, int timeOutMillis) {
         if (!LanerProxyConfig.isProxyEnabled()) {
             return isReachableWithoutProxy(addr, openPort, timeOutMillis);
@@ -63,7 +71,14 @@ public class LanerNetworkInterface {
         if (!addr.startsWith("https://") && !addr.startsWith("http://")) {
             addr = "http://" + addr;
         }
-        return pingURL(addr + ":" + openPort, timeOutMillis, proxy);
+        try {
+            Socket server = new Socket(proxy);
+            server.connect(new InetSocketAddress(addr, openPort));
+            server.close();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
     public static boolean isReachableWithoutProxy(String addr, int openPort, int timeOutMillis) {
