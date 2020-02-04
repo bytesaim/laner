@@ -18,6 +18,7 @@ public class EndpointRouter {
     public EndpointRouter(Server server) {
         this.mServer = server;
         this.mServer.setRouter(this);
+        setDefaultRouteResponse();
     }
 
     protected void treatRequest(Request request, Response response) throws IOException {
@@ -89,8 +90,18 @@ public class EndpointRouter {
 
     }
 
-    private void defaultRouteResponse(Response response) throws IOException {
-        response.close();
+    private void setDefaultRouteResponse() {
+        defaultServerListenerFactory = new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.setStatusCode(StatusCode.NOT_FOUND);
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
     }
 
 }
