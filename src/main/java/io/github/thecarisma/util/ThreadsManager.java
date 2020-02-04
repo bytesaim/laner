@@ -76,9 +76,10 @@ public class ThreadsManager {
 
     public void killAll() throws Exception {
         for (String owner : tRunnables.keySet()) {
-            for (int i = 0; i < tRunnables.get(owner).size(); i++) {
-                if (tRunnables.get(owner).get(i).isRunning()) {
-                    tRunnables.get(owner).get(i).stop();
+            ArrayList<TRunnable> runnables = tRunnables.get(owner);
+            for (int i = 0; i < runnables.size(); i++) {
+                if (runnables.get(i).isRunning()) {
+                    runnables.get(i).stop();
                     //unRegister(owner, tRunnables.get(owner).get(i));
                 }
             }

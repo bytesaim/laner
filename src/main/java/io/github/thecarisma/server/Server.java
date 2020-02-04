@@ -4,10 +4,7 @@ import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.util.TRunnable;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.ArrayList;
 
 /**
@@ -95,6 +92,7 @@ public class Server implements TRunnable {
                 }
                 clientSocket = serverSocket.accept();
                 if (!mIsRunning) {
+                    serverSocket.close();
                     break;
                 }
                 final Socket finalClientSocket = clientSocket;
@@ -130,11 +128,15 @@ public class Server implements TRunnable {
     private void startServer() {
         try {
             if (!mIsRunning) {
-                serverSocket = new ServerSocket(port, backlog, InetAddress.getByName(ipAddress));
+                if (serverSocket == null) {
+                    System.setProperty("sun.net.useExclusiveBind", "true");
+                    serverSocket = new ServerSocket();
+                    serverSocket.setReuseAddress(true);
+                    serverSocket.bind(new InetSocketAddress(InetAddress.getByName(ipAddress), port), backlog);
+                }
                 mIsRunning = true;
             }
         } catch (IOException e) {
-            //broadcastToListeners(Object o);
             e.printStackTrace();
         }
 
