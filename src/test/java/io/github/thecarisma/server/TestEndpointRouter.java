@@ -10,7 +10,7 @@ public class TestEndpointRouter {
     public static void main(String[] args) {
         Server server = new Server("172.16.40.27",7510);
         EndpointRouter endpointRouter = new EndpointRouter(server);
-        endpointRouter.post("/greet", new ServerListener() {
+        endpointRouter.get("/greet", new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {

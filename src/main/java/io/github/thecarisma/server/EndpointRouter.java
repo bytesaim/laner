@@ -24,10 +24,12 @@ public class EndpointRouter {
     protected void treatRequest(Request request, Response response) throws IOException {
         if (mMethodRoutes.containsKey(request.getMethod())) {
             Map<String, ServerListenerFactory> mServerListenerFactories = mMethodRoutes.get(request.getMethod());
+            boolean foundEndpoint = false;
             for (String key : mServerListenerFactories.keySet()) {
                 Pattern p = Pattern.compile(key);
                 Matcher m = p.matcher(request.getEndpoint());
                 if (m.find())  {
+                    foundEndpoint = true;
                     ServerListenerFactory serverListener = mServerListenerFactories.get(key);
                     if (serverListener instanceof ServerListener) {
                         ((ServerListener) serverListener).report(request, response);
@@ -37,9 +39,12 @@ public class EndpointRouter {
                     }
                 }
             }
+            if (!foundEndpoint) {
+                routeToDefault(request, response);
+            }
 
         } else {
-            response.close();
+            routeToDefault(request, response);
         }
     }
 
@@ -102,6 +107,16 @@ public class EndpointRouter {
                 }
             }
         };
+    }
+
+    private void routeToDefault(Request request, Response response) throws IOException {
+        ServerListenerFactory serverListener = defaultServerListenerFactory;
+        if (serverListener instanceof ServerListener) {
+            ((ServerListener) serverListener).report(request, response);
+        }
+        if (serverListener instanceof ServerRawListener) {
+            ((ServerRawListener) serverListener).report(request.in, response.out);
+        }
     }
 
 }
