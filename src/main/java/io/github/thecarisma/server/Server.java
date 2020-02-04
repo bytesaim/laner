@@ -154,7 +154,7 @@ public class Server implements TRunnable {
                 mIsRunning = false;
                 if (LanerProxyConfig.isProxyEnabled()) {
                     Proxy proxy = new Proxy(
-                            Proxy.Type.SOCKS,
+                            Proxy.Type.HTTP,
                             new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
                     if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
                         Authenticator authenticator = new Authenticator() {
