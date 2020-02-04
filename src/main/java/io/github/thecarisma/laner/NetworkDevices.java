@@ -82,6 +82,7 @@ public class NetworkDevices implements TRunnable {
     @Override
     public void run() {
         try {
+            networkDevices = new HashMap<>();
             continueListening = true;
             reallyListening = true;
             int addlimit = 254;
