@@ -154,7 +154,7 @@ public class Server implements TRunnable {
                 mIsRunning = false;
                 if (LanerProxyConfig.isProxyEnabled()) {
                     Proxy proxy = new Proxy(
-                            Proxy.Type.HTTP,
+                            Proxy.Type.SOCKS,
                             new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
                     if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
                         Authenticator authenticator = new Authenticator() {
@@ -166,7 +166,9 @@ public class Server implements TRunnable {
                         };
                         Authenticator.setDefault(authenticator);
                     }
-                    LanerNetworkInterface.pingURL(ipAddress + ":" + serverSocket.getLocalPort(), 10000, proxy);
+                    Socket server = new Socket(proxy);
+                    server.connect(new InetSocketAddress(serverSocket.getInetAddress(), serverSocket.getLocalPort()));
+                    server.close();
                 } else {
                     new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort()).close();
                 }
