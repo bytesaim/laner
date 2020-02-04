@@ -166,7 +166,7 @@ public class Server implements TRunnable {
                         };
                         Authenticator.setDefault(authenticator);
                     }
-                    LanerNetworkInterface.pingURL(ipAddress, 1000, proxy);
+                    LanerNetworkInterface.pingURL(ipAddress + ":" + serverSocket.getLocalPort(), 10000, proxy);
                 } else {
                     new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort()).close();
                 }

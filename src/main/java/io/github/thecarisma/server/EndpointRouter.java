@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class EndpointRouter {
 
     private Server mServer ;
+    private ServerListenerFactory defaultServerListenerFactory;
     private Map<Method, Map<String, ServerListenerFactory>> mMethodRoutes = new HashMap<>();
 
     public EndpointRouter(Server server) {
@@ -41,6 +42,10 @@ public class EndpointRouter {
         }
     }
 
+    public void defaultRoute(ServerListenerFactory serverListenerFactory) {
+        this.defaultServerListenerFactory = serverListenerFactory;
+    }
+
     public void get(String endpoint, ServerListenerFactory serverListenerFactory) {
         route(Method.GET, endpoint, serverListenerFactory);
     }
@@ -57,6 +62,22 @@ public class EndpointRouter {
         route(Method.PUT, endpoint, serverListenerFactory);
     }
 
+    public void head(String endpoint, ServerListenerFactory serverListenerFactory) {
+        route(Method.HEAD, endpoint, serverListenerFactory);
+    }
+
+    public void patch(String endpoint, ServerListenerFactory serverListenerFactory) {
+        route(Method.PATCH, endpoint, serverListenerFactory);
+    }
+
+    public void connect(String endpoint, ServerListenerFactory serverListenerFactory) {
+        route(Method.CONNECT, endpoint, serverListenerFactory);
+    }
+
+    public void options(String endpoint, ServerListenerFactory serverListenerFactory) {
+        route(Method.OPTIONS, endpoint, serverListenerFactory);
+    }
+
     public void route(Method method, String endpoint, ServerListenerFactory serverListenerFactory) {
         if (mMethodRoutes.containsKey(method)) {
             mMethodRoutes.get(method).put(endpoint, serverListenerFactory);
@@ -66,6 +87,10 @@ public class EndpointRouter {
             mMethodRoutes.put(method, mServerListenerFactories);
         }
 
+    }
+
+    private void defaultRouteResponse(Response response) throws IOException {
+        response.close();
     }
 
 }

@@ -20,6 +20,16 @@ public class TestEndpointRouter {
                 }
             }
         });
+        endpointRouter.defaultRoute(new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.close("hello how are your".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         server.run();
     }
 

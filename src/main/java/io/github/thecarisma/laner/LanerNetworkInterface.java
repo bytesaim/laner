@@ -87,7 +87,11 @@ public class LanerNetworkInterface {
      * given timeout, otherwise <code>false</code>.
      */
     public static boolean pingURL(String url, int timeout) {
-        url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        if (url.startsWith("http")) {
+            url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        } else {
+            url = "http://" + url;
+        }
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(timeout);
@@ -112,7 +116,11 @@ public class LanerNetworkInterface {
      * given timeout, otherwise <code>false</code>.
      */
     public static boolean pingURL(String url, int timeout, Proxy proxy) {
-        url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        if (url.startsWith("http")) {
+            url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        } else {
+            url = "http://" + url;
+        }
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection(proxy);
             connection.setConnectTimeout(timeout);
