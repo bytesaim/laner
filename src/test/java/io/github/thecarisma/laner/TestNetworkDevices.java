@@ -30,14 +30,14 @@ public class TestNetworkDevices {
     }
 
     public static void main(String[] args) throws IOException, InvalidArgumentException {
-        new NetworkDevices("192.168.8.100", new LanerListener() {
+        new NetworkDevices("172.16.40.27", new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof NetworkDevices.NetworkDevice) {
                     System.out.println(o + "->" + ((NetworkDevices.NetworkDevice) o).openedPort);
                 }
             }
-        }, new int[]{7511}).run();
+        }, new int[]{7510}).run();
     }
 
 }

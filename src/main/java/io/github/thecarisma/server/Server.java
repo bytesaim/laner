@@ -1,6 +1,7 @@
 package io.github.thecarisma.server;
 
 import io.github.thecarisma.laner.LanerNetworkInterface;
+import io.github.thecarisma.laner.LanerProxyConfig;
 import io.github.thecarisma.util.TRunnable;
 
 import java.io.*;
@@ -151,7 +152,24 @@ public class Server implements TRunnable {
         if (mIsRunning) {
             if (serverSocket != null && !serverSocket.isClosed()) {
                 mIsRunning = false;
-                new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort()).close();
+                if (LanerProxyConfig.isProxyEnabled()) {
+                    Proxy proxy = new Proxy(
+                            Proxy.Type.HTTP,
+                            new InetSocketAddress(LanerProxyConfig.getProxyHost(), LanerProxyConfig.getProxyPort()));
+                    if (!LanerProxyConfig.getProxyUsername().isEmpty()) {
+                        Authenticator authenticator = new Authenticator() {
+                            public PasswordAuthentication getPasswordAuthentication() {
+                                return (new PasswordAuthentication(
+                                        LanerProxyConfig.getProxyUsername(),
+                                        LanerProxyConfig.getProxyPassword().toCharArray()));
+                            }
+                        };
+                        Authenticator.setDefault(authenticator);
+                    }
+                    LanerNetworkInterface.pingURL(ipAddress, 1000, proxy);
+                } else {
+                    new Socket(serverSocket.getInetAddress(), serverSocket.getLocalPort()).close();
+                }
             }
         }
     }
