@@ -46,53 +46,51 @@ public class Request {
         this.bin = new BufferedReader(new InputStreamReader(in));
         boolean parsedHead = false;
         String inputLine;
-        if (bin.ready()) {
-            while ((inputLine = bin.readLine()).length() != 0) {
-                if (!parsedHead) {
-                    parsedHead = true;
-                    endpoint = inputLine;
-                    String[] s1 = endpoint.split(" ");
-                    setMethod(s1[0].trim());
-                    String[] s2 = s1[1].split("\\?");
-                    endpoint = s2[0];
-                    HttpVersion = s1[2];
-                    String key = "", value = "";
-                    boolean parseKey = true;
-                    if (s2.length <= 1) {
+        while ((inputLine = bin.readLine()).length() != 0) {
+            if (!parsedHead) {
+                parsedHead = true;
+                endpoint = inputLine;
+                String[] s1 = endpoint.split(" ");
+                setMethod(s1[0].trim());
+                String[] s2 = s1[1].split("\\?");
+                endpoint = s2[0];
+                HttpVersion = s1[2];
+                String key = "", value = "";
+                boolean parseKey = true;
+                if (s2.length <= 1) {
+                    continue;
+                }
+                for (char c : s2[1].toCharArray()) {
+                    if (c == '&') {
+                        if (!key.isEmpty()) {
+                            parameters.put(key, value);
+                        }
+                        key = "";
+                        value = "";
+                        parseKey = true;
                         continue;
                     }
-                    for (char c : s2[1].toCharArray()) {
-                        if (c == '&') {
-                            if (!key.isEmpty()) {
-                                parameters.put(key, value);
-                            }
-                            key = "";
-                            value = "";
-                            parseKey = true;
-                            continue;
-                        }
-                        if (c == '=') {
-                            if (!parseKey) {
-                                value += c;
-                            }
-                            parseKey = false;
-                            continue;
-                        }
-                        if (parseKey) {
-                            key += c;
-                        } else {
+                    if (c == '=') {
+                        if (!parseKey) {
                             value += c;
                         }
+                        parseKey = false;
+                        continue;
                     }
-                    if (!key.isEmpty()) {
-                        parameters.put(key, value);
+                    if (parseKey) {
+                        key += c;
+                    } else {
+                        value += c;
                     }
-                } else {
-                    String[] s1 = inputLine.split(":");
-                    headers.put(s1[0].trim(), s1[1].trim());
                 }
-
+                if (!key.isEmpty()) {
+                    parameters.put(key, value);
+                }
+            } else {
+                String[] s1 = inputLine.split(":");
+                headers.put(s1[0].trim(), s1[1].trim());
             }
+
         }
         if (headers.get("Content-Type") == null) {
             readMultipart = true;

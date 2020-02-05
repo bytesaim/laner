@@ -86,7 +86,7 @@ public class NetworkDevices implements TRunnable {
             continueListening = true;
             reallyListening = true;
             int addlimit = 254;
-            int cores = (Runtime.getRuntime().availableProcessors() / 2) + 10;
+            int cores = (Runtime.getRuntime().availableProcessors() / 2) + 20;
             final int devPerThread = addlimit / cores;
             while (continueListening) {
                 ArrayList<Thread> threads = new ArrayList<>();
