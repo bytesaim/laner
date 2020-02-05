@@ -108,11 +108,12 @@ public class Request {
                 return body.toString();
             }
             int contentLength = Integer.parseInt(headers.get("Content-Length"));
-            for (int i = 0; i < contentLength-2; i++) {
+            int i = 0;
+            while (bin.ready() && i < contentLength) {
                 body.append((char) bin.read());
+                i++;
             }
-            System.out.println(bin.read());
-            System.out.println(bin.read());
+            System.out.println(bin.ready());
             readBody = true;
         }
         return body.toString();
