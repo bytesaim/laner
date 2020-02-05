@@ -46,7 +46,7 @@ public class Request {
         this.bin = new BufferedReader(new InputStreamReader(in));
         boolean parsedHead = false;
         String inputLine;
-        while ((inputLine = bin.readLine()).length() != 0) {
+        while ((inputLine = bin.readLine()) != null) {
             if (!parsedHead) {
                 parsedHead = true;
                 endpoint = inputLine;
@@ -108,8 +108,10 @@ public class Request {
                 return body.toString();
             }
             int contentLength = Integer.parseInt(headers.get("Content-Length"));
-            for (int i = 0; i < contentLength; i++) {
-                body.append((char) bin.read());
+
+            int c, i = 0;
+            while ((c = bin.read()) != -1 && i < contentLength) {
+                body.append((char) c);
             }
             readBody = true;
         }
