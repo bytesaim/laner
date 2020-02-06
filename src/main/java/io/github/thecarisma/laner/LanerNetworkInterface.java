@@ -44,11 +44,7 @@ public class LanerNetworkInterface {
     }
 
     public static boolean isReachable(String addr, int openPort, int timeOutMillis, boolean useProxy) {
-        if (useProxy) {
-            return isReachable(addr, openPort, timeOutMillis);
-        } else {
-            return isReachableWithoutProxy(addr, openPort, timeOutMillis);
-        }
+        return useProxy ? isReachable(addr, openPort, timeOutMillis) : isReachableWithoutProxy(addr, openPort, timeOutMillis);
     }
 
     public static boolean isReachable(String addr, int openPort, int timeOutMillis) {
@@ -68,12 +64,9 @@ public class LanerNetworkInterface {
             };
             Authenticator.setDefault(authenticator);
         }
-        if (!addr.startsWith("https://") && !addr.startsWith("http://")) {
-            addr = "http://" + addr;
-        }
         try {
             Socket server = new Socket(proxy);
-            server.connect(new InetSocketAddress(addr, openPort));
+            server.connect(new InetSocketAddress(addr, openPort), timeOutMillis);
             server.close();
             return true;
         } catch (IOException ex) {
