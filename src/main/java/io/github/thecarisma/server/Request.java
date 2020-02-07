@@ -85,7 +85,7 @@ public class Request {
                     }
                 }
                 if (!key.isEmpty()) {
-                    parameters.put(key, value);
+                    parameters.put(key, URLDecoder.decode(value, "UTF-8"));
                 }
             } else {
                 String[] s1 = inputLine.split(":");
@@ -96,6 +96,13 @@ public class Request {
         if (headers.get("Content-Type") == null) {
             readMultipart = true;
             multipartStream = new MultipartStream("", "");
+
+        } else if (headers.get("Content-Type").equals("application/x-www-form-urlencoded")) {
+            String[] bodyParams = getBody().split("&");
+            for (String bodyParam : bodyParams) {
+                String[] b1 = bodyParam.split("=");
+                parameters.put(b1[0], (b1.length > 1 ? URLDecoder.decode(b1[1], "UTF-8") : ""));
+            }
         }
     }
 
@@ -114,7 +121,6 @@ public class Request {
                 body.append((char) bin.read());
                 i++;
             }
-            System.out.println(bin.ready());
             readBody = true;
         }
         return body.toString();
@@ -160,6 +166,7 @@ public class Request {
         if (!readMultipart) {
             if (!headers.get("Content-Type").contains("boundary")) {
                 readMultipart = true;
+                multipartStream = new MultipartStream(bin, "000000000");
                 return multipartStream;
             }
             String boundary = headers.get("Content-Type").split(";")[1];
