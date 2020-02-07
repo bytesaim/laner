@@ -192,7 +192,7 @@ public class Server implements TRunnable {
     }
 
     private void broadcastToRouter(Request request, Response response) throws IOException {
-        if (mEndpointRouter != null) {
+        if (mEndpointRouter != null && !response.isClosed()) {
             mEndpointRouter.treatRequest(request, response);
         }
     }

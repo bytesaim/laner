@@ -337,7 +337,7 @@ public class MimeTypes {
 
     public static final String CSS = "text/css";
 
-    public static final String CSS_APP = "application/x-pointplus";
+    public static final String JS = "application/javascript";
 
     public static final String TEXT_HTML = "text/html";
 
@@ -350,6 +350,8 @@ public class MimeTypes {
                 return MP3;
             case "css":
                 return CSS;
+            case "js":
+                return JS;
             case "html":
             default:
                 return TEXT_HTML;

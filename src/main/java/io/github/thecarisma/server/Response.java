@@ -166,6 +166,10 @@ public class Response {
         }
     }
 
+    public boolean isClosed() {
+        return headersSent;
+    }
+
     private String getFileType(File file) throws IOException {
         String type = Files.probeContentType(file.toPath());
         return (type != null ?  type : "application/octet-stream") ;
