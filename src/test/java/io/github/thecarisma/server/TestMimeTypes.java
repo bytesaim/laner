@@ -15,7 +15,7 @@ public class TestMimeTypes {
 
     @Test
     public void Test2() {
-        String[] names = { "file.3dm", "text.html", "css", ".", "avery.try.abc", "", "..." } ;
+        String[] names = { "file.3dm", "text.html", "css", ".js", "avery.try.mp4", "mp3", "..." } ;
         for (String name : names) {
             System.out.println(MimeTypes.getMimeType(name));
         }
