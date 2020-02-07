@@ -166,7 +166,7 @@ public class Response {
         }
     }
 
-    private String getFileType(File file) throws IOException {
+    public String getFileType(File file) throws IOException {
         String type = Files.probeContentType(file.toPath());
         return (type != null ?  type : "application/octet-stream") ;
     }
