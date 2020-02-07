@@ -57,61 +57,61 @@ public class MimeTypes {
 
     public static String ART = "image/x-jg";
 
-    public static String THREE_DM = "";
+    public static String ASF = "video/x-ms-asf";
 
-    public static String THREE_DM = "";
+    public static String ASM = "text/x-asm";
 
-    public static String THREE_DM = "";
+    public static String ASP = "text/asp";
 
-    public static String THREE_DM = "";
+    public static String ASX = "application/x-mplayer2";
 
-    public static String THREE_DM = "";
+    public static String ASX_X = "video/x-ms-asf";
 
-    public static String THREE_DM = "";
+    public static String ASX_X_PLUGIN = "video/x-ms-asf-plugin";
 
-    public static String THREE_DM = "";
+    public static String AU = "audio/basic";
 
-    public static String THREE_DM = "";
+    public static String AU_X = "audio/x-au";
 
-    public static String THREE_DM = "";
+    public static String AVI_APP = "application/x-troff-msvideo";
 
-    public static String THREE_DM = "";
+    public static String AVI = "video/avi";
 
-    public static String THREE_DM = "";
+    public static String AVI_MSVIDEO = "video/msvideo";
 
-    public static String THREE_DM = "";
+    public static String AVI_X_MSVIDEO = "video/x-msvideo";
 
-    public static String THREE_DM = "";
+    public static String AVS = "video/avs-video";
 
-    public static String THREE_DM = "";
+    public static String BCPIO = "application/x-bcpio";
 
-    public static String THREE_DM = "";
+    public static String BIN = "application/mac-binary";
 
-    public static String THREE_DM = "";
+    public static String BIN_MAC = "application/macbinary";
 
-    public static String THREE_DM = "";
+    public static String BIN_OCTET = "application/octet-stream";
 
-    public static String THREE_DM = "";
+    public static String BIN_X = "application/x-binary";
 
-    public static String THREE_DM = "";
+    public static String BIN_X_MAC = "application/x-macbinary";
 
-    public static String THREE_DM = "";
+    public static String BM = "image/bmp";
 
-    public static String THREE_DM = "";
+    public static String BMP = "image/bmp";
 
-    public static String THREE_DM = "";
+    public static String BMP_X = "image/x-windows-bmp";
 
-    public static String THREE_DM = "";
+    public static String BOO = "application/book";
 
-    public static String THREE_DM = "";
+    public static String BOOK = "application/book";
 
-    public static String THREE_DM = "";
+    public static String BOZ = "application/x-bzip2";
 
-    public static String THREE_DM = "";
+    public static String BSH = "application/x-bsh";
 
-    public static String THREE_DM = "";
+    public static String BZ = "application/x-bzip";
 
-    public static String THREE_DM = "";
+    public static String BZ2 = "application/x-bzip2";
 
     public static String CSS = "text/css";
 
