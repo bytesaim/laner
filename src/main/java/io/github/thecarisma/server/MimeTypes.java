@@ -341,7 +341,7 @@ public class MimeTypes {
 
     public static final String TEXT_HTML = "text/html";
 
-    public static final String getMimeType(String fileName) {
+    public static String getMimeType(String fileName) {
         String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
         switch (ext) {
             case "3dm":
