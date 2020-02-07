@@ -197,6 +197,15 @@ public class Server implements TRunnable {
         }
     }
 
+    public void changeHost(String ipAddress, int port) {
+        if (mIsRunning) {
+            throw new IllegalStateException("You cannot change the host while the server is running. call stop() first.");
+        }
+        this.ipAddress = ipAddress;
+        this.port = port;
+        serverSocket = null;
+    }
+
     public String getHost() {
         return ipAddress + ":" + port;
     }
