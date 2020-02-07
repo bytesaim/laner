@@ -113,6 +113,226 @@ public class MimeTypes {
 
     public static String BZ2 = "application/x-bzip2";
 
+    public static String C = "text/plain";
+
+    public static String C_X = "text/x-c";
+
+    public static String CPP = "text/plain";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
+    //public static String BZ2 = "";
+
     public static String CSS = "text/css";
 
     public static String CSS_APP = "application/x-pointplus";

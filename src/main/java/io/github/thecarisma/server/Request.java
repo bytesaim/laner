@@ -1,6 +1,7 @@
 package io.github.thecarisma.server;
 
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class Request {
                 String[] s1 = endpoint.split(" ");
                 setMethod(s1[0].trim());
                 String[] s2 = s1[1].split("\\?");
-                endpoint = s2[0];
+                endpoint = URLDecoder.decode(s2[0], "UTF-8");
                 HttpVersion = s1[2];
                 String key = "", value = "";
                 boolean parseKey = true;
