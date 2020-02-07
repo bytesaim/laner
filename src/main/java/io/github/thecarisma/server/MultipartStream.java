@@ -9,12 +9,12 @@ public class MultipartStream {
     public final String boundary ;
     private BufferedReader bufferedReader;
     private String paddingLeft = "--";
-    private boolean hasNext = false;
+    private boolean hasNext_ = false;
     private boolean streamDone = false;
 
     public MultipartStream(String rawBody, String boundary) {
         if (boundary.isEmpty()) {
-            hasNext = false;
+            hasNext_ = false;
             streamDone = true;
         }
         bufferedReader = new BufferedReader(new StringReader(rawBody));
@@ -23,7 +23,7 @@ public class MultipartStream {
 
     public MultipartStream(BufferedReader bufferedReader, String boundary) {
         if (boundary.isEmpty()) {
-            hasNext = false;
+            hasNext_ = false;
             streamDone = true;
         }
         this.bufferedReader = bufferedReader;
@@ -32,15 +32,15 @@ public class MultipartStream {
 
     public MultipartStream(BufferedReader bufferedReader, String boundary, String paddingLeft) {
         if (boundary.isEmpty()) {
-            hasNext = false;
+            hasNext_ = false;
             streamDone = true;
         }
         this.bufferedReader = bufferedReader;
         this.boundary = boundary.trim().replaceAll("boundary=", paddingLeft);
     }
 
-    public boolean hasnext() throws IOException {
-        if (!hasNext && !streamDone) {
+    public boolean hasNext() throws IOException {
+        if (!hasNext_ && !streamDone) {
             StringBuilder tmpBoundary = new StringBuilder();
             while (bufferedReader.ready()) {
                 char c = (char) bufferedReader.read();
@@ -50,9 +50,9 @@ public class MultipartStream {
                 }
                 tmpBoundary.append(c);
             }
-            hasNext = tmpBoundary.toString().equals(boundary);
+            hasNext_ = tmpBoundary.toString().equals(boundary);
         }
-        return hasNext;
+        return hasNext_;
     }
 
     public MultipartData next() throws IOException {
@@ -63,10 +63,10 @@ public class MultipartStream {
         while ((inputLine = bufferedReader.readLine()) != null) {
             if (inputLine.startsWith(boundary)) {
                 if (inputLine.endsWith("--")) {
-                    hasNext = false;
+                    hasNext_ = false;
                     streamDone = true;
                 } else {
-                    hasNext = true;
+                    hasNext_ = true;
                 }
                 break;
             }

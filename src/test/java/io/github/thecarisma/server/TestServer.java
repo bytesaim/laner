@@ -84,7 +84,7 @@ public class TestServer {
                 }
                 try {
                     System.out.println("Multipart Body:");
-                    while (request.getBodyMultipartStream().hasnext()) {
+                    while (request.getBodyMultipartStream().hasNext()) {
                         MultipartData multipartData = request.getBodyMultipartStream().next();
                         System.out.println("    Name: " + multipartData.getName());
                         System.out.println("    Headers: ");

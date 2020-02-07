@@ -24,7 +24,7 @@ public class TestMultipartStream {
                 + "HELLO WORLD!\r\n"
                 + "----AaB03x--\r\n";
         MultipartStream multipartStream = new MultipartStream(content, "boundary=--AaB03x");
-        while (multipartStream.hasnext()) {
+        while (multipartStream.hasNext()) {
             MultipartData multipartData = multipartStream.next();
             System.out.println(multipartData.getName());
         }
