@@ -217,11 +217,11 @@ public class Server implements TRunnable {
         return exceptors;
     }
 
-    public void addExceptors(Exceptor exceptor) {
+    public void addExceptor(Exceptor exceptor) {
         this.exceptors.add(exceptor);
     }
 
-    public void removeExceptors(Exceptor exceptor) {
+    public void removeExceptor(Exceptor exceptor) {
         this.exceptors.remove(exceptor);
     }
 
