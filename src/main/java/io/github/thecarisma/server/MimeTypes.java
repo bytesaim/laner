@@ -333,6 +333,14 @@ public class MimeTypes {
 
     //public static final String BZ2 = "";
 
+    public static final String MP4 = "video/mpeg";
+
+    public static final String MKV = "video/mkv";
+
+    public static final String ZIP = "application/x-compressed";
+
+    public static final String Z = "application/x-compressed";
+
     public static final String MP3 = "audio/mpeg3";
 
     public static final String JPG = "image/jpeg";
@@ -350,6 +358,12 @@ public class MimeTypes {
         switch (ext) {
             case "3dm":
                 return THREE_DM;
+            case "mp4":
+                return MP4;
+            case "mkv":
+                return MKV;
+            case "zip":
+                return ZIP;
             case "mp3":
                 return MP3;
             case "jpg":
