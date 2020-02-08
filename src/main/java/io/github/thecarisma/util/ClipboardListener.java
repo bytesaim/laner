@@ -14,6 +14,7 @@ public class ClipboardListener extends Thread implements ClipboardOwner {
 
     Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
+    public boolean broadcastClipboardObject = true;
 
     public ClipboardListener(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
@@ -48,7 +49,11 @@ public class ClipboardListener extends Thread implements ClipboardOwner {
         try {
             Thread.sleep(1000);
             contents = sysClip.getContents(this);
-            broadcastToListeners(new ClipboardStatus(contents, c));
+            if (broadcastClipboardObject) {
+                broadcastToListeners(new ClipboardObject(contents, c));
+            } else {
+                broadcastClipboardObject = true;
+            }
         } catch (Exception ex) {
             Logger.getLogger(ClipboardListener.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,11 +72,11 @@ public class ClipboardListener extends Thread implements ClipboardOwner {
         }
     }
 
-    public static class ClipboardStatus {
+    public static class ClipboardObject {
         public Transferable transferable;
         public Clipboard clipboard;
 
-        public ClipboardStatus(Transferable transferable, Clipboard clipboard) {
+        public ClipboardObject(Transferable transferable, Clipboard clipboard) {
             this.transferable = transferable;
             this.clipboard = clipboard;
         }
