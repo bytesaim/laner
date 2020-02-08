@@ -335,6 +335,10 @@ public class MimeTypes {
 
     public static final String MP3 = "audio/mpeg3";
 
+    public static final String JPG = "image/jpeg";
+
+    public static final String PNG = "image/png";
+
     public static final String CSS = "text/css";
 
     public static final String JS = "application/javascript";
@@ -342,12 +346,16 @@ public class MimeTypes {
     public static final String TEXT_HTML = "text/html";
 
     public static String getMimeType(String fileName) {
-        String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+        String ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
         switch (ext) {
             case "3dm":
                 return THREE_DM;
             case "mp3":
                 return MP3;
+            case "jpg":
+                return JPG;
+            case "png":
+                return PNG;
             case "css":
                 return CSS;
             case "js":
