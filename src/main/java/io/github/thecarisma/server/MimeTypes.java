@@ -337,6 +337,8 @@ public class MimeTypes {
 
     public static final String MKV = "video/mkv";
 
+    public static final String WMV = "video/wmv";
+
     public static final String ZIP = "application/x-compressed";
 
     public static final String Z = "application/x-compressed";
@@ -360,6 +362,8 @@ public class MimeTypes {
                 return THREE_DM;
             case "mp4":
                 return MP4;
+            case "wmv":
+                return WMV;
             case "mkv":
                 return MKV;
             case "zip":
