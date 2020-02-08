@@ -105,7 +105,7 @@ public class Server implements TRunnable {
                             if (finalClientSocket.getRemoteSocketAddress() != null) {
                                 String clientIp = finalClientSocket.getRemoteSocketAddress().toString();
                                 request.getHeaders().put("X-Forwarded-For",
-                                        clientIp.substring(clientIp.indexOf("/"), clientIp.indexOf(":")));
+                                        clientIp.substring(clientIp.indexOf("/") + 1, clientIp.indexOf(":")));
                             }
                             Response response = new Response(mServer, finalClientSocket.getOutputStream());
                             broadcastToListeners(request, response);

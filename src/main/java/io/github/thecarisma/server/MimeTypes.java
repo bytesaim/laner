@@ -179,57 +179,59 @@ public class MimeTypes {
 
     public static final String CSH_SCRIPT = "text/x-script.csh";
 
-    //public static final String BZ2 = "";
+    public static final String CSS = "text/css";
 
-    //public static final String BZ2 = "";
+    public static final String CSS_X = "application/x-pointplus";
 
-    //public static final String BZ2 = "";
+    public static final String CXX = "text/plain";
 
-    //public static final String BZ2 = "";
+    public static final String DCR = "application/x-director";
 
-    //public static final String BZ2 = "";
+    public static final String DEEPV = "application/x-deepv";
 
-    //public static final String BZ2 = "";
+    public static final String DEF = "text/plain";
 
-    //public static final String BZ2 = "";
+    public static final String DER = "application/x-x509-ca-cert";
 
-    //public static final String BZ2 = "";
+    public static final String DIFF = "video/x-dv";
 
-    //public static final String BZ2 = "";
+    public static final String DIR = "application/x-director";
 
-    //public static final String BZ2 = "";
+    public static final String DL = "video/dl";
 
-    //public static final String BZ2 = "";
+    public static final String DL_X = "video/x-dl";
 
-    //public static final String BZ2 = "";
+    public static final String DOC = "application/msword";
 
-    //public static final String BZ2 = "";
+    public static final String DOT = "application/msword";
 
-    //public static final String BZ2 = "";
+    public static final String DP = "application/commonground";
 
-    //public static final String BZ2 = "";
+    public static final String DRW = "application/drafting";
 
-    //public static final String BZ2 = "";
+    public static final String DUMP = "application/octet-stream";
 
-    //public static final String BZ2 = "";
+    public static final String DV = "video/x-dv";
 
-    //public static final String BZ2 = "";
+    public static final String DVI = "application/x-dvi";
 
-    //public static final String BZ2 = "";
+    public static final String DWF = "drawing/x-dwf (old)";
 
-    //public static final String BZ2 = "";
+    public static final String DWF_VND = "model/vnd.dwf";
 
-    //public static final String BZ2 = "";
+    public static final String DWG = "application/acad";
 
-    //public static final String BZ2 = "";
+    public static final String DWG_VND = "image/vnd.dwg";
 
-    //public static final String BZ2 = "";
+    public static final String DWG_X = "image/x-dwg";
 
-    //public static final String BZ2 = "";
+    public static final String DXF = "application/dxf";
 
-    //public static final String BZ2 = "";
+    public static final String DFX_VND = "image/vnd.dwg";
 
-    //public static final String BZ2 = "";
+    public static final String DFX_X = "image/x-dwg";
+
+    public static final String DXR = "application/x-director";
 
     //public static final String BZ2 = "";
 
@@ -386,8 +388,6 @@ public class MimeTypes {
     public static final String JPG = "image/jpeg";
 
     public static final String PNG = "image/png";
-
-    public static final String CSS = "text/css";
 
     public static final String JS = "application/javascript";
 
