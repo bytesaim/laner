@@ -89,7 +89,11 @@ public class Request {
                 }
             } else {
                 String[] s1 = inputLine.split(":");
-                headers.put(s1[0].trim(), s1[1].trim());
+                StringBuilder value = new StringBuilder();
+                for (int i = 1; i < s1.length; i++) {
+                    value.append(s1[i]);
+                }
+                headers.put(s1[0].trim(), value.toString().trim());
             }
 
         }
