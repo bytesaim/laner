@@ -1,5 +1,6 @@
 package io.github.thecarisma.server;
 
+import io.github.thecarisma.exceptions.Exceptor;
 import io.github.thecarisma.laner.LanerNetworkInterface;
 import io.github.thecarisma.laner.LanerProxyConfig;
 import io.github.thecarisma.util.TRunnable;
@@ -21,6 +22,7 @@ public class Server implements TRunnable {
     private boolean mIsRunning = false;
     private EndpointRouter mEndpointRouter;
     private Server mServer ;
+    private ArrayList<Exceptor> exceptors = new ArrayList<>();;
 
     public Server(String ipAddress, int port, int backlog) {
         this.ipAddress = ipAddress;
@@ -111,17 +113,17 @@ public class Server implements TRunnable {
                             broadcastToListeners(request, response);
                             broadcastToRouter(request, response);
                         } catch (IOException ex) {
-                            ex.printStackTrace();
+                            throwException(ex);
                             try {
                                 stop();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                throwException(e);
                             }
                         }
                     }
                 }).start();
             } catch (IOException e) {
-                e.printStackTrace();
+                throwException(e);
             }
 
         }
@@ -139,7 +141,7 @@ public class Server implements TRunnable {
                 mIsRunning = true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throwException(e);
         }
 
     }
@@ -211,4 +213,21 @@ public class Server implements TRunnable {
         return ipAddress + ":" + port;
     }
 
+    public ArrayList<Exceptor> getExceptors() {
+        return exceptors;
+    }
+
+    public void addExceptors(Exceptor exceptor) {
+        this.exceptors.add(exceptor);
+    }
+
+    public void removeExceptors(Exceptor exceptor) {
+        this.exceptors.remove(exceptor);
+    }
+
+    private void throwException(Exception ex) {
+        for (Exceptor exceptor : exceptors) {
+            exceptor.thrown(ex);
+        }
+    }
 }
