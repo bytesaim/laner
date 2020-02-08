@@ -117,29 +117,67 @@ public class MimeTypes {
 
     public static final String C_X = "text/x-c";
 
+    public static final String CAT = "application/vnd.ms-pki.seccat";
+
+    public static final String CC = "text/plain";
+
+    public static final String CC_X = "text/x-c";
+
+    public static final String CCAD = "application/clariscad";
+
+    public static final String CCO = "application/x-cocoa";
+
+    public static final String CDF = "application/cdf";
+
+    public static final String CDF_X = "application/x-cdf";
+
+    public static final String CDF_X_NETCDF= "application/x-netcdf";
+
+    public static final String CER = "application/pkix-cert";
+
+    public static final String CER_CA = "application/x-x509-ca-cert";
+
+    public static final String CHA = "application/x-chat";
+
+    public static final String CHAT = "application/x-chat";
+
+    public static final String CLASS = "application/java";
+
+    public static final String CLASS_BYTE_CODE = "application/java-byte-code";
+
+    public static final String CLASS_X = "application/x-java-class";
+
+    public static final String COM_OCTET = "application/octet-stream";
+
+    public static final String COM = "text/plain";
+
+    public static final String CONF = "text/plain";
+
+    public static final String CPIO = "application/x-cpio";
+
     public static final String CPP = "text/plain";
 
-    //public static final String BZ2 = "";
+    public static final String CPT = "application/mac-compactpro";
 
-    //public static final String BZ2 = "";
+    public static final String CPT_X_COM = "application/x-compactpro";
 
-    //public static final String BZ2 = "";
+    public static final String CPT_X = "application/x-cpt";
 
-    //public static final String BZ2 = "";
+    public static final String CRL = "application/pkcs-crl";
 
-    //public static final String BZ2 = "";
+    public static final String CRL_PKCS = "application/pkix-crl";
 
-    //public static final String BZ2 = "";
+    public static final String CRL_PKIX = "application/pkix-cert";
 
-    //public static final String BZ2 = "";
+    public static final String CRT = "application/pkix-cert";
 
-    //public static final String BZ2 = "";
+    public static final String CRT_CA = "application/x-x509-ca-cert";
 
-    //public static final String BZ2 = "";
+    public static final String CRT_USER = "application/x-x509-user-cert";
 
-    //public static final String BZ2 = "";
+    public static final String CSH = "application/x-csh";
 
-    //public static final String BZ2 = "";
+    public static final String CSH_SCRIPT = "text/x-script.csh";
 
     //public static final String BZ2 = "";
 
