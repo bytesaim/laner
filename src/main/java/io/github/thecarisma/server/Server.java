@@ -102,13 +102,14 @@ public class Server implements TRunnable {
                     public void run() {
                         try {
                             Request request = new Request(finalClientSocket.getInputStream());
+                            if (finalClientSocket.getRemoteSocketAddress() != null) {
+                                String clientIp = finalClientSocket.getRemoteSocketAddress().toString();
+                                request.getHeaders().put("X-Forwarded-For",
+                                        clientIp.substring(clientIp.indexOf("/"), clientIp.indexOf(":")));
+                            }
                             Response response = new Response(mServer, finalClientSocket.getOutputStream());
                             broadcastToListeners(request, response);
                             broadcastToRouter(request, response);
-                            /*//causes java.net.SocketException: Unexpected end of file from server
-                            if (!finalClientSocket.isClosed()) {
-                                finalClientSocket.close();
-                            }*/
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             try {
