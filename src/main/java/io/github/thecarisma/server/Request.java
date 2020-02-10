@@ -113,6 +113,7 @@ public class Request {
     /**
      * Get the request body from the BufferedReader.
      */
+    //TODO: convert to byte
     public String getBody() throws IOException {
         if (!readBody) {
             if (headers.get("Content-Length") == null) {

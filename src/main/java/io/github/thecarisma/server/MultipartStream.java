@@ -1,6 +1,7 @@
 package io.github.thecarisma.server;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
@@ -59,6 +60,7 @@ public class MultipartStream {
     public MultipartData next() throws IOException {
         MultipartData multipartData = new MultipartData();
         StringBuilder readBytes = new StringBuilder();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         int lineCount = 1;
         String inputLine;
         while ((inputLine = bufferedReader.readLine()) != null) {
