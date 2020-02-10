@@ -11,9 +11,9 @@ public class TestClipboardListener {
         new ClipboardListener(new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof ClipboardListener.ClipboardStatus) {
+                if (o instanceof ClipboardListener.ClipboardObject) {
                     String tempText;
-                    Transferable trans = ((ClipboardListener.ClipboardStatus) o).transferable;
+                    Transferable trans = ((ClipboardListener.ClipboardObject) o).transferable;
 
                     try {
                         if (trans != null && trans.isDataFlavorSupported(DataFlavor.stringFlavor)) {

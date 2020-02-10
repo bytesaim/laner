@@ -97,6 +97,7 @@ public class Response {
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
                 out.write(buffer, 0, read);
             out.flush();
+            input.close();
         }
     }
 
@@ -112,6 +113,7 @@ public class Response {
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
                 out.write(buffer, 0, read);
             out.flush();
+            input.close();
         }
     }
 

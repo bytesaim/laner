@@ -7,24 +7,35 @@ public class MultipartData {
 
     private String name;
     private Map<String, String> headers = new HashMap<>();
-    private String body;
+    private byte[] body;
 
     public MultipartData() {
         this.name = "";
-        this.body = "";
+        this.body = new byte[]{};
     }
 
     public MultipartData(Map<String, String> headers, String body) {
         this.name = headers.get("name");
         this.headers = headers;
-        this.body = body;
+        this.body = body.getBytes();
     }
 
     public MultipartData(String name, Map<String, String> headers, String body) {
         this.name = name;
         this.headers = headers;
-        this.body = body;
+        this.body = body.getBytes();
+    }
 
+    public MultipartData(Map<String, String> headers, byte[] body) {
+        this.name = headers.get("name");
+        this.headers = headers;
+        this.body = body;
+    }
+
+    public MultipartData(String name, Map<String, String> headers, byte[] body) {
+        this.name = name;
+        this.headers = headers;
+        this.body = body;
     }
 
     public String getName() {
@@ -43,11 +54,11 @@ public class MultipartData {
         this.headers = headers;
     }
 
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(byte[] body) {
         this.body = body;
     }
 
