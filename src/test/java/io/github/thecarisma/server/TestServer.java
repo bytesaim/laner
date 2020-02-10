@@ -91,7 +91,7 @@ public class TestServer {
                         for (String s : multipartData.getHeaders().keySet()) {
                             System.out.println("        " + s + "=" + multipartData.getHeaders().get(s));
                         }
-                        System.out.println("    Body Length: " + multipartData.getBody().length());
+                        System.out.println("    Body Length: " + multipartData.getBody().length);
                     }
                     response.close();
                 } catch (IOException e) {

@@ -3,6 +3,7 @@ package io.github.thecarisma.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 public class MultipartStream {
 
@@ -93,7 +94,7 @@ public class MultipartStream {
             }
             lineCount++;
         }
-        multipartData.setBody(readBytes.toString().trim());
+        multipartData.setBody(readBytes.toString().trim().getBytes(StandardCharsets.UTF_8));
         return multipartData;
     }
 
