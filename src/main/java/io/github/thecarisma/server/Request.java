@@ -2,6 +2,7 @@ package io.github.thecarisma.server;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class Request {
     private Method method = Method.UNKNOWN;
     private Map<String, String> parameters = new HashMap<>();
     private String endpoint = "/";
-    private StringBuilder body = new StringBuilder();
+    private byte[] body = new byte[]{};
     private MultipartStream multipartStream;
     private boolean readBody = false;
     private boolean readMultipart = false;
@@ -102,7 +103,7 @@ public class Request {
             multipartStream = new MultipartStream("", "");
 
         } else if (headers.get("Content-Type").equals("application/x-www-form-urlencoded")) {
-            String[] bodyParams = getBody().split("&");
+            String[] bodyParams = new String(getBody(), StandardCharsets.UTF_8).split("&");
             for (String bodyParam : bodyParams) {
                 String[] b1 = bodyParam.split("=");
                 parameters.put(b1[0], (b1.length > 1 ? URLDecoder.decode(b1[1], "UTF-8") : ""));
@@ -113,22 +114,24 @@ public class Request {
     /**
      * Get the request body from the BufferedReader.
      */
-    //TODO: convert to byte
-    public String getBody() throws IOException {
+    public byte[] getBody() throws IOException {
         if (!readBody) {
             if (headers.get("Content-Length") == null) {
                 readBody = true;
-                return body.toString();
+                return body;
             }
-            int contentLength = Integer.parseInt(headers.get("Content-Length"));
-            int i = 0;
+            long contentLength = Integer.parseInt(headers.get("Content-Length"));
+            long i = 0;
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             while (bin.ready() && i < contentLength) {
-                body.append((char) bin.read());
+                buffer.write(bin.read());
                 i++;
             }
+            body = buffer.toByteArray();
+            buffer.close();
             readBody = true;
         }
-        return body.toString();
+        return body;
     }
 
     protected void setMethod(String methodString) {
@@ -176,7 +179,7 @@ public class Request {
             }
             String boundary = headers.get("Content-Type").split(";")[1];
             if (readBody) {
-                multipartStream = new MultipartStream(getBody(), boundary.trim());
+                multipartStream = new MultipartStream(new String(getBody(), StandardCharsets.UTF_8), boundary.trim());
             } else {
                 multipartStream = new MultipartStream(bin, boundary);
             }

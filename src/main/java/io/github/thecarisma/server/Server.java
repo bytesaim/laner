@@ -226,6 +226,10 @@ public class Server implements TRunnable {
     }
 
     private void throwException(Exception ex) {
+        if (exceptors.size() == 0) {
+            ex.printStackTrace();
+            return;
+        }
         for (Exceptor exceptor : exceptors) {
             exceptor.thrown(ex);
         }
