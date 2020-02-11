@@ -59,11 +59,58 @@ public class MultipartStream {
 
     public MultipartData next() throws IOException {
         MultipartData multipartData = new MultipartData();
-        StringBuilder readBytes = new StringBuilder();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int lineCount = 1;
-        String inputLine;
-        while ((inputLine = bufferedReader.readLine()) != null) {
+        ByteArrayOutputStream currentLineOut = new ByteArrayOutputStream();
+        boolean parsedHead = false;
+        char c;
+        while (bufferedReader.ready() && (c = (char) bufferedReader.read()) != (char) -1) {
+            if (!parsedHead) {
+                if (c == '\r') {
+                    out.write(c);
+                    c = (char) bufferedReader.read(); //read \r\n
+                    if (c == '\n') {
+                        out.write(c);
+                        String out_ = new String(out.toByteArray());
+                        if (out_.endsWith("\r\n\r\n")) {
+                            String[] s1 = out_.replaceAll("\r\n", ";").split(";");
+                            for (String s : s1) {
+                                String[] s2;
+                                if (s.contains("=\"")) {
+                                    s2 = s.split("=");
+                                    multipartData.getHeaders().put(s2[0].trim(), s2[1].substring(s2[1].indexOf("\"") + 1, s2[1].lastIndexOf("\"")));
+                                } else {
+                                    s2 = s.split(":");
+                                    multipartData.getHeaders().put(s2[0].trim(), s2[1].trim());
+                                }
+                            }
+                            out = new ByteArrayOutputStream();
+                            multipartData.setName(multipartData.getHeaders().get("name"));
+                            parsedHead = true;
+                        }
+                    }
+                } else {
+                    out.write(c);
+                }
+                continue;
+            }
+            currentLineOut.write(c);
+            String currentLineOut_ = new String(currentLineOut.toByteArray());
+            if (currentLineOut_.endsWith("\r\n")) {
+                if (currentLineOut_.startsWith(boundary)) {
+                    if (currentLineOut_.endsWith("--\r\n")) {
+                        hasNext_ = false;
+                        streamDone = true;
+                    } else {
+                        hasNext_ = true;
+                    }
+                    break;
+                }
+                out.write(currentLineOut.toByteArray());
+                currentLineOut = new ByteArrayOutputStream();
+            }
+        }
+        System.out.println(new String(out.toByteArray()));
+        /*while ((inputLine = bufferedReader.readLine()) != null) {
             if (inputLine.startsWith(boundary)) {
                 if (inputLine.endsWith("--")) {
                     hasNext_ = false;
@@ -95,8 +142,8 @@ public class MultipartStream {
                 readBytes.append("\r\n");
             }
             lineCount++;
-        }
-        multipartData.setBody(readBytes.toString().trim().getBytes(StandardCharsets.UTF_8));
+        }*/
+        multipartData.setBody(out.toByteArray());
         return multipartData;
     }
 
