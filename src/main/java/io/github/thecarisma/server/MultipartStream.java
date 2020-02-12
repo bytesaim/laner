@@ -96,13 +96,13 @@ public class MultipartStream {
                 }
                 continue;
             }
+            out.write(c);
+            currentLineOut.write(c);
             if (c == '\r') {
+                c = inputStream.read();
                 out.write(c);
                 currentLineOut.write(c);
-                c = inputStream.read();
                 if (c == '\n') {
-                    out.write(c);
-                    currentLineOut.write(c);
                     String currentLineOut_ = new String(currentLineOut.toByteArray());
                     if (currentLineOut_.endsWith("\r\n")) {
                         if (currentLineOut_.startsWith(boundary)) {
@@ -114,14 +114,10 @@ public class MultipartStream {
                             }
                             break;
                         }
-                        out.write(currentLineOut.toByteArray());
                         currentLineOut = new ByteArrayOutputStream();
                     }
                 }
-                continue;
             }
-            out.write(c);
-            currentLineOut.write(c);
 
         }
         multipartData.setBody(out.toByteArray());
