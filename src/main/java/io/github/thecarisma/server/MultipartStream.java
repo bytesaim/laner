@@ -55,6 +55,7 @@ public class MultipartStream {
         return hasNext_;
     }
 
+    //TODO: remove the boundary appended at EOF
     public MultipartData next() throws IOException {
         MultipartData multipartData = new MultipartData();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -96,11 +97,11 @@ public class MultipartStream {
                 }
                 continue;
             }
-            out.write(c);
+            //out.write(c);
             currentLineOut.write(c);
             if (c == '\r') {
                 c = inputStream.read();
-                out.write(c);
+                //out.write(c);
                 currentLineOut.write(c);
                 if (c == '\n') {
                     String currentLineOut_ = new String(currentLineOut.toByteArray());
@@ -113,6 +114,8 @@ public class MultipartStream {
                                 hasNext_ = true;
                             }
                             break;
+                        } else {
+                            out.write(currentLineOut.toByteArray());
                         }
                         currentLineOut = new ByteArrayOutputStream();
                     }
