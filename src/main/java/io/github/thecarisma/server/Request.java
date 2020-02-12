@@ -32,7 +32,6 @@ import java.util.Map;
 public class Request {
 
     protected InputStream in ;
-    protected BufferedReader bin;
     private String HttpVersion = "";
     private Map<String, String> headers = new HashMap<>();
     private Method method = Method.UNKNOWN;
@@ -43,60 +42,68 @@ public class Request {
     private boolean readBody = false;
     private boolean readMultipart = false;
 
-    public Request(InputStream in) throws IOException {
-        this.in = in;
-        this.bin = new BufferedReader(new InputStreamReader(in));
+    public Request(InputStream in_) throws IOException {
+        this.in = in_;
+        ByteArrayOutputStream currentLineOut = new ByteArrayOutputStream();
         boolean parsedHead = false;
-        String inputLine;
-        while ((inputLine = bin.readLine()) != null && !inputLine.isEmpty()) {
-            if (!parsedHead) {
-                parsedHead = true;
-                endpoint = inputLine;
-                String[] s1 = endpoint.split(" ");
-                setMethod(s1[0].trim());
-                String[] s2 = s1[1].split("\\?");
-                endpoint = URLDecoder.decode(s2[0], "UTF-8");
-                HttpVersion = s1[2];
-                String key = "", value = "";
-                boolean parseKey = true;
-                if (s2.length <= 1) {
-                    continue;
+        int b;
+        while ((b = in.read()) != -1) {
+            currentLineOut.write(b);
+            String currentLineOut_ = new String(currentLineOut.toByteArray());
+            if (currentLineOut_.endsWith("\r\n")) {
+                if (currentLineOut_.equals("\r\n")) {
+                    break;
                 }
-                for (char c : s2[1].toCharArray()) {
-                    if (c == '&') {
-                        if (!key.isEmpty()) {
-                            parameters.put(key, value);
-                        }
-                        key = "";
-                        value = "";
-                        parseKey = true;
+                currentLineOut_ = currentLineOut_.replace("\r\n", "");
+                if (!parsedHead) {
+                    parsedHead = true;
+                    endpoint = currentLineOut_;
+                    String[] s1 = endpoint.split(" ");
+                    setMethod(s1[0].trim());
+                    String[] s2 = URLDecoder.decode(s1[1], "UTF-8").split("\\?");
+                    endpoint = s2[0];
+                    HttpVersion = s1[2];
+                    String key = "", value = "";
+                    boolean parseKey = true;
+                    if (s2.length <= 1) {
+                        currentLineOut = new ByteArrayOutputStream();
                         continue;
                     }
-                    if (c == '=') {
-                        if (!parseKey) {
+                    for (char c : s2[1].toCharArray()) {
+                        if (c == '&') {
+                            if (!key.isEmpty()) {
+                                parameters.put(key, value);
+                            }
+                            key = "";
+                            value = "";
+                            parseKey = true;
+                            continue;
+                        }
+                        if (c == '=') {
+                            if (!parseKey) {
+                                value += c;
+                            }
+                            parseKey = false;
+                            continue;
+                        }
+                        if (parseKey) {
+                            key += c;
+                        } else {
                             value += c;
                         }
-                        parseKey = false;
-                        continue;
                     }
-                    if (parseKey) {
-                        key += c;
-                    } else {
-                        value += c;
+                    if (!key.isEmpty()) {
+                        parameters.put(key, URLDecoder.decode(value, "UTF-8"));
                     }
                 }
-                if (!key.isEmpty()) {
-                    parameters.put(key, URLDecoder.decode(value, "UTF-8"));
-                }
-            } else {
-                String[] s1 = inputLine.split(":");
+                String[] s1 = currentLineOut_.split(":");
                 StringBuilder value = new StringBuilder();
                 for (int i = 1; i < s1.length; i++) {
                     value.append(s1[i]);
                 }
                 headers.put(s1[0].trim(), value.toString().trim());
+                currentLineOut = new ByteArrayOutputStream();
             }
-
         }
         if (headers.get("Content-Type") == null) {
             readMultipart = true;
@@ -123,8 +130,8 @@ public class Request {
             long contentLength = Integer.parseInt(headers.get("Content-Length"));
             long i = 0;
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            while (bin.ready() && i < contentLength) {
-                buffer.write(bin.read());
+            while (i < contentLength) {
+                buffer.write(in.read());
                 i++;
             }
             body = buffer.toByteArray();
@@ -174,14 +181,14 @@ public class Request {
         if (!readMultipart) {
             if (!headers.get("Content-Type").contains("boundary")) {
                 readMultipart = true;
-                multipartStream = new MultipartStream(bin, "000000000");
+                multipartStream = new MultipartStream(in, "000000000");
                 return multipartStream;
             }
             String boundary = headers.get("Content-Type").split(";")[1];
             if (readBody) {
                 multipartStream = new MultipartStream(new String(getBody(), StandardCharsets.UTF_8), boundary.trim());
             } else {
-                multipartStream = new MultipartStream(bin, boundary);
+                multipartStream = new MultipartStream(in, boundary);
             }
             readMultipart = true;
         }

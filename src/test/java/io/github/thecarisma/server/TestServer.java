@@ -182,19 +182,16 @@ public class TestServer {
 
     //@Test
     public static void main(String[] args) throws Exception {
-        Server server = new Server("172.16.40.27",12345, new ServerListener() {
+        Server server = new Server("192.168.8.101",12345, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
                     //System.out.println(new String(request.getBody()));
-                    try (FileOutputStream fos = new FileOutputStream("C:\\Users\\adewale.azeez\\Documents\\OPEN_SOURCE\\THECARISMA\\lanboard\\out\\artifacts\\lanboard_jar\\download_lanboard\\test.png")) {
-                        fos.write(request.getBody());
-                    }
                     MultipartStream multipartStream = request.getBodyMultipartStream();
                     while (multipartStream.hasNext()) {
                         MultipartData multipartData = multipartStream.next();
-                        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\adewale.azeez\\Documents\\OPEN_SOURCE\\THECARISMA\\lanboard\\out\\artifacts\\lanboard_jar\\download_lanboard\\test.png")) {
-                            fos.write(new String(multipartData.getBody()).getBytes(StandardCharsets.UTF_8));
+                        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\azeez\\Documents\\JUNKS\\3\\test.png")) {
+                            fos.write(multipartData.getBody());
                         }
                     }
                     response.close("ok");

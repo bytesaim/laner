@@ -42,7 +42,7 @@ public class MultipartStream {
     public boolean hasNext() throws IOException {
         if (!hasNext_ && !streamDone) {
             StringBuilder tmpBoundary = new StringBuilder();
-            while (inputStream.ready()) {
+            while (true) {
                 char c = (char) inputStream.read();
                 if (c == '\r') {
                     int x = inputStream.read(); //read \r\n
@@ -62,7 +62,7 @@ public class MultipartStream {
         boolean parsedHead = false;
         long size = 0;
         int c ;
-        while (inputStream.ready()  && (c = inputStream.read()) != -1) {
+        while ((c = inputStream.read()) != -1) {
             size++;
             if (!parsedHead) {
                 if (c == '\r') {
@@ -88,27 +88,40 @@ public class MultipartStream {
                             multipartData.setName(multipartData.getHeaders().get("name"));
                             parsedHead = true;
                         }
+                    } else {
+                        out.write(c);
                     }
                 } else {
                     out.write(c);
                 }
                 continue;
             }
-            currentLineOut.write(c);
-            String currentLineOut_ = new String(currentLineOut.toByteArray());
-            if (currentLineOut_.endsWith("\r\n")) {
-                if (currentLineOut_.startsWith(boundary)) {
-                    if (currentLineOut_.endsWith("--\r\n")) {
-                        hasNext_ = false;
-                        streamDone = true;
-                    } else {
-                        hasNext_ = true;
+            if (c == '\r') {
+                out.write(c);
+                currentLineOut.write(c);
+                c = inputStream.read();
+                if (c == '\n') {
+                    out.write(c);
+                    currentLineOut.write(c);
+                    String currentLineOut_ = new String(currentLineOut.toByteArray());
+                    if (currentLineOut_.endsWith("\r\n")) {
+                        if (currentLineOut_.startsWith(boundary)) {
+                            if (currentLineOut_.endsWith("--\r\n")) {
+                                hasNext_ = false;
+                                streamDone = true;
+                            } else {
+                                hasNext_ = true;
+                            }
+                            break;
+                        }
+                        currentLineOut = new ByteArrayOutputStream();
                     }
-                    break;
                 }
-                out.write(currentLineOut.toByteArray());
-                currentLineOut = new ByteArrayOutputStream();
+                continue;
             }
+            out.write(c);
+            currentLineOut.write(c);
+
         }
         multipartData.setBody(out.toByteArray());
         return multipartData;
