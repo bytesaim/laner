@@ -114,6 +114,7 @@ public class MultipartStream {
                             }
                             break;
                         }
+                        out.write(currentLineOut.toByteArray());
                         currentLineOut = new ByteArrayOutputStream();
                     }
                 }

@@ -188,9 +188,10 @@ public class TestServer {
                 try {
                     //System.out.println(new String(request.getBody()));
                     MultipartStream multipartStream = request.getBodyMultipartStream();
+                    int i = 1;
                     while (multipartStream.hasNext()) {
                         MultipartData multipartData = multipartStream.next();
-                        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\azeez\\Documents\\JUNKS\\3\\test.png")) {
+                        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\azeez\\Documents\\JUNKS\\3\\" + (++i) + ".png")) {
                             fos.write(multipartData.getBody());
                         }
                     }
