@@ -9,6 +9,19 @@ import java.util.Enumeration;
 
 public class LanerNetworkInterface {
 
+    public static NetworkInterface findByHostAddress(String hostAddress) throws SocketException {
+        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
+        for (NetworkInterface networkInterface : networkInterfaces) {
+            ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
+            for (InetAddress address : addresses) {
+                if (hostAddress.equals(address.getHostAddress())) {
+                    return networkInterface;
+                }
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<NetworkInterface> getNetworkInterfaces() throws SocketException {
         ArrayList<NetworkInterface> networkInterfaces = new ArrayList<>();
         Enumeration<NetworkInterface> eni = NetworkInterface.getNetworkInterfaces();

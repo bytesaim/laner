@@ -19,20 +19,24 @@ public class NetworkInterfaceStatus implements TRunnable {
     private ArrayList<Exceptor> exceptors = new ArrayList<>();
     private NetworkInterface networkInterface;
 
-    public NetworkInterfaceStatus(LanerListener lanerListener, int delayInSeconds) {
+    public NetworkInterfaceStatus(NetworkInterface networkInterface, LanerListener lanerListener, int delayInSeconds) {
+        this.networkInterface = networkInterface;
         this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
 
-    public NetworkInterfaceStatus(int delayInSeconds) {
+    public NetworkInterfaceStatus(NetworkInterface networkInterface, int delayInSeconds) {
+        this.networkInterface = networkInterface;
         this.delayInSeconds = delayInSeconds;
     }
 
-    public NetworkInterfaceStatus(LanerListener lanerListener) {
+    public NetworkInterfaceStatus(NetworkInterface networkInterface, LanerListener lanerListener) {
+        this.networkInterface = networkInterface;
         this.lanerListeners.add(lanerListener);
     }
 
     public ArrayList<LanerListener> getLanerListeners() {
+        this.networkInterface = networkInterface;
         return lanerListeners;
     }
 

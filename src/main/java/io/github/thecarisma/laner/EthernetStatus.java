@@ -10,15 +10,15 @@ public class EthernetStatus extends NetworkInterfaceStatus {
     private String networkInterfaceIPV4Address = "";
 
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
-        super(lanerListener, delayInSeconds);
+        super(null, lanerListener, delayInSeconds);
     }
 
     public EthernetStatus(int delayInSeconds) {
-        super(delayInSeconds);
+        super(null, delayInSeconds);
     }
 
     public EthernetStatus(LanerListener lanerListener) {
-        super(lanerListener);
+        super(null, lanerListener);
     }
 
     //if the device has lot of eth networkInterfaces up
