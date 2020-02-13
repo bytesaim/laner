@@ -11,7 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //TODO: listen for ethernet
-public class EthernetStatus implements TRunnable {
+public class NetworkInterfaceStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private int delayInSeconds = 1;
@@ -20,16 +20,16 @@ public class EthernetStatus implements TRunnable {
     private ArrayList<Exceptor> exceptors = new ArrayList<>();
     private String networkInterfaceIPV4Address = "";
 
-    public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
+    public NetworkInterfaceStatus(LanerListener lanerListener, int delayInSeconds) {
         this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
 
-    public EthernetStatus(int delayInSeconds) {
+    public NetworkInterfaceStatus(int delayInSeconds) {
         this.delayInSeconds = delayInSeconds;
     }
 
-    public EthernetStatus(LanerListener lanerListener) {
+    public NetworkInterfaceStatus(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
     }
 
