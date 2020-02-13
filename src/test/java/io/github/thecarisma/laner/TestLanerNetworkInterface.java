@@ -9,6 +9,17 @@ import java.util.Enumeration;
 
 public class TestLanerNetworkInterface {
 
+    //change the IP 127.0.0.1 to a valid IPV4 address from, run ifconfig or ipconfig
+    @Test
+    public void TestFindByHostAddress() throws SocketException {
+        NetworkInterface networkInterface = LanerNetworkInterface.findByHostAddress("127.0.0.1");
+        if (networkInterface != null) {
+            System.out.println(networkInterface.getDisplayName());
+        } else {
+            System.out.println("No NetworkInterface found with the specified host address");
+        }
+    }
+
     @Test
     public void TestGetNetworkInterfaces() throws SocketException {
         ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();

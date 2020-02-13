@@ -18,8 +18,9 @@ public class TestNetworkInterfaceStatus {
     }
 
     @Test
-    public void Test2() {
-        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(new LanerListener() {
+    public void Test2() throws SocketException {
+        NetworkInterface networkInterface = LanerNetworkInterface.findByHostAddress("127.0.0.1");
+        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(networkInterface, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
@@ -32,8 +33,9 @@ public class TestNetworkInterfaceStatus {
     }
 
     //@Test
-    public static void main(String[] args) {
-        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(new LanerListener() {
+    public static void main(String[] args) throws SocketException {
+        NetworkInterface networkInterface = LanerNetworkInterface.findByHostAddress("127.0.0.1");
+        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(networkInterface, new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
