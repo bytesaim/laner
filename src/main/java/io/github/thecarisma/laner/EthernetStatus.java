@@ -71,6 +71,10 @@ public class EthernetStatus implements TRunnable {
         }
     }
 
+    private boolean isConnected() {
+        return true;
+    }
+
     @Override
     public boolean isRunning() {
         return true;
