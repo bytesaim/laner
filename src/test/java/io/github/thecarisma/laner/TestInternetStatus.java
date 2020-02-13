@@ -23,7 +23,7 @@ public class TestInternetStatus {
         InternetStatus internetStatus = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof InternetStatus.Status) {
+                if (o instanceof ConnectionStatus) {
                     System.out.println(o);
                 }
             }
@@ -40,7 +40,7 @@ public class TestInternetStatus {
         InternetStatus internetStatus = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof InternetStatus.Status) {
+                if (o instanceof ConnectionStatus) {
                     System.out.println(o);
                 }
             }

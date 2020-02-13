@@ -11,7 +11,7 @@ public class EthernetStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
     private int delayInSeconds = 1;
-    private Status status = Status.DISCONNECTED;
+    private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
     private Timer timer;
 
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
@@ -51,13 +51,13 @@ public class EthernetStatus implements TRunnable {
             @Override
             public void run() {
                 if (isConnected()) {
-                    if (status == Status.DISCONNECTED) {
-                        status = Status.CONNECTED;
+                    if (status == ConnectionStatus.DISCONNECTED) {
+                        status = ConnectionStatus.CONNECTED;
                         broadcastToListeners(status);
                     }
                 } else {
-                    if (status == Status.CONNECTED) {
-                        status = Status.DISCONNECTED;
+                    if (status == ConnectionStatus.CONNECTED) {
+                        status = ConnectionStatus.DISCONNECTED;
                         broadcastToListeners(status);
                     }
                 }
@@ -78,11 +78,6 @@ public class EthernetStatus implements TRunnable {
 
     public void stop() {
         timer.cancel();
-    }
-
-    public enum Status {
-        CONNECTED,
-        DISCONNECTED
     }
 
 }
