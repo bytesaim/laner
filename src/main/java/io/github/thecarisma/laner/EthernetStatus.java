@@ -1,7 +1,9 @@
 package io.github.thecarisma.laner;
 
+import io.github.thecarisma.exceptions.Exceptor;
 import io.github.thecarisma.util.TRunnable;
 
+import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ public class EthernetStatus implements TRunnable {
     private int delayInSeconds = 1;
     private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
     private Timer timer;
+    private ArrayList<Exceptor> exceptors = new ArrayList<>();
+    private String networkInterfaceIPV4Address = "";
 
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
         this.lanerListeners.add(lanerListener);
@@ -65,7 +69,7 @@ public class EthernetStatus implements TRunnable {
                         }
                     }
                 } catch (SocketException e) {
-                    e.printStackTrace();
+                    throwException(e);
                 }
             }
         }, 0, (delayInSeconds * 1000));
@@ -77,13 +81,34 @@ public class EthernetStatus implements TRunnable {
         }
     }
 
+    public void onlyCheckForInterfaceWith(String networkInterfaceIPV4Address) {
+        this.networkInterfaceIPV4Address = networkInterfaceIPV4Address;
+    }
+
+    public void checkAllEthernet() {
+        this.networkInterfaceIPV4Address = "";
+    }
+
     private boolean isConnected() throws SocketException {
         boolean containsEth = false;
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            System.out.println(networkInterface.getName());
+            if (networkInterface.getName().startsWith("eth")) {
+                if (!this.networkInterfaceIPV4Address.isEmpty()) {
+                    ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
+                    for (InetAddress address : addresses) {
+                        if (this.networkInterfaceIPV4Address.equals(address.getHostAddress())) {
+                            containsEth = true;
+                            break;
+                        }
+                    }
+                } else {
+                    containsEth = true;
+                    break;
+                }
+            }
         }
-        return true;
+        return containsEth;
     }
 
     @Override
@@ -93,6 +118,28 @@ public class EthernetStatus implements TRunnable {
 
     public void stop() {
         timer.cancel();
+    }
+
+    public ArrayList<Exceptor> getExceptors() {
+        return exceptors;
+    }
+
+    public void addExceptor(Exceptor exceptor) {
+        this.exceptors.add(exceptor);
+    }
+
+    public void removeExceptor(Exceptor exceptor) {
+        this.exceptors.remove(exceptor);
+    }
+
+    private void throwException(Exception ex) {
+        if (exceptors.size() == 0) {
+            ex.printStackTrace();
+            return;
+        }
+        for (Exceptor exceptor : exceptors) {
+            exceptor.thrown(ex);
+        }
     }
 
 }

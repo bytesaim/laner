@@ -13,7 +13,7 @@ public class TestEthernetStatus {
     public void Test1() throws SocketException {
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            System.out.println(networkInterface.getName());
+            System.out.println(networkInterface.isUp() + ":" + networkInterface.getName());
         }
     }
 
@@ -28,7 +28,8 @@ public class TestEthernetStatus {
             }
         });
         ethernetStatus.run();
-        TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
+        ethernetStatus.onlyCheckForInterfaceWith("172.16.40.27");
+        //TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
     }
 
 }
