@@ -64,8 +64,8 @@ public class TestMultipartStream {
         }
     }
 
-    //@Test
-    public static void main(String[] args) throws IOException {
+    @Test
+    public void Test4() throws IOException {
         String content = "----AaB03x\r\n"
                 + "Content-Disposition: form-data; name=\"files\"; filename=\"file1.txt\"\r\n"
                 + "Content-Type: text/plain\r\n"

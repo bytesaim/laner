@@ -84,7 +84,7 @@ public class TestLanerNetworkInterface {
         System.out.println(LanerNetworkInterface.getIPV4Address());
     }
 
-    //@Test
+    @Test
     public void TestFindOpenPorts() throws UnknownHostException {
         for (int port = 0; port < 100000; ++port) {
             if (LanerNetworkInterface.isReachable(LanerNetworkInterface.getIPV4Address(), port, 10))

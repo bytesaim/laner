@@ -1,6 +1,7 @@
 package io.github.thecarisma.laner;
 
 import io.github.thecarisma.exceptions.InvalidArgumentException;
+import io.github.thecarisma.util.TimedTRunnableKiller;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -19,14 +20,18 @@ public class TestNetworkDevices {
         }
     }
 
-    //@Test
+    @Test
     public void TestConnectedNetworkDevices() throws UnknownHostException {
-        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener()).run();
+        NetworkDevices networkDevices = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener());
+        new Thread(networkDevices).start();
+        TimedTRunnableKiller.timeTRunnableDeath(networkDevices, 10);
     }
 
-    //@Test
+    @Test
     public void TestConnectedNetworkDevicesExtraPorts() throws UnknownHostException {
-        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener(), new int[]{ 12345, 8021}).run();
+        NetworkDevices networkDevices = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new Listener(), new int[]{ 12345, 8021});
+        new Thread(networkDevices).start();
+        TimedTRunnableKiller.timeTRunnableDeath(networkDevices, 10);
     }
 
     public static void main(String[] args) throws IOException, InvalidArgumentException {

@@ -11,7 +11,6 @@ import java.util.Vector;
 
 public class TestType {
 
-    //@Test
     public void TestInterfaceType() throws SocketException, UnknownHostException {
         Vector<String> Available_Devices=new Vector<>();
         String myip=InetAddress.getLocalHost().getHostAddress();
