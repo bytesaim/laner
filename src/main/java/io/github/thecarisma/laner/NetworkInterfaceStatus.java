@@ -82,7 +82,7 @@ public class NetworkInterfaceStatus implements TRunnable {
 
     protected boolean isConnected() throws SocketException {
         boolean containsEth = false;
-        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
+        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
             if (this.networkInterface != null) {
                 if (this.networkInterface.getDisplayName().equals(networkInterface.getDisplayName())) {
