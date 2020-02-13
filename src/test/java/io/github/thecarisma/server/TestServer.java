@@ -2,6 +2,7 @@ package io.github.thecarisma.server;
 
 import io.github.thecarisma.exceptions.ResponseHeaderException;
 import io.github.thecarisma.laner.LanerNetworkInterface;
+import io.github.thecarisma.util.TimedTRunnableKiller;
 import org.junit.Test;
 
 import java.io.*;
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 public class TestServer {
 
-    //@Test
+    @Test
     public void Test1() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerRawListener() {
             @Override
@@ -32,9 +33,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestGetRequest() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -60,9 +62,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestPost() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -102,9 +105,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestResponse() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -120,9 +124,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestResponseHeader() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -144,9 +149,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestSendFile() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -161,9 +167,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
+    @Test
     public void TestDownload() throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
@@ -178,9 +185,9 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         server.run();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
     public static void main(String[] args) throws Exception {
         Server server = new Server("192.168.8.101",12345, new ServerListener() {
             @Override
@@ -202,10 +209,6 @@ public class TestServer {
             }
         });
         new Thread(server).start();
-        /*Thread.sleep(2000);
-        if (server.isRunning()) {
-            server.stop();
-        }*/
     }
 
     public static String getRawBody(String urlToRead) throws Exception {

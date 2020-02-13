@@ -31,8 +31,8 @@ public class TestWifiStatus {
         TimedTRunnableKiller.timeTRunnableDeath(wifiStatus, 10);
     }
 
-    //@Test
-    public static void main(String[] args) {
+    @Test
+    public void Test3() {
         WifiStatus wifiStatus = new WifiStatus(new LanerListener() {
             @Override
             public void report(Object o) {
