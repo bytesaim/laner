@@ -125,8 +125,8 @@ public class TestThreadsManager {
         threadsManager.startAll("testnetworddevices");
     }
 
-    //@Test
-    public static void main(String[] args) throws UnknownHostException, InterruptedException {
+    @Test
+    public void Test4() throws UnknownHostException, InterruptedException {
         final ThreadsManager threadsManager = new ThreadsManager();
         final int[] index = {0};
         NetworkDevices nd = new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {

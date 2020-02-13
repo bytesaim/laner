@@ -32,7 +32,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -61,7 +61,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -104,7 +104,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -123,7 +123,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -148,7 +148,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -166,7 +166,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -184,7 +184,7 @@ public class TestServer {
             }
         });
         System.out.println(server.getIpAddress());
-        server.run();
+        new Thread(server).start();
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
@@ -209,6 +209,7 @@ public class TestServer {
             }
         });
         new Thread(server).start();
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
     public static String getRawBody(String urlToRead) throws Exception {
