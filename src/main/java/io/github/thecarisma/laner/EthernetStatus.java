@@ -2,6 +2,8 @@ package io.github.thecarisma.laner;
 
 import io.github.thecarisma.util.TRunnable;
 
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,16 +52,20 @@ public class EthernetStatus implements TRunnable {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (isConnected()) {
-                    if (status == ConnectionStatus.DISCONNECTED) {
-                        status = ConnectionStatus.CONNECTED;
-                        broadcastToListeners(status);
+                try {
+                    if (isConnected()) {
+                        if (status == ConnectionStatus.DISCONNECTED) {
+                            status = ConnectionStatus.CONNECTED;
+                            broadcastToListeners(status);
+                        }
+                    } else {
+                        if (status == ConnectionStatus.CONNECTED) {
+                            status = ConnectionStatus.DISCONNECTED;
+                            broadcastToListeners(status);
+                        }
                     }
-                } else {
-                    if (status == ConnectionStatus.CONNECTED) {
-                        status = ConnectionStatus.DISCONNECTED;
-                        broadcastToListeners(status);
-                    }
+                } catch (SocketException e) {
+                    e.printStackTrace();
                 }
             }
         }, 0, (delayInSeconds * 1000));
@@ -71,7 +77,12 @@ public class EthernetStatus implements TRunnable {
         }
     }
 
-    private boolean isConnected() {
+    private boolean isConnected() throws SocketException {
+        boolean containsEth = false;
+        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
+        for (NetworkInterface networkInterface : networkInterfaces) {
+            System.out.println(networkInterface.getName());
+        }
         return true;
     }
 

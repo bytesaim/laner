@@ -1,9 +1,6 @@
 package io.github.thecarisma.util;
 
-import io.github.thecarisma.laner.InternetStatus;
-import io.github.thecarisma.laner.LanerListener;
-import io.github.thecarisma.laner.LanerNetworkInterface;
-import io.github.thecarisma.laner.NetworkDevices;
+import io.github.thecarisma.laner.*;
 import io.github.thecarisma.server.Request;
 import io.github.thecarisma.server.Response;
 import io.github.thecarisma.server.Server;
@@ -65,7 +62,7 @@ public class TestThreadsManager {
         InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof InternetStatus.Status) {
+                if (o instanceof ConnectionStatus) {
                     if (index2[0] >= 0) {
                         try {
                             System.out.println("Killing all testnetworddevices2 Runables");
@@ -110,7 +107,7 @@ public class TestThreadsManager {
         InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof InternetStatus.Status) {
+                if (o instanceof ConnectionStatus) {
                     if (index2[0] >= 0) {
                         try {
                             System.out.println("Don't care killing in NetworkDevice status");
@@ -153,7 +150,7 @@ public class TestThreadsManager {
         InternetStatus is = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
-                if (o instanceof InternetStatus.Status) {
+                if (o instanceof ConnectionStatus) {
                     if (index2[0] >= 0) {
                         try {
                             System.out.println("Don't care killing in NetworkDevice status");
