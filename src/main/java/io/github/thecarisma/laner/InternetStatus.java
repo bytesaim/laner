@@ -14,6 +14,7 @@ public class InternetStatus implements TRunnable {
     private Status status = Status.DISCONNECTED;
     private Timer timer;
     private boolean isListening = false;
+    private boolean useProxy_ = false;
 
     public InternetStatus(String urlIp) {
         this.urlIp = urlIp;
@@ -44,6 +45,10 @@ public class InternetStatus implements TRunnable {
         this.delayInSeconds = delayInSeconds;
     }
 
+    public void useProxy(boolean useProxy) {
+        this.useProxy_ = useProxy;
+    }
+
     public static boolean IsConnected() {
         return LanerNetworkInterface.isReachable("thecarisma.github.io", 80, 1000);
     }
@@ -61,7 +66,7 @@ public class InternetStatus implements TRunnable {
     }
 
     public boolean isConnected() {
-        return LanerNetworkInterface.isReachable(urlIp, 80, 1000);
+        return LanerNetworkInterface.isReachable(urlIp, 80, 1000, useProxy_);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class MultipartStream {
         return hasNext_;
     }
 
-    //TODO: remove the boundary appended at EOF
+    //TODO: remove the \r\n appended at EOF
     public MultipartData next() throws IOException {
         MultipartData multipartData = new MultipartData();
         ByteArrayOutputStream out = new ByteArrayOutputStream();

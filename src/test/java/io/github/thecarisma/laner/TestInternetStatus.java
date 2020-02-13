@@ -1,6 +1,7 @@
 package io.github.thecarisma.laner;
 
 import io.github.thecarisma.exceptions.InvalidArgumentException;
+import io.github.thecarisma.util.TimedTRunnableKiller;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -17,15 +18,36 @@ public class TestInternetStatus {
         System.out.println(LanerNetworkInterface.isReachable("google.com", 80, 1000));
     }
 
-    public static void main(String[] args) throws UnknownHostException, InvalidArgumentException {
-        new InternetStatus("thecarisma.github.io", new LanerListener() {
+    @Test
+    public void Test1() {
+        InternetStatus internetStatus = new InternetStatus("thecarisma.github.io", new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof InternetStatus.Status) {
                     System.out.println(o);
                 }
             }
-        }).run();
+        });
+        internetStatus.run();
+        TimedTRunnableKiller.timeTRunnableDeath(internetStatus, 10);
+    }
+
+    //@Test
+    public static void main(String[] args) throws InvalidArgumentException {
+        LanerProxyConfig.setProxyHost("trendgate.interswitchng.com");
+        LanerProxyConfig.setProxyPort(8080);
+        LanerProxyConfig.enableProxy(true);
+        InternetStatus internetStatus = new InternetStatus("thecarisma.github.io", new LanerListener() {
+            @Override
+            public void report(Object o) {
+                if (o instanceof InternetStatus.Status) {
+                    System.out.println(o);
+                }
+            }
+        });
+        internetStatus.useProxy(true);
+        internetStatus.run();
+        TimedTRunnableKiller.timeTRunnableDeath(internetStatus, 10);
     }
 
 }
