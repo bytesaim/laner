@@ -10,38 +10,21 @@ import java.util.TimerTask;
 public class EthernetStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
-    private String urlIp = "thecarisma.github.io";
     private int delayInSeconds = 1;
     private Status status = Status.DISCONNECTED;
     private Timer timer;
 
-    public EthernetStatus(String urlIp) {
-        this.urlIp = urlIp;
-    }
-
-    public EthernetStatus(String urlIp, LanerListener lanerListener, int delayInSeconds) {
-        this.urlIp = urlIp;
+    public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
         this.lanerListeners.add(lanerListener);
         this.delayInSeconds = delayInSeconds;
     }
 
-    public EthernetStatus(String urlIp, LanerListener lanerListener) {
-        this.urlIp = urlIp;
-        this.lanerListeners.add(lanerListener);
-    }
-
-    public EthernetStatus(String urlIp, int delayInSeconds) {
-        this.urlIp = urlIp;
+    public EthernetStatus(int delayInSeconds) {
         this.delayInSeconds = delayInSeconds;
     }
 
     public EthernetStatus(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
-    }
-
-    public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
-        this.lanerListeners.add(lanerListener);
-        this.delayInSeconds = delayInSeconds;
     }
 
     public static boolean IsConnected() {
@@ -58,10 +41,6 @@ public class EthernetStatus implements TRunnable {
 
     public void removeLanerListener(LanerListener lanerListener) {
         this.lanerListeners.remove(lanerListener);
-    }
-
-    public boolean isConnected() {
-        return LanerNetworkInterface.isReachable(urlIp, 80, 1000);
     }
 
     @Override

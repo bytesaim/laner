@@ -32,9 +32,9 @@ public class TestInternetStatus {
         TimedTRunnableKiller.timeTRunnableDeath(internetStatus, 10);
     }
 
-    //@Test
-    public static void main(String[] args) throws InvalidArgumentException {
-        LanerProxyConfig.setProxyHost("trendgate.interswitchng.com");
+    @Test
+    public void TestProxy() throws InvalidArgumentException {
+        LanerProxyConfig.setProxyHost("test.example.com");
         LanerProxyConfig.setProxyPort(8080);
         LanerProxyConfig.enableProxy(true);
         InternetStatus internetStatus = new InternetStatus("thecarisma.github.io", new LanerListener() {
