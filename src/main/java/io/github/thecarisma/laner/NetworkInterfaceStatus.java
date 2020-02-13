@@ -85,7 +85,17 @@ public class NetworkInterfaceStatus implements TRunnable {
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
             if (this.networkInterface != null) {
-                if (this.networkInterface.equals(networkInterface)) {
+                if (this.networkInterface.getDisplayName().equals(networkInterface.getDisplayName())) {
+                    ArrayList<InetAddress> addresses1 = LanerNetworkInterface.getInetAddresses(networkInterface);
+                    ArrayList<InetAddress> addresses2 = LanerNetworkInterface.getInetAddresses(this.networkInterface);
+                    if (addresses1.size() != addresses2.size()) {
+                        continue;
+                    }
+                    for (int i = 0; i < addresses1.size(); ++i) {
+                        if (!addresses1.get(i).getHostAddress().equals(addresses1.get(i).getHostAddress())) {
+                            continue;
+                        }
+                    }
                     containsEth = true;
                     break;
                 }

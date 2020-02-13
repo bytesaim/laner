@@ -10,7 +10,7 @@ import java.util.Enumeration;
 public class LanerNetworkInterface {
 
     public static NetworkInterface findByHostAddress(String hostAddress) throws SocketException {
-        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
+        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfaces();
         for (NetworkInterface networkInterface : networkInterfaces) {
             ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
             for (InetAddress address : addresses) {
