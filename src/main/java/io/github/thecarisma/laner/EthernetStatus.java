@@ -1,84 +1,24 @@
 package io.github.thecarisma.laner;
 
-import io.github.thecarisma.exceptions.Exceptor;
-import io.github.thecarisma.util.TRunnable;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-//TODO: listen for ethernet
-public class EthernetStatus implements TRunnable {
+public class EthernetStatus extends NetworkInterfaceStatus {
 
-    private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
-    private int delayInSeconds = 1;
-    private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
-    private Timer timer;
-    private ArrayList<Exceptor> exceptors = new ArrayList<>();
     private String networkInterfaceIPV4Address = "";
 
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
-        this.lanerListeners.add(lanerListener);
-        this.delayInSeconds = delayInSeconds;
+        super(lanerListener, delayInSeconds);
     }
 
     public EthernetStatus(int delayInSeconds) {
-        this.delayInSeconds = delayInSeconds;
+        super(delayInSeconds);
     }
 
     public EthernetStatus(LanerListener lanerListener) {
-        this.lanerListeners.add(lanerListener);
-    }
-
-    public static boolean IsConnected() {
-        return LanerNetworkInterface.isReachable("thecarisma.github.io", 80, 1000);
-    }
-
-    public ArrayList<LanerListener> getLanerListeners() {
-        return lanerListeners;
-    }
-
-    public void addLanerListener(LanerListener lanerListener) {
-        this.lanerListeners.add(lanerListener);
-    }
-
-    public void removeLanerListener(LanerListener lanerListener) {
-        this.lanerListeners.remove(lanerListener);
-    }
-
-    @Override
-    public void run() {
-        broadcastToListeners(status);
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    if (isConnected()) {
-                        if (status == ConnectionStatus.DISCONNECTED) {
-                            status = ConnectionStatus.CONNECTED;
-                            broadcastToListeners(status);
-                        }
-                    } else {
-                        if (status == ConnectionStatus.CONNECTED) {
-                            status = ConnectionStatus.DISCONNECTED;
-                            broadcastToListeners(status);
-                        }
-                    }
-                } catch (SocketException e) {
-                    throwException(e);
-                }
-            }
-        }, 0, (delayInSeconds * 1000));
-    }
-
-    private void broadcastToListeners(Object o) {
-        for (LanerListener lanerListener : lanerListeners) {
-            lanerListener.report(o);
-        }
+        super(lanerListener);
     }
 
     //if the device has lot of eth networkInterfaces up
@@ -90,7 +30,8 @@ public class EthernetStatus implements TRunnable {
         this.networkInterfaceIPV4Address = "";
     }
 
-    private boolean isConnected() throws SocketException {
+    @Override
+    protected boolean isConnected() throws SocketException {
         boolean containsEth = false;
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
@@ -112,35 +53,5 @@ public class EthernetStatus implements TRunnable {
         return containsEth;
     }
 
-    @Override
-    public boolean isRunning() {
-        return true;
-    }
-
-    public void stop() {
-        timer.cancel();
-    }
-
-    public ArrayList<Exceptor> getExceptors() {
-        return exceptors;
-    }
-
-    public void addExceptor(Exceptor exceptor) {
-        this.exceptors.add(exceptor);
-    }
-
-    public void removeExceptor(Exceptor exceptor) {
-        this.exceptors.remove(exceptor);
-    }
-
-    private void throwException(Exception ex) {
-        if (exceptors.size() == 0) {
-            ex.printStackTrace();
-            return;
-        }
-        for (Exceptor exceptor : exceptors) {
-            exceptor.thrown(ex);
-        }
-    }
 
 }

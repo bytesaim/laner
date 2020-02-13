@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//TODO: listen for ethernet
 public class NetworkInterfaceStatus implements TRunnable {
 
     private ArrayList<LanerListener> lanerListeners = new ArrayList<>();
@@ -18,7 +17,7 @@ public class NetworkInterfaceStatus implements TRunnable {
     private ConnectionStatus status = ConnectionStatus.DISCONNECTED;
     private Timer timer;
     private ArrayList<Exceptor> exceptors = new ArrayList<>();
-    private String networkInterfaceIPV4Address = "";
+    private NetworkInterface networkInterface;
 
     public NetworkInterfaceStatus(LanerListener lanerListener, int delayInSeconds) {
         this.lanerListeners.add(lanerListener);
@@ -31,10 +30,6 @@ public class NetworkInterfaceStatus implements TRunnable {
 
     public NetworkInterfaceStatus(LanerListener lanerListener) {
         this.lanerListeners.add(lanerListener);
-    }
-
-    public static boolean IsConnected() {
-        return LanerNetworkInterface.isReachable("thecarisma.github.io", 80, 1000);
     }
 
     public ArrayList<LanerListener> getLanerListeners() {
@@ -81,29 +76,12 @@ public class NetworkInterfaceStatus implements TRunnable {
         }
     }
 
-    //if the device has lot of eth networkInterfaces up
-    public void onlyCheckForInterfaceWith(String networkInterfaceIPV4Address) {
-        this.networkInterfaceIPV4Address = networkInterfaceIPV4Address;
-    }
-
-    public void checkAllEthernet() {
-        this.networkInterfaceIPV4Address = "";
-    }
-
-    private boolean isConnected() throws SocketException {
+    protected boolean isConnected() throws SocketException {
         boolean containsEth = false;
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            if (networkInterface.getName().startsWith("eth")) {
-                if (!this.networkInterfaceIPV4Address.isEmpty()) {
-                    ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
-                    for (InetAddress address : addresses) {
-                        if (this.networkInterfaceIPV4Address.equals(address.getHostAddress())) {
-                            containsEth = true;
-                            break;
-                        }
-                    }
-                } else {
+            if (this.networkInterface != null) {
+                if (this.networkInterface.equals(networkInterface)) {
                     containsEth = true;
                     break;
                 }
