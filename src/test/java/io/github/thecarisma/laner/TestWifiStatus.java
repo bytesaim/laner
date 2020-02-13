@@ -19,7 +19,7 @@ public class TestWifiStatus {
 
     @Test
     public void Test2() {
-        EthernetStatus ethernetStatus = new EthernetStatus(new LanerListener() {
+        WifiStatus wifiStatus = new WifiStatus(new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
@@ -27,13 +27,13 @@ public class TestWifiStatus {
                 }
             }
         });
-        ethernetStatus.run();
-        TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
+        wifiStatus.run();
+        TimedTRunnableKiller.timeTRunnableDeath(wifiStatus, 10);
     }
 
     //@Test
     public static void main(String[] args) {
-        EthernetStatus ethernetStatus = new EthernetStatus(new LanerListener() {
+        WifiStatus wifiStatus = new WifiStatus(new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
@@ -41,9 +41,9 @@ public class TestWifiStatus {
                 }
             }
         });
-        ethernetStatus.run();
-        ethernetStatus.onlyCheckForInterfaceWith("172.16.40.27");
-        TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
+        wifiStatus.run();
+        wifiStatus.onlyCheckForInterfaceWith("172.16.40.27");
+        TimedTRunnableKiller.timeTRunnableDeath(wifiStatus, 10);
     }
 
 }
