@@ -31,8 +31,8 @@ public class TestEthernetStatus {
         TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
     }
 
-    //@Test
-    public static void main(String[] args) {
+    @Test
+    public void Test3() {
         EthernetStatus ethernetStatus = new EthernetStatus(new LanerListener() {
             @Override
             public void report(Object o) {
@@ -42,7 +42,7 @@ public class TestEthernetStatus {
             }
         });
         ethernetStatus.run();
-        ethernetStatus.onlyCheckForInterfaceWith("172.16.40.27");
+        ethernetStatus.onlyCheckForInterfaceWith("127.0.0.1");
         TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
     }
 

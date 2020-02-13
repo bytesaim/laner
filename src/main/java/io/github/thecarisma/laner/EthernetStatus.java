@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class EthernetStatus extends NetworkInterfaceStatus {
 
-    private String networkInterfaceIPV4Address = "";
+    protected String networkInterfaceIPV4Address = "";
 
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
         super(null, lanerListener, delayInSeconds);
@@ -21,7 +21,7 @@ public class EthernetStatus extends NetworkInterfaceStatus {
         super(null, lanerListener);
     }
 
-    //if the device has lot of eth networkInterfaces up
+    //if the device has more than one eth networkInterfaces up
     public void onlyCheckForInterfaceWith(String networkInterfaceIPV4Address) {
         this.networkInterfaceIPV4Address = networkInterfaceIPV4Address;
     }

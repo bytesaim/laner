@@ -7,7 +7,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 
-public class TestNetworkInterfaceStatus {
+public class TestWifiStatus {
 
     @Test
     public void Test1() throws SocketException {
@@ -18,9 +18,8 @@ public class TestNetworkInterfaceStatus {
     }
 
     @Test
-    public void Test2() throws SocketException {
-        NetworkInterface networkInterface = LanerNetworkInterface.findByHostAddress("127.0.0.1");
-        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(networkInterface, new LanerListener() {
+    public void Test2() {
+        EthernetStatus ethernetStatus = new EthernetStatus(new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
@@ -28,14 +27,13 @@ public class TestNetworkInterfaceStatus {
                 }
             }
         });
-        networkInterfaceStatus.run();
-        TimedTRunnableKiller.timeTRunnableDeath(networkInterfaceStatus, 20);
+        ethernetStatus.run();
+        TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
     }
 
-    @Test
-    public void Test3() throws SocketException {
-        NetworkInterface networkInterface = LanerNetworkInterface.findByHostAddress("127.0.0.1");
-        NetworkInterfaceStatus networkInterfaceStatus = new NetworkInterfaceStatus(networkInterface, new LanerListener() {
+    //@Test
+    public static void main(String[] args) {
+        EthernetStatus ethernetStatus = new EthernetStatus(new LanerListener() {
             @Override
             public void report(Object o) {
                 if (o instanceof ConnectionStatus) {
@@ -43,8 +41,9 @@ public class TestNetworkInterfaceStatus {
                 }
             }
         });
-        networkInterfaceStatus.run();
-        TimedTRunnableKiller.timeTRunnableDeath(networkInterfaceStatus, 20);
+        ethernetStatus.run();
+        ethernetStatus.onlyCheckForInterfaceWith("172.16.40.27");
+        TimedTRunnableKiller.timeTRunnableDeath(ethernetStatus, 10);
     }
 
 }
