@@ -48,6 +48,14 @@ public class NetworkInterfaceStatus implements TRunnable {
         this.lanerListeners.remove(lanerListener);
     }
 
+    public NetworkInterface getNetworkInterface() {
+        return networkInterface;
+    }
+
+    public void setNetworkInterface(NetworkInterface networkInterface) {
+        this.networkInterface = networkInterface;
+    }
+
     @Override
     public void run() {
         broadcastToListeners(status);
