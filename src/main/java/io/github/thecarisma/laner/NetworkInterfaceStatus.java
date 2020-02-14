@@ -37,7 +37,6 @@ public class NetworkInterfaceStatus implements TRunnable {
     }
 
     public ArrayList<LanerListener> getLanerListeners() {
-        this.networkInterface = networkInterface;
         return lanerListeners;
     }
 
