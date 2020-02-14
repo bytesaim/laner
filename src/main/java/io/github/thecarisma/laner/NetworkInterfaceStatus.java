@@ -18,6 +18,7 @@ public class NetworkInterfaceStatus implements TRunnable {
     private Timer timer;
     private ArrayList<Exceptor> exceptors = new ArrayList<>();
     private NetworkInterface networkInterface;
+    private boolean isListening = false;
 
     public NetworkInterfaceStatus(NetworkInterface networkInterface, LanerListener lanerListener, int delayInSeconds) {
         this.networkInterface = networkInterface;
@@ -59,6 +60,7 @@ public class NetworkInterfaceStatus implements TRunnable {
     @Override
     public void run() {
         broadcastToListeners(status);
+        isListening = true;
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -114,11 +116,16 @@ public class NetworkInterfaceStatus implements TRunnable {
 
     @Override
     public boolean isRunning() {
-        return true;
+        return isListening;
     }
 
     public void stop() {
-        timer.cancel();
+        if (isListening) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            isListening = false;
+        }
     }
 
     public ArrayList<Exceptor> getExceptors() {
