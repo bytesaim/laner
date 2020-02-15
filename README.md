@@ -111,9 +111,9 @@ public class TestNetworkDevices {
 The following example monitors devices that connects and disconnect to the network 
 
 ```java
-import LanerListener;
-import LanerNetworkInterface;
-import NetworkDevices;
+import com.bytesaim.laner.LanerListener;
+import com.bytesaim.laner.LanerNetworkInterface;
+import com.bytesaim.laner.NetworkDevices;
 import java.net.UnknownHostException;
 
 public class TestNetworkDevices {
