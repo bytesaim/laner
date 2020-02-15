@@ -25,7 +25,7 @@ Using mvn-repo:
 ```xml
 <dependencies>
     <dependency>
-        <groupId>io.github.thecarisma</groupId>
+        <groupId>com.bytesaim</groupId>
         <artifactId>laner</artifactId>
         <version>1.0</version>
     </dependency>
