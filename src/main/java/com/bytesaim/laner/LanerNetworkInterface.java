@@ -24,6 +24,9 @@ public class LanerNetworkInterface {
     public static ArrayList<NetworkInterface> getNetworkInterfaces() throws SocketException {
         ArrayList<NetworkInterface> networkInterfaces = new ArrayList<>();
         Enumeration<NetworkInterface> eni = NetworkInterface.getNetworkInterfaces();
+        if (eni == null) {
+            return networkInterfaces;
+        }
         while(eni.hasMoreElements()) {
             NetworkInterface networkInterface = eni.nextElement();
             if (!networkInterface.isUp()) {
@@ -37,6 +40,9 @@ public class LanerNetworkInterface {
     public static ArrayList<NetworkInterface> getNetworkInterfacesNoLoopback() throws SocketException {
         ArrayList<NetworkInterface> networkInterfaces = new ArrayList<>();
         Enumeration<NetworkInterface> eni = NetworkInterface.getNetworkInterfaces();
+        if (eni == null) {
+            return networkInterfaces;
+        }
         while(eni.hasMoreElements()) {
             NetworkInterface networkInterface = eni.nextElement();
             if (networkInterface.isLoopback() || !networkInterface.isUp()) {
