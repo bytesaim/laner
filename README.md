@@ -14,7 +14,7 @@ ___
     
 ## Installation
 
-Download the jar file from the [releases](https://github.com/Thecarisma/laner/releases) and add the downloaded `laner-$.jar` to your java or android project class path or library folder.
+Download the jar file from the [releases](https://github.com/bytesaim/laner/releases) and add the downloaded `laner-$.jar` to your java or android project class path or library folder.
 
 ### Maven 
 
@@ -27,14 +27,14 @@ Using mvn-repo:
     <dependency>
         <groupId>com.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.0</version>
+        <version>1.2</version>
     </dependency>
 </dependencies>
 
 <repositories>
     <repository>
         <id>laner</id>
-        <url>https://raw.github.com/thecarisma/laner/mvn-repo/</url>
+        <url>https://raw.github.com/bytesaim/laner/mvn-repo/</url>
     </repository>
 </repositories>
 ```
@@ -44,9 +44,9 @@ Using jitpack.io:
 ```xml
 <dependencies>
     <dependency>
-        <groupId>com.github.thecarisma</groupId>
+        <groupId>com.github.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.0</version>
+        <version>1.2</version>
     </dependency>
 </dependencies>
 
@@ -74,7 +74,7 @@ Add the dependency:
 
 ```gradle
 dependencies {
-        implementation 'com.github.thecarisma:laner:1.1.5'
+        implementation 'com.github.bytesaim:laner:1.2.0'
 }
 ```
 
