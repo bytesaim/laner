@@ -46,7 +46,7 @@ Using jitpack.io:
     <dependency>
         <groupId>com.github.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.2</version>
+        <version>master-SNAPSHOT</version>
     </dependency>
 </dependencies>
 
@@ -74,7 +74,7 @@ Add the dependency:
 
 ```gradle
 dependencies {
-        implementation 'com.github.bytesaim:laner:1.2.0'
+        implementation 'com.github.bytesaim:laner:master-SNAPSHOT'
 }
 ```
 
