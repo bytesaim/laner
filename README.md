@@ -85,7 +85,7 @@ dependencies {
 A basic route on the main endpoint and greet_endpoit over GET method
 
 ```java
-import io.github.thecarisma.server.*;
+import com.bytesaim.server.*;
 
 public class TestNetworkDevices {
     public static void main(String[] args) throws UnknownHostException {
@@ -111,9 +111,9 @@ public class TestNetworkDevices {
 The following example monitors devices that connects and disconnect to the network 
 
 ```java
-import io.github.thecarisma.laner.LanerListener;
-import io.github.thecarisma.laner.LanerNetworkInterface;
-import io.github.thecarisma.laner.NetworkDevices;
+import LanerListener;
+import LanerNetworkInterface;
+import NetworkDevices;
 import java.net.UnknownHostException;
 
 public class TestNetworkDevices {
