@@ -43,7 +43,7 @@
                     <branch>refs/heads/mvn-repo</branch>
                     <includes><include>**/*</include></includes>
                     <repositoryName>laner</repositoryName>
-                    <repositoryOwner>thecarisma</repositoryOwner>
+                    <repositoryOwner>bytesaim</repositoryOwner>
                 </configuration>
                 <executions>
                     <execution>
