@@ -145,7 +145,7 @@ public class NetworkInterfaceStatus implements TRunnable {
             return;
         }
         for (Exceptor exceptor : exceptors) {
-            exceptor.thrown(ex);
+            exceptor.thrown(this, ex);
         }
     }
 
