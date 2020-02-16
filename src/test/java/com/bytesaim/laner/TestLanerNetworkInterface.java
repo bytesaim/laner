@@ -68,6 +68,18 @@ public class TestLanerNetworkInterface {
             for (InetAddress inetAddress : LanerNetworkInterface.getInetAddresses(networkInterface)) {
                 System.out.println(inetAddress.getHostAddress());
             }
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void TestGetValidInetAddresses() throws SocketException, UnknownHostException {
+        ArrayList<NetworkInterface> networkInterfaces = LanerNetworkInterface.getNetworkInterfaces();
+        for (NetworkInterface networkInterface : networkInterfaces) {
+            for (InetAddress inetAddress : LanerNetworkInterface.getValidInetAddresses(networkInterface)) {
+                System.out.println(inetAddress.getHostAddress());
+            }
+            System.out.println();
         }
     }
 

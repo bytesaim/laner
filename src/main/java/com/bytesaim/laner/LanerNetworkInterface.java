@@ -57,6 +57,17 @@ public class LanerNetworkInterface {
         return Collections.list(networkInterface.getInetAddresses());
     }
 
+    public static ArrayList<InetAddress> getValidInetAddresses(NetworkInterface networkInterface) {
+        ArrayList<InetAddress> addresses = Collections.list(networkInterface.getInetAddresses());
+        for (int a = 0; a < addresses.size(); ++a) {
+            if (!ipAddressIsValid(addresses.get(a).getHostAddress())) {
+                addresses.remove(a);
+                a--;
+            }
+        }
+        return addresses;
+    }
+
     public static String getIPV4Address() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostAddress();
     }
@@ -155,6 +166,33 @@ public class LanerNetworkInterface {
             int responseCode = connection.getResponseCode();
             return (200 <= responseCode && responseCode <= 399);
         } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    public static boolean ipAddressIsValid(String ip) {
+        try {
+            if ( ip == null || ip.isEmpty() ) {
+                return false;
+            }
+
+            String[] parts = ip.split( "\\." );
+            if ( parts.length != 4 ) {
+                return false;
+            }
+
+            for ( String s : parts ) {
+                int i = Integer.parseInt( s );
+                if ( (i < 0) || (i > 255) ) {
+                    return false;
+                }
+            }
+            if ( ip.endsWith(".") ) {
+                return false;
+            }
+
+            return true;
+        } catch (NumberFormatException nfe) {
             return false;
         }
     }
