@@ -5,42 +5,18 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 
-public class WifiStatus extends EthernetStatus {
+public class WifiStatus extends NetworkInterfaceStatusByName {
 
     public WifiStatus(LanerListener lanerListener, int delayInSeconds) {
-        super(lanerListener, delayInSeconds);
+        super(lanerListener, delayInSeconds, "wlan");
     }
 
     public WifiStatus(int delayInSeconds) {
-        super(delayInSeconds);
+        super(delayInSeconds, "wlan");
     }
 
     public WifiStatus(LanerListener lanerListener) {
-        super(lanerListener);
+        super(lanerListener, "wlan");
     }
-
-    @Override
-    protected boolean isConnected() throws SocketException {
-        boolean containsEth = false;
-        ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
-        for (NetworkInterface networkInterface : networkInterfaces) {
-            if (networkInterface.getName().startsWith("wlan")) {
-                if (!this.networkInterfaceIPV4Address.isEmpty()) {
-                    ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
-                    for (InetAddress address : addresses) {
-                        if (this.networkInterfaceIPV4Address.equals(address.getHostAddress())) {
-                            containsEth = true;
-                            break;
-                        }
-                    }
-                } else {
-                    containsEth = true;
-                    break;
-                }
-            }
-        }
-        return containsEth;
-    }
-
 
 }
