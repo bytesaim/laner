@@ -17,8 +17,8 @@ public class TestLanStatus {
         }
     }
 
-    //@Test
-    public static void main(String[] args) {
+    @Test
+    public void Test2() {
         LanStatus lanStatus = new LanStatus(new LanerListener() {
             @Override
             public void report(Object o) {
