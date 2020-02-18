@@ -7,10 +7,6 @@ import java.util.ArrayList;
 
 public class EthernetStatus extends NetworkInterfaceStatus {
 
-    protected String networkInterfaceIPV4Address = "";
-
-    ArrayList<String> interfacesName = new ArrayList<>();
-
     public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
         super(null, lanerListener, delayInSeconds);
     }
