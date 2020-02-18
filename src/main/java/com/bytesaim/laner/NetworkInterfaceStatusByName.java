@@ -33,7 +33,7 @@ public class NetworkInterfaceStatusByName implements TRunnable {
         this.delayInSeconds = delayInSeconds;
     }
 
-    public NetworkInterfaceStatusByName(NetworkInterface networkInterface, LanerListener lanerListener, String... names) {
+    public NetworkInterfaceStatusByName(LanerListener lanerListener, String... names) {
         interfacesNames.addAll(Arrays.asList(names));
         this.lanerListeners.add(lanerListener);
     }
@@ -103,7 +103,14 @@ public class NetworkInterfaceStatusByName implements TRunnable {
         boolean containsEth = false;
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
         for (NetworkInterface networkInterface : networkInterfaces) {
-            if (networkInterface.getName().startsWith("eth")) {
+            boolean check = false;
+            for (String interfaceName : interfacesNames) {
+                if (networkInterface.getName().startsWith(interfaceName)) {
+                    check  = true;
+                    break;
+                }
+            }
+            if (check) {
                 if (!this.networkInterfaceIPV4Address.isEmpty()) {
                     ArrayList<InetAddress> addresses = LanerNetworkInterface.getInetAddresses(networkInterface);
                     for (InetAddress address : addresses) {
