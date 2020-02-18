@@ -5,21 +5,21 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 
-public class EthernetStatus extends NetworkInterfaceStatus {
+public class NetworkInterfaceStatusByName extends NetworkInterfaceStatus {
 
     protected String networkInterfaceIPV4Address = "";
 
     ArrayList<String> interfacesName = new ArrayList<>();
 
-    public EthernetStatus(LanerListener lanerListener, int delayInSeconds) {
+    public NetworkInterfaceStatusByName(LanerListener lanerListener, int delayInSeconds) {
         super(null, lanerListener, delayInSeconds);
     }
 
-    public EthernetStatus(int delayInSeconds) {
+    public NetworkInterfaceStatusByName(int delayInSeconds) {
         super(null, delayInSeconds);
     }
 
-    public EthernetStatus(LanerListener lanerListener) {
+    public NetworkInterfaceStatusByName(LanerListener lanerListener) {
         super(null, lanerListener);
     }
 
