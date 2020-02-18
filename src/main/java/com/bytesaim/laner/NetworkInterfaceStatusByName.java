@@ -99,6 +99,15 @@ public class NetworkInterfaceStatusByName implements TRunnable {
         }
     }
 
+    //if the device has more than one eth networkInterfaces up
+    public void onlyCheckForInterfaceWith(String networkInterfaceIPV4Address) {
+        this.networkInterfaceIPV4Address = networkInterfaceIPV4Address;
+    }
+
+    public void checkAll() {
+        this.networkInterfaceIPV4Address = "";
+    }
+
     protected boolean isConnected() throws SocketException {
         boolean containsEth = false;
         ArrayList<NetworkInterface> networkInterfaces =  LanerNetworkInterface.getNetworkInterfacesNoLoopback();
