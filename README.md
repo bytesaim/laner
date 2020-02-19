@@ -2,6 +2,7 @@
 
 <p style="text-align: center;" align="center">Local Area Network Operations, listen, detect, connect, byte transfer, e.t.c.</p>
 
+https://tools.ietf.org/rfc/
 ___
 
 ## Table of content

@@ -124,6 +124,8 @@ public class StatusCode {
                 return "Accepted";
             case NO_CONTENT:
                 return "No Content";
+            case PARTIAL_CONTENT:
+                return "Partial Content";
             case MOVED_PERMANENTLY:
                 return "Moved Permanently";
             case FOUND:

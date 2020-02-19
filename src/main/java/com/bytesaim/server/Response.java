@@ -106,17 +106,21 @@ public class Response {
         }
     }
 
+    //TODO: needs keep alive connection
     public void sendFileInRange(File file, String contentType, long from, long to) throws IOException, ResponseHeaderException {
         if (!headersSent) {
             FileInputStream input = new FileInputStream(file);
-            long fileSize = file.length();
-            appendHeader("Content-Length", "" + fileSize);
+            long fileSize = (to - from);
             appendHeader("Content-Type", contentType);
-            sendResponseHead();
+            appendHeader("Content-Range", String.format("bytes %d-*/*", from, to));
+            appendHeader("Content-Length", ""+file.length());
             final byte[] buffer = new byte[bufferSize];
             long skipped = input.skip(from);
-            for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
-                out.write(buffer, 0, read);
+            int i = 0;
+            while (i < fileSize) {
+                out.write(input.read());
+                ++i;
+            }
             out.flush();
             input.close();
         }

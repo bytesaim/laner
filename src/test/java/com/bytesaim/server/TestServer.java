@@ -230,7 +230,8 @@ public class TestServer {
     }
 
     //this test honors the Range header
-    public static void main(String[] args) throws UnknownHostException {
+    //TODO: needs keep alive connection
+    public static void main2(String[] args) throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
@@ -242,10 +243,10 @@ public class TestServer {
                         String to_ = range.substring(range.indexOf("-")+1);
                         int to = Integer.parseInt((!to_.isEmpty() ? to_ : "0"));
                         response.setStatusCode(StatusCode.PARTIAL_CONTENT);
-                        response.sendFileInRange(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief_(2013)_BluRay_high_(fzmovies.net)_dfb9fb91fcc2b7fa75d454fbc1043a0e.mp4"),
+                        response.sendFileInRange(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief.mp4"),
                                 from, to);
                     } else {
-                        response.sendFile(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief_(2013)_BluRay_high_(fzmovies.net)_dfb9fb91fcc2b7fa75d454fbc1043a0e.mp4"));
+                        response.sendFile(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief"));
                     }
                     response.close();
                 } catch (ResponseHeaderException | IOException e) {
