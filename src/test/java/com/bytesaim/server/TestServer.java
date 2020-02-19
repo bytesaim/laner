@@ -169,9 +169,9 @@ public class TestServer {
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    //@Test
-    //public void TestDownload() throws UnknownHostException {
-    public static void main(String[] args) throws UnknownHostException {
+    @Test
+    public void TestDownload() throws UnknownHostException {
+   // public static void main(String[] args) throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
@@ -186,7 +186,7 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         new Thread(server).start();
-        //TimedTRunnableKiller.timeTRunnableDeath(server, 10);
+        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
     public static void main1(String[] args) throws Exception {
