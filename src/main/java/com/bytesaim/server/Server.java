@@ -98,6 +98,7 @@ public class Server implements TRunnable {
                     serverSocket.close();
                     break;
                 }
+                //TODO: properly handle keep-alive connection
                 final Socket finalClientSocket = clientSocket;
                 new Thread(new Runnable() {
                     @Override

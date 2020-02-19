@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 public class TestServer {
 
@@ -52,7 +53,7 @@ public class TestServer {
                     System.out.println("    " + s + "=" + request.getHeaders().get(s));
                 }
                 try {
-                    System.out.println("Body: " + request.getBody());
+                    System.out.println("Body: " + new String(request.getBody(), StandardCharsets.UTF_8));
                     response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -81,7 +82,7 @@ public class TestServer {
                     System.out.println("    " + s + "=" + request.getHeaders().get(s));
                 }
                 try {
-                    System.out.println("Body: " + request.getBody());
+                    System.out.println("Body: " + new String(request.getBody(), StandardCharsets.UTF_8));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -113,7 +114,7 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    System.out.println("Body: " + request.getBody());
+                    System.out.println("Body: " + new String(request.getBody(), StandardCharsets.UTF_8));
                     response.write("Hello World".getBytes());
                     response.close();
                 } catch (IOException e) {
@@ -171,7 +172,7 @@ public class TestServer {
 
     @Test
     public void TestDownload() throws UnknownHostException {
-   // public static void main(String[] args) throws UnknownHostException {
+    //public static void main(String[] args) throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
@@ -194,7 +195,7 @@ public class TestServer {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    //System.out.println(new String(request.getBody()));
+                    //System.out.println(new String(new String(request.getBody(), StandardCharsets.UTF_8)));
                     MultipartStream multipartStream = request.getBodyMultipartStream();
                     int i = 1;
                     while (multipartStream.hasNext()) {
@@ -226,6 +227,35 @@ public class TestServer {
         }
         rd.close();
         return result.toString();
+    }
+
+    //this test honors the Range header
+    public static void main(String[] args) throws UnknownHostException {
+        Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
+            @Override
+            public void report(Request request, Response response) {
+                try {
+                    response.setBufferSize(512);
+                    if (request.getHeaders().get("Range") != null) {
+                        String range = request.getHeaders().get("Range");
+                        int from = Integer.parseInt(range.substring(range.indexOf("=")+1, range.indexOf("-")));
+                        String to_ = range.substring(range.indexOf("-")+1);
+                        int to = Integer.parseInt((!to_.isEmpty() ? to_ : "0"));
+                        response.setStatusCode(StatusCode.PARTIAL_CONTENT);
+                        response.sendFileInRange(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief_(2013)_BluRay_high_(fzmovies.net)_dfb9fb91fcc2b7fa75d454fbc1043a0e.mp4"),
+                                from, to);
+                    } else {
+                        response.sendFile(new File("C:\\Users\\azeez\\Videos\\Video\\Identity_Thief_(2013)_BluRay_high_(fzmovies.net)_dfb9fb91fcc2b7fa75d454fbc1043a0e.mp4"));
+                    }
+                    response.close();
+                } catch (ResponseHeaderException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println(server.getIpAddress());
+        new Thread(server).start();
+        //TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
 }

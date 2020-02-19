@@ -32,6 +32,11 @@ public class StatusCode {
     /**
      *
      */
+    public final static int PARTIAL_CONTENT     = 206;
+
+    /**
+     *
+     */
     public final static int MOVED_PERMANENTLY        = 301;
 
     /**

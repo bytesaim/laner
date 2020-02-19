@@ -87,6 +87,10 @@ public class Response {
         sendFile(file, getFileType(file));
     }
 
+    public void sendFileInRange(File file, long from, long to) throws IOException, ResponseHeaderException {
+        sendFileInRange(file, getFileType(file), from, to);
+    }
+
     public void sendFile(File file, String contentType) throws IOException, ResponseHeaderException {
         if (!headersSent) {
             FileInputStream input = new FileInputStream(file);
@@ -95,6 +99,22 @@ public class Response {
             appendHeader("Content-Type", contentType);
             sendResponseHead();
             final byte[] buffer = new byte[bufferSize];
+            for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
+                out.write(buffer, 0, read);
+            out.flush();
+            input.close();
+        }
+    }
+
+    public void sendFileInRange(File file, String contentType, long from, long to) throws IOException, ResponseHeaderException {
+        if (!headersSent) {
+            FileInputStream input = new FileInputStream(file);
+            long fileSize = file.length();
+            appendHeader("Content-Length", "" + fileSize);
+            appendHeader("Content-Type", contentType);
+            sendResponseHead();
+            final byte[] buffer = new byte[bufferSize];
+            long skipped = input.skip(from);
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
                 out.write(buffer, 0, read);
             out.flush();
@@ -121,6 +141,10 @@ public class Response {
     public void close(String data) throws IOException {
         close(data.getBytes());
     }
+
+    /*public void flush() throws IOException {
+        out.flush();
+    }*/
 
     public void close(byte[] data) throws IOException {
         write(data);
