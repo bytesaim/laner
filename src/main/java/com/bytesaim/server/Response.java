@@ -26,6 +26,7 @@ public class Response {
     public boolean headersSent = false;
     public boolean addDefaultHeaders = true;
     public final Server server ;
+    private int bufferSize = 8192;
 
     public Response(Server server, OutputStream out) {
         this.server = server;
@@ -93,7 +94,7 @@ public class Response {
             appendHeader("Content-Length", "" + fileSize);
             appendHeader("Content-Type", contentType);
             sendResponseHead();
-            final byte[] buffer = new byte[4096];
+            final byte[] buffer = new byte[bufferSize];
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
                 out.write(buffer, 0, read);
             out.flush();
@@ -109,7 +110,7 @@ public class Response {
             appendHeader("Content-Type", getFileType(file));
             appendHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
             sendResponseHead();
-            final byte[] buffer = new byte[4096];
+            final byte[] buffer = new byte[bufferSize];
             for (int read = input.read(buffer); read >= 0; read = input.read(buffer))
                 out.write(buffer, 0, read);
             out.flush();
@@ -177,4 +178,11 @@ public class Response {
         return (type != null ?  type : "application/octet-stream") ;
     }
 
+    public int getBufferSize() {
+        return bufferSize;
+    }
+
+    public void setBufferSize(int bufferSize) {
+        this.bufferSize = (bufferSize > 0 ? bufferSize : this.bufferSize);
+    }
 }

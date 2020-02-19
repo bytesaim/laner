@@ -169,13 +169,15 @@ public class TestServer {
         TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    @Test
-    public void TestDownload() throws UnknownHostException {
+    //@Test
+    //public void TestDownload() throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException {
         Server server = new Server(LanerNetworkInterface.getIPV4Address(),7510, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.downloadFile(new File(".\\src\\main\\resources\\logo.png"), "logo.png");
+                    response.setBufferSize(50000);
+                    response.downloadFile(new File("C:\\Users\\azeez\\Downloads\\Compressed\\Getintopc.comIBM_SPSS_Statistics_26.0_IF006x86-x64.zip"), "test.zip");
                     response.close();
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
@@ -184,10 +186,10 @@ public class TestServer {
         });
         System.out.println(server.getIpAddress());
         new Thread(server).start();
-        TimedTRunnableKiller.timeTRunnableDeath(server, 10);
+        //TimedTRunnableKiller.timeTRunnableDeath(server, 10);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main1(String[] args) throws Exception {
         Server server = new Server("192.168.8.102",12345, new ServerListener() {
             @Override
             public void report(Request request, Response response) {
