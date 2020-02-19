@@ -108,6 +108,7 @@ public class NetworkDevices implements TRunnable {
                                 try {
                                     for (String ipAddress : ipAddresses) {
                                         if (!continueListening)  {
+                                            trulyDead();
                                             break;
                                         }
                                         String preDeviceAddr = ipAddress.substring(0, ipAddress.lastIndexOf(".") + 1);
