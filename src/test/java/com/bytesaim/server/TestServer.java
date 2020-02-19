@@ -177,7 +177,7 @@ public class TestServer {
             public void report(Request request, Response response) {
                 try {
                     response.setBufferSize(50000);
-                    response.downloadFile(new File("C:\\Users\\azeez\\Downloads\\Compressed\\Getintopc.comIBM_SPSS_Statistics_26.0_IF006x86-x64.zip"), "test.zip");
+                    response.downloadFile(new File(".\\src\\main\\resources\\logo.png"), "logo.png");
                     response.close();
                 } catch (ResponseHeaderException | IOException e) {
                     e.printStackTrace();
