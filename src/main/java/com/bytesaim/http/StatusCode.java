@@ -7,156 +7,71 @@ package com.bytesaim.http;
  *
  * https://restfulapi.net/http-status-codes/
  */
-public class StatusCode {
+public enum StatusCode {
+
+    // 200s
+    OK(200, "OK"),
+    CREATED(201, "Created"),
+    ACCEPTED(202, "Accepted"),
+    NO_CONTENT(204, "No Content"),
+    PARTIAL_CONTENT(206, "Partial Content"),
+
+    // 300s
+    MOVED_PERMANENTLY(301, "Moved Permanently"),
+    FOUND(302, "Found"),
+    SEE_OTHER(303, "See Other"),
+    NOT_MODIFIED(304, "Not Modified"),
+    TEMPORARY_REDIRECT(307, "Temporary Redirect"),
+
+    // 400s
+    BAD_REQUEST(400, "Bad Request"),
+    UNAUTHORIZED(401, "Unauthorized"),
+    FORBIDDEN(403, "Forbidden"),
+    NOT_FOUND(404, "Not Found"),
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+    NOT_ACCEPTABLE(406, "Not Acceptable"),
+    PRECONDITION_FAILED(412, "Precondition Failed"),
+    UNSUPPORTED_MEDIA_TYPE(415, "Unsupported Media Type"),
+
+    // 500s
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    NOT_IMPLEMENTED(501, "Not Implemented"),
+
+    ;
 
     /**
      *
      */
-    public final static int OK          = 200;
+    private int code;
 
     /**
      *
      */
-    public final static int CREATED        = 201;
+    private String value;
 
     /**
      *
+     * @param code
+     * @param value
      */
-    public final static int ACCEPTED       = 202;
+    StatusCode(int code, String value) {
+        this.code = code;
+        this.value = value;
+    }
 
     /**
      *
-     */
-    public final static int NO_CONTENT     = 204;
-
-    /**
-     *
-     */
-    public final static int PARTIAL_CONTENT     = 206;
-
-    /**
-     *
-     */
-    public final static int MOVED_PERMANENTLY        = 301;
-
-    /**
-     *
-     */
-    public final static int FOUND        = 302;
-
-    /**
-     *
-     */
-    public final static int SEE_OTHER        = 303;
-
-    /**
-     *
-     */
-    public final static int NOT_MODIFIED        = 304;
-
-    /**
-     *
-     */
-    public final static int TEMPORARY_REDIRECT        = 307;
-
-    /**
-     *
-     */
-    public final static int BAD_REQUEST        = 400;
-
-    /**
-     *
-     */
-    public final static int UNAUTHORISED        = 401;
-
-    /**
-     *
-     */
-    public final static int FORBIDDEN        = 403;
-
-    /**
-     *
-     */
-    public final static int NOT_FOUND        = 404;
-
-    /**
-     *
-     */
-    public final static int METHOD_NOT_ALLOWED        = 405;
-
-    /**
-     *
-     */
-    public final static int NOT_ACCEPTABLE        = 406;
-
-    /**
-     *
-     */
-    public final static int PRECONDITION_FAILED        = 412;
-
-    /**
-     *
-     */
-    public final static int UNSUPPORTED_MEDIA_TYPE        = 415;
-
-    /**
-     *
-     */
-    public final static int INTERNAL_SERVER_ERROR        = 500;
-
-    /**
-     *
-     */
-    public final static int NOT_IMPLEMENTED        = 501;
-
-    /**
-     *
-     * @param statusCode
      * @return
      */
-    public static String statusCodeValue(int statusCode) {
-        switch (statusCode) {
-            case OK:
-                return "OK";
-            case CREATED:
-                return "Created";
-            case ACCEPTED:
-                return "Accepted";
-            case NO_CONTENT:
-                return "No Content";
-            case PARTIAL_CONTENT:
-                return "Partial Content";
-            case MOVED_PERMANENTLY:
-                return "Moved Permanently";
-            case FOUND:
-                return "FOUND";
-            case SEE_OTHER:
-                return "SEE_OTHER";
-            case NOT_MODIFIED:
-                return "NOT_MODIFIED";
-            case TEMPORARY_REDIRECT:
-                return "TEMPORARY_REDIRECT";
-            case BAD_REQUEST:
-                return "BAD_REQUEST";
-            case UNAUTHORISED:
-                return "UNAUTHORISED";
-            case METHOD_NOT_ALLOWED:
-                return "METHOD_NOT_ALLOWED";
-            case FORBIDDEN:
-                return "FORBIDDEN";
-            case NOT_FOUND:
-                return "NOT_FOUND";
-            case NOT_ACCEPTABLE:
-                return "NOT_ACCEPTABLE";
-            case PRECONDITION_FAILED:
-                return "PRECONDITION_FAILED";
-            case UNSUPPORTED_MEDIA_TYPE:
-                return "UNSUPPORTED_MEDIA_TYPE";
-            case INTERNAL_SERVER_ERROR:
-                return "INTERNAL_SERVER_ERROR";
-            case NOT_IMPLEMENTED:
-                return "NOT_IMPLEMENTED";
-        }
-        return "UNKNOWN";
+    public int getCode() {
+        return code;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getValue() {
+        return value;
     }
 }

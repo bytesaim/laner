@@ -21,7 +21,7 @@ public class Response {
     private Map<String, String[]> headers = new HashMap<>();
     private String rawResponseHead = "" ;
     private String reasonPhrase = "" ;
-    private int statusCode = StatusCode.OK;
+    private StatusCode statusCode = StatusCode.OK;
     private boolean headersNeedsParsing = true;
     public boolean headersSent = false;
     public boolean addDefaultHeaders = true;
@@ -33,17 +33,17 @@ public class Response {
         this.out = out;
     }
 
-    public int getStatusCode() {
+    public StatusCode getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(StatusCode statusCode) {
         this.statusCode = statusCode;
     }
 
     public String getReasonPhrase() {
         if (reasonPhrase.isEmpty()) {
-            reasonPhrase = StatusCode.statusCodeValue(statusCode);
+            reasonPhrase = statusCode.getValue();
         }
         return reasonPhrase;
     }
