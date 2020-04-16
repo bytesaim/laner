@@ -6,24 +6,26 @@ package com.bytesaim.http;
  * Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
  *
  * https://restfulapi.net/http-status-codes/
+ * https://tools.ietf.org/html/rfc7231
+ * https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 public enum StatusCode {
 
-    // 200s
+    // 2XX
     OK(200, "OK"),
     CREATED(201, "Created"),
     ACCEPTED(202, "Accepted"),
     NO_CONTENT(204, "No Content"),
     PARTIAL_CONTENT(206, "Partial Content"),
 
-    // 300s
+    // 3XX
     MOVED_PERMANENTLY(301, "Moved Permanently"),
     FOUND(302, "Found"),
     SEE_OTHER(303, "See Other"),
     NOT_MODIFIED(304, "Not Modified"),
     TEMPORARY_REDIRECT(307, "Temporary Redirect"),
 
-    // 400s
+    // 4XX
     BAD_REQUEST(400, "Bad Request"),
     UNAUTHORIZED(401, "Unauthorized"),
     FORBIDDEN(403, "Forbidden"),
@@ -33,7 +35,7 @@ public enum StatusCode {
     PRECONDITION_FAILED(412, "Precondition Failed"),
     UNSUPPORTED_MEDIA_TYPE(415, "Unsupported Media Type"),
 
-    // 500s
+    // 5XX
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTED(501, "Not Implemented"),
 
@@ -42,12 +44,12 @@ public enum StatusCode {
     /**
      *
      */
-    private int code;
+    private final int code;
 
     /**
      *
      */
-    private String value;
+    private final String value;
 
     /**
      *
@@ -74,4 +76,5 @@ public enum StatusCode {
     public String getValue() {
         return value;
     }
+
 }
