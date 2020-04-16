@@ -1,6 +1,6 @@
 package com.bytesaim.util;
 
-import com.bytesaim.laner.LanerListener;
+import com.bytesaim.lan.LanerListener;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;

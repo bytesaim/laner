@@ -28,7 +28,7 @@ Using mvn-repo:
     <dependency>
         <groupId>com.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.2</version>
+        <version>1.2.1</version>
     </dependency>
 </dependencies>
 
@@ -47,7 +47,7 @@ Using jitpack.io:
     <dependency>
         <groupId>com.github.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>master-SNAPSHOT</version>
+        <version>1.2.1</version>
     </dependency>
 </dependencies>
 
@@ -86,7 +86,7 @@ dependencies {
 A basic route on the main endpoint and greet_endpoit over GET method
 
 ```java
-import com.bytesaim.server.*;
+import com.bytesaim.http.*;
 
 public class TestNetworkDevices {
     public static void main(String[] args) throws UnknownHostException {
@@ -112,9 +112,9 @@ public class TestNetworkDevices {
 The following example monitors devices that connects and disconnect to the network 
 
 ```java
-import com.bytesaim.laner.LanerListener;
-import com.bytesaim.laner.LanerNetworkInterface;
-import com.bytesaim.laner.NetworkDevices;
+import com.bytesaim.lan.LanerListener;
+import com.bytesaim.lan.LanerNetworkInterface;
+import com.bytesaim.lan.NetworkDevices;
 import java.net.UnknownHostException;
 
 public class TestNetworkDevices {

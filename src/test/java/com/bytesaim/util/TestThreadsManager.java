@@ -1,10 +1,10 @@
 package com.bytesaim.util;
 
-import com.bytesaim.laner.*;
-import com.bytesaim.server.Request;
-import com.bytesaim.server.Response;
-import com.bytesaim.server.Server;
-import com.bytesaim.server.ServerListener;
+import com.bytesaim.lan.*;
+import com.bytesaim.http.Request;
+import com.bytesaim.http.Response;
+import com.bytesaim.http.Server;
+import com.bytesaim.http.ServerListener;
 import org.junit.Test;
 
 import java.io.IOException;
