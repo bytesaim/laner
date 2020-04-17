@@ -121,12 +121,9 @@ import java.net.UnknownHostException;
 
 public class TestNetworkDevices {
     public static void main(String[] args) throws UnknownHostException {
-        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), new LanerListener() {
-            @Override
-            public void report(Object o) {
-                if (o instanceof NetworkDevices.NetworkDevice) {
-                    System.out.println(o);
-                }
+        new NetworkDevices(LanerNetworkInterface.getIPV4Address(), (o) -> {
+            if (o instanceof NetworkDevices.NetworkDevice) {
+                System.out.println(o);
             }
         }).run();
     }
