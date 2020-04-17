@@ -216,7 +216,11 @@
 .jpg	image/jpeg
 .jpg	image/pjpeg
 .jps	image/x-jps
-
+.js	application/x-javascript
+.js	application/javascript
+.js	application/ecmascript
+.js	text/javascript
+.js	text/ecmascript
 .jut	image/jutvision
 .kar	audio/midi
 .kar	music/x-karaoke
