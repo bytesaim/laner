@@ -1,6 +1,11 @@
-# <p style="text-align: center;" align="center"><img src="https://github.com/keyvaluedb/keyvaluedb.github.io/raw/master/icons/key-value-db-java.png" alt="key-value-db-java" style="width:180px;height:160px;" width="180" height="160" /><br /> laner</p>
+# laner
 
-<p style="text-align: center;" align="center">Local Area Network Operations, listen, detect, connect, byte transfer, e.t.c.</p>
+Local Area Network Operations, listen, detect, connect, byte transfer, e.t.c.</p>
+
+---
+This is not a replacement for library like Spring, the project is best suited for runtime server creation such as 
+a game app that need to spawn a server for a game session and destroy the server when the session has end, or an 
+app that share data over a network. 
 
 https://tools.ietf.org/rfc/
 ___

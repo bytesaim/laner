@@ -7,6 +7,7 @@ public class TestMimeTypes {
     @Test
     public void Test1() {
         String[] names = { "text.html", "css", ".", "avery.try.abc", "", "..." } ;
+
         for (String name : names) {
             String ext = name.substring(name.lastIndexOf('.') + 1);
             System.out.println(ext);
@@ -17,7 +18,7 @@ public class TestMimeTypes {
     public void Test2() {
         String[] names = { "file.3dm", "text.html", "css", ".js", "avery.try.mp4", "mp3", "..." } ;
         for (String name : names) {
-            System.out.println(MimeTypes.get(name));
+            System.out.println(MimeTypes.get(name).getValue());
         }
     }
 

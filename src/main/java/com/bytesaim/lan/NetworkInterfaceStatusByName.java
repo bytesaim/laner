@@ -169,7 +169,7 @@ public class NetworkInterfaceStatusByName implements TRunnable {
             return;
         }
         for (Exceptor exceptor : exceptors) {
-            exceptor.thrown(this, ex);
+            exceptor.threw(this, ex);
         }
     }
 
