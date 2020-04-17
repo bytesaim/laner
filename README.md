@@ -3,7 +3,7 @@
 Local Area Network Operations, listen, detect, connect, byte transfer, e.t.c.</p>
 
 ---
-This is not a replacement for library like Spring, the project is best suited for runtime server creation such as 
+This is not a replacement for library like Spring, the project is best for runtime server creation such as 
 a game app that need to spawn a server for a game session and destroy the server when the session has end, or an 
 app that share data over a network. 
 

@@ -51,6 +51,7 @@ public enum MimeTypes {
     APPLICATION_MAC_COMPACTPRO("application/mac-compactpro"),
     TEXT_X_FORTRAN("text/x-fortran"),
     TEXT_X_SPEECH("text/x-speech"),
+    VIDEO_MKV("video/mkv"),
     APPLICATION_X_POINTPLUS("application/x-pointplus"),
     MUSIC_X_KARAOKE("music/x-karaoke"),
     TEXT_X_M("text/x-m"),
@@ -390,6 +391,7 @@ public enum MimeTypes {
     AUDIO_MID("audio/mid"),
     APPLICATION_VDA("application/vda"),
     VIDEO_FLI("video/fli"),
+    VIDEO_WMV("video/wmv"),
     AUDIO_S3M("audio/s3m"),
     AUDIO_X_GSM("audio/x-gsm"),
     APPLICATION_MSWRITE("application/mswrite"),
@@ -573,6 +575,8 @@ public enum MimeTypes {
                 return TEXT_X_SPEECH;
             case "talk":
                 return TEXT_X_SPEECH;
+            case "wmv":
+                return VIDEO_MKV;
             case "css":
                 return APPLICATION_X_POINTPLUS;
             case "kar_1":
@@ -598,6 +602,8 @@ public enum MimeTypes {
             case "mp2_1":
                 return VIDEO_X_MPEG;
             case "mp3":
+                return VIDEO_X_MPEG;
+            case "mp4":
                 return VIDEO_X_MPEG;
             case "tcl_1":
                 return TEXT_X_SCRIPT_TCL;
@@ -1223,6 +1229,8 @@ public enum MimeTypes {
                 return VIDEO_MPEG;
             case "mpg_1":
                 return VIDEO_MPEG;
+            case "mp4_1":
+                return VIDEO_MPEG;
             case "stl":
                 return APPLICATION_X_NAVISTYLE;
             case "oda":
@@ -1625,6 +1633,8 @@ public enum MimeTypes {
                 return APPLICATION_VDA;
             case "fli_1":
                 return VIDEO_FLI;
+            case "mkv":
+                return VIDEO_WMV;
             case "s3m":
                 return AUDIO_S3M;
             case "gsd":

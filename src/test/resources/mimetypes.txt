@@ -645,3 +645,8 @@
 .zip	multipart/x-zip
 .zoo	application/octet-stream
 .zsh	text/x-script.zsh
+// extra mime types
+.mp4	video/mpeg
+.mp4	video/x-mpeg
+.mkv	video/wmv
+.wmv	video/mkv
