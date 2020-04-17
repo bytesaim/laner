@@ -33,7 +33,7 @@ Using mvn-repo:
     <dependency>
         <groupId>com.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.2.1</version>
+        <version>0.2.1</version>
     </dependency>
 </dependencies>
 
@@ -52,7 +52,7 @@ Using jitpack.io:
     <dependency>
         <groupId>com.github.bytesaim</groupId>
         <artifactId>laner</artifactId>
-        <version>1.2.1</version>
+        <version>master-SNAPSHOT</version>
     </dependency>
 </dependencies>
 
@@ -97,14 +97,11 @@ public class TestNetworkDevices {
     public static void main(String[] args) throws UnknownHostException {
         Server server = new Server("127.0.0.1",4000);
         EndpointRouter endpointRouter = new EndpointRouter(server);
-        endpointRouter.get("/", new ServerListener() {
-            @Override
-            public void report(Request request, Response response) {
-                try {
-                    response.write("hello how are your".getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        endpointRouter.get("/", (request, response) -> {
+            try {
+                response.write("hello how are your".getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
         server.run();

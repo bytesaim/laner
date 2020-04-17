@@ -1,7 +1,7 @@
 package com.bytesaim.http;
 
 import com.bytesaim.exceptions.ResponseHeaderException;
-import com.bytesaim.lan.Attributes;
+import com.bytesaim.util.Attributes;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -170,7 +170,7 @@ public class Response {
 
     private void parseHeaders() {
         if (headersNeedsParsing) {
-            rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode, getReasonPhrase());
+            rawResponseHead = String.format("%s %d %s\r\n", getHttpVersion(), statusCode.getCode(), getReasonPhrase());
             if (addDefaultHeaders) {
                 try {
                     appendHeader("Host", server.getHost());
@@ -184,11 +184,11 @@ public class Response {
             }
             for (String key : headers.keySet()) {
                 String[] values = headers.get(key);
-                String header = key + ": ";
+                StringBuilder header = new StringBuilder(key + ": ");
                 for (int i = 0; i < values.length; ++i) {
-                    header += values[i];
+                    header.append(values[i]);
                     if (i != values.length - 1) {
-                        header += ", ";
+                        header.append(", ");
                     }
                 }
                 rawResponseHead += header + "\r\n";

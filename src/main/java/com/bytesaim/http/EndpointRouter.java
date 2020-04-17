@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
  */
 public class EndpointRouter {
 
-    private Server mServer ;
+    private final Server mServer ;
     private ServerListenerFactory defaultServerListenerFactory;
-    private Map<Method, Map<String, ServerListenerFactory>> mMethodRoutes = new HashMap<>();
+    private final Map<Method, Map<String, ServerListenerFactory>> mMethodRoutes = new HashMap<>();
 
     public EndpointRouter(Server server) {
         this.mServer = server;

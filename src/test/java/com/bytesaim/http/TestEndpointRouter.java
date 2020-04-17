@@ -10,26 +10,24 @@ public class TestEndpointRouter {
     public static void main(String[] args) {
         Server server = new Server("127.0.0.1",7510);
         EndpointRouter endpointRouter = new EndpointRouter(server);
-        endpointRouter.get("/greet", new ServerListener() {
+        endpointRouter.get("/*", new ServerListener() {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.close("hello how are your".getBytes());
+                    response.close("hello how are you".getBytes());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-        /*endpointRouter.defaultRoute(new ServerListener() {
+        ServerListener serverListener = new ServerListener() {
             @Override
             public void report(Request request, Response response) {
-                try {
-                    response.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                System.out.println("Handling request: " + request.getEndpoint());
             }
-        });*/
+        };
+        server.addServerListenerFactory(serverListener);
+        System.out.println("Server Started: " + server.getHost());
         server.run();
     }
 
