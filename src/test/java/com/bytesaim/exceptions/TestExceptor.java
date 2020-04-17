@@ -13,29 +13,29 @@ public class TestExceptor {
     public void Test1() {
         Exceptor exceptor = new Exceptor() {
             @Override
-            public void thrown(Object thrower, Exception ex) {
+            public void threw(Object thrower, Exception ex) {
                 System.out.println(((TestExceptor)thrower).testThrowserField );
             }
         };
-        exceptor.thrown(this, new ArgumentOutOfBoundException());
+        exceptor.threw(this, new ArgumentOutOfBoundException());
     }
 
     @Test
     public void Test2() {
         Exceptor exceptor = new Exceptor() {
             @Override
-            public void thrown(Object thrower, Exception ex) {
+            public void threw(Object thrower, Exception ex) {
                 ex.printStackTrace();
             }
         };
-        exceptor.thrown(null, new Exception("Some randome exception"));
+        exceptor.threw(null, new Exception("Some randome exception"));
     }
 
     @Test
     public void Test3() {
         Exceptor exceptor = new Exceptor() {
             @Override
-            public void thrown(Object thrower, Exception ex) {
+            public void threw(Object thrower, Exception ex) {
                 if (ex instanceof ArgumentOutOfBoundException) {
 
                 } else if (ex instanceof ResponseHeaderException) {
@@ -43,7 +43,7 @@ public class TestExceptor {
                 }
             }
         };
-        exceptor.thrown(this, new ResponseHeaderException());
+        exceptor.threw(this, new ResponseHeaderException());
     }
 
 }

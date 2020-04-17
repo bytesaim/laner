@@ -8,7 +8,7 @@ import java.io.IOException;
 public class TestEndpointRouter {
 
     public static void main(String[] args) {
-        Server server = new Server("172.16.40.27",7510);
+        Server server = new Server("127.0.0.1",7510);
         EndpointRouter endpointRouter = new EndpointRouter(server);
         endpointRouter.get("/greet", new ServerListener() {
             @Override
