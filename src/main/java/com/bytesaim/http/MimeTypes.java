@@ -52,7 +52,6 @@ public enum MimeTypes {
     TEXT_X_FORTRAN("text/x-fortran"),
     TEXT_X_SPEECH("text/x-speech"),
     VIDEO_MKV("video/mkv"),
-    APPLICATION_X_POINTPLUS("application/x-pointplus"),
     MUSIC_X_KARAOKE("music/x-karaoke"),
     TEXT_X_M("text/x-m"),
     TEXT_X_H("text/x-h"),
@@ -82,7 +81,6 @@ public enum MimeTypes {
     APPLICATION_X_NAVIDOC("application/x-navidoc"),
     IMAGE_VND_FPX("image/vnd.fpx"),
     VIDEO_X_ISVIDEO("video/x-isvideo"),
-    APPLICATION_X_JAVASCRIPT("application/x-javascript"),
     APPLICATION_PKIX_CERT("application/pkix-cert"),
     APPLICATION_VND_MS_PKI_CERTSTORE("application/vnd.ms-pki.certstore"),
     APPLICATION_ENVOY("application/envoy"),
@@ -224,7 +222,6 @@ public enum MimeTypes {
     APPLICATION_X_HELPFILE("application/x-helpfile"),
     APPLICATION_X_PKCS10("application/x-pkcs10"),
     AUDIO_WAV("audio/wav"),
-    APPLICATION_ECMASCRIPT("application/ecmascript"),
     IMAGE_VND_RN_REALPIX("image/vnd.rn-realpix"),
     IMAGE_VND_XIFF("image/vnd.xiff"),
     AUDIO_X_MPEG_3("audio/x-mpeg-3"),
@@ -249,7 +246,6 @@ public enum MimeTypes {
     MODEL_VRML("model/vrml"),
     APPLICATION_X_MIF("application/x-mif"),
     IMAGE_XPM("image/xpm"),
-    APPLICATION_JAVASCRIPT("application/javascript"),
     WINDOWS_METAFILE("windows/metafile"),
     APPLICATION_X_TROFF_ME("application/x-troff-me"),
     IMAGE_X_QUICKTIME("image/x-quicktime"),
@@ -365,7 +361,6 @@ public enum MimeTypes {
     APPLICATION_X_BINHEX40("application/x-binhex40"),
     APPLICATION_X_AIM("application/x-aim"),
     APPLICATION_PKCS7_SIGNATURE("application/pkcs7-signature"),
-    TEXT_ECMASCRIPT("text/ecmascript"),
     IMAGE_X_PORTABLE_GREYMAP("image/x-portable-greymap"),
     TEXT_X_JAVA_SOURCE("text/x-java-source"),
     APPLICATION_X_MIX_TRANSFER("application/x-mix-transfer"),
@@ -577,8 +572,6 @@ public enum MimeTypes {
                 return TEXT_X_SPEECH;
             case "wmv":
                 return VIDEO_MKV;
-            case "css":
-                return APPLICATION_X_POINTPLUS;
             case "kar_1":
                 return MUSIC_X_KARAOKE;
             case "m":
@@ -659,8 +652,6 @@ public enum MimeTypes {
                 return IMAGE_VND_FPX;
             case "isu":
                 return VIDEO_X_ISVIDEO;
-            case "js_1":
-                return APPLICATION_X_JAVASCRIPT;
             case "cer":
                 return APPLICATION_PKIX_CERT;
             case "crt":
@@ -1089,8 +1080,6 @@ public enum MimeTypes {
                 return APPLICATION_X_PKCS10;
             case "wav_1":
                 return AUDIO_WAV;
-            case "js_2":
-                return APPLICATION_ECMASCRIPT;
             case "rp":
                 return IMAGE_VND_RN_REALPIX;
             case "xif":
@@ -1121,7 +1110,7 @@ public enum MimeTypes {
                 return TEXT_X_SGML;
             case "dl":
                 return VIDEO_DL;
-            case "css_1":
+            case "css":
                 return TEXT_CSS;
             case "sdr":
                 return APPLICATION_SOUNDER;
@@ -1149,8 +1138,6 @@ public enum MimeTypes {
                 return APPLICATION_X_MIF;
             case "xpm_1":
                 return IMAGE_XPM;
-            case "js_3":
-                return APPLICATION_JAVASCRIPT;
             case "wmf":
                 return WINDOWS_METAFILE;
             case "me":
@@ -1547,8 +1534,6 @@ public enum MimeTypes {
                 return APPLICATION_X_AIM;
             case "p7s":
                 return APPLICATION_PKCS7_SIGNATURE;
-            case "js_4":
-                return TEXT_ECMASCRIPT;
             case "pgm_1":
                 return IMAGE_X_PORTABLE_GREYMAP;
             case "jav_1":

@@ -85,8 +85,8 @@
 .crt	application/x-x509-user-cert
 .csh	application/x-csh
 .csh	text/x-script.csh
-.css	application/x-pointplus
 .css	text/css
+//.css	application/x-pointplus
 .cxx	text/plain
 .dcr	application/x-director
 .deepv	application/x-deepv
@@ -216,11 +216,11 @@
 .jpg	image/jpeg
 .jpg	image/pjpeg
 .jps	image/x-jps
-.js	application/x-javascript
-.js	application/javascript
-.js	application/ecmascript
 .js	text/javascript
-.js	text/ecmascript
+//.js	text/ecmascript
+//.js	application/x-javascript
+//.js	application/javascript
+//.js	application/ecmascript
 .jut	image/jutvision
 .kar	audio/midi
 .kar	music/x-karaoke
