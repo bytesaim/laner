@@ -216,7 +216,7 @@ public class NetworkDevices implements TRunnable {
         public InetAddress inetAddress;
         public int openedPort = 1;
 
-        private NetworkDevice(Status status, InetAddress inetAddress) {
+        public NetworkDevice(Status status, InetAddress inetAddress) {
             this.status = status;
             this.inetAddress = inetAddress;
         }
