@@ -100,7 +100,7 @@ public class EndpointRouter {
             @Override
             public void report(Request request, Response response) {
                 try {
-                    response.setStatusCode(StatusCode.NOT_IMPLEMENTED);
+                    response.setStatusCode(StatusCode.NOT_FOUND);
                     response.close();
                 } catch (IOException e) {
                     e.printStackTrace();
